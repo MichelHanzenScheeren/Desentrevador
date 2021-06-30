@@ -1,0 +1,43 @@
+tipoDeDado nome = valor1, nome2 = valor2, _nome3
+nome = valor2 | nome2 | redondo | quebrado | trova | alugar | chamadaDeMetodo
+
+funcao tipoDeDado Nome(tipoDeDado nome = valorPadrao) tche 
+    /*ALGO ACONTECE*/
+bah
+ 
+funcao tipoDeDado Nome(tipoDeDado nome = valorPadrao) dai /*ALGO ACONTECE*/ \n 
+
+loqueando booleano tche (+ opção de um linha)
+    /*ALGO ACONTECE*/
+bah
+
+repeteco i de (redondo) ate (redondo) tche (+ opção de um linha)
+    /*ALGO ACONTECE*/
+bah
+
+
+pareHome
+
+//////////////////////////////////////////////////////////////////////////////
+delitidaorDeLinha {
+    /n
+}
+
+tipoDeDado {
+    redondo (inteiro)
+    quebrado (float)
+    trova (string)
+    alugar (bool) (causo e anedota)
+}
+
+delemitadorDeBloco {
+    tche e bah
+}
+
+loqueando {
+    equivalente while
+}
+
+repeteco {
+    equivalente for
+}
