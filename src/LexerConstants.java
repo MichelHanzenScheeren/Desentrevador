@@ -17,9 +17,7 @@ public interface LexerConstants {
   /** RegularExpression Id. */
   int DIVIDE = 8;
   /** RegularExpression Id. */
-  int CONSTANT = 9;
-  /** RegularExpression Id. */
-  int DIGIT = 10;
+  int FIM_PROGRAMA = 9;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -35,11 +33,7 @@ public interface LexerConstants {
     "\"-\"",
     "\"*\"",
     "\"/\"",
-    "<CONSTANT>",
-    "<DIGIT>",
-    "\";\"",
-    "\"(\"",
-    "\")\"",
+    "\"pareHome\"",
   };
 
 }
