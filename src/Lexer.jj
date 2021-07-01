@@ -20,9 +20,12 @@ public class Lexer {
           	if(args.length == 0) {
     		  System.out.println("\nInforme seu código: ");
     		  execute(new Lexer(System.in));
+    		} else if(args[0].contains("\\")) {
+    			FileInputStream stream = new FileInputStream(args[0]);
+	          	execute(new Lexer(stream));
     		} else {
     		  	System.out.println("\nSelecione o arquivo do programa: ");
-	    		JFileChooser arquivo = new JFileChooser();
+    		 	JFileChooser arquivo = new JFileChooser();
 	          	arquivo.showOpenDialog(null);
 	          	File selected = arquivo.getSelectedFile();
 	          	if(selected != null) {

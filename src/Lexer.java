@@ -17,6 +17,9 @@ public class Lexer implements LexerConstants {
                 if(args.length == 0) {
                   System.out.println("\u005cnInforme seu c\u00f3digo: ");
                   execute(new Lexer(System.in));
+                } else if(args[0].contains("\u005c\u005c")) {
+                        FileInputStream stream = new FileInputStream(args[0]);
+                        execute(new Lexer(stream));
                 } else {
                         System.out.println("\u005cnSelecione o arquivo do programa: ");
                         JFileChooser arquivo = new JFileChooser();
