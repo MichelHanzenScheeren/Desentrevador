@@ -9,15 +9,85 @@ public interface LexerConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int PLUS = 5;
+  int MAIS = 4;
   /** RegularExpression Id. */
-  int MINUS = 6;
+  int MENOS = 5;
   /** RegularExpression Id. */
-  int MULTIPLY = 7;
+  int VEZES = 6;
   /** RegularExpression Id. */
-  int DIVIDE = 8;
+  int DIVIDIDO = 7;
   /** RegularExpression Id. */
-  int FIM_PROGRAMA = 9;
+  int ELEVADO = 8;
+  /** RegularExpression Id. */
+  int ATRIBUICAO = 9;
+  /** RegularExpression Id. */
+  int COMPARACAO = 10;
+  /** RegularExpression Id. */
+  int MAIOR = 11;
+  /** RegularExpression Id. */
+  int MENOR = 12;
+  /** RegularExpression Id. */
+  int MAIOR_IGUAL = 13;
+  /** RegularExpression Id. */
+  int MENOR_IGUAL = 14;
+  /** RegularExpression Id. */
+  int OU = 15;
+  /** RegularExpression Id. */
+  int E = 16;
+  /** RegularExpression Id. */
+  int FIM_PROGRAMA = 17;
+  /** RegularExpression Id. */
+  int FIM_LINHA = 18;
+  /** RegularExpression Id. */
+  int INICIO_BLOCO = 19;
+  /** RegularExpression Id. */
+  int FIM_BLOCO = 20;
+  /** RegularExpression Id. */
+  int OPERACAO_DE_LINHA = 21;
+  /** RegularExpression Id. */
+  int DEFINICAO_DE_FUNCAO = 22;
+  /** RegularExpression Id. */
+  int ABRE_PARENTESE = 23;
+  /** RegularExpression Id. */
+  int FECHA_PARENTESE = 24;
+  /** RegularExpression Id. */
+  int LOQUEANDO = 25;
+  /** RegularExpression Id. */
+  int REPETECO = 26;
+  /** RegularExpression Id. */
+  int MIN_REPETECO = 27;
+  /** RegularExpression Id. */
+  int MAX_REPETECO = 28;
+  /** RegularExpression Id. */
+  int REDONDO = 29;
+  /** RegularExpression Id. */
+  int QUEBRADO = 30;
+  /** RegularExpression Id. */
+  int TROVA = 31;
+  /** RegularExpression Id. */
+  int LOGICO = 32;
+  /** RegularExpression Id. */
+  int VAZIO = 33;
+  /** RegularExpression Id. */
+  int VALOR_BOOLEANO = 34;
+  /** RegularExpression Id. */
+  int NOME_VARIAVEL = 35;
+  /** RegularExpression Id. */
+  int NOME_FUNCAO = 36;
+  /** RegularExpression Id. */
+  int LETRA = 37;
+  /** RegularExpression Id. */
+  int MINUSCULAS = 38;
+  /** RegularExpression Id. */
+  int MAIUSCULAS = 39;
+  /** RegularExpression Id. */
+  int NUMERO = 40;
+  /** RegularExpression Id. */
+  int DIGITO = 41;
+  /** RegularExpression Id. */
+  int TEXTO = 42;
+  /** RegularExpression Id. */
+  int ASCII = 43;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -28,12 +98,46 @@ public interface LexerConstants {
     "\" \"",
     "\"\\r\"",
     "\"\\t\"",
-    "\"\\n\"",
     "\"+\"",
     "\"-\"",
     "\"*\"",
     "\"/\"",
+    "\"^\"",
+    "\"=\"",
+    "\"==\"",
+    "\">\"",
+    "\"< \"",
+    "\">=\"",
+    "\"<=\"",
+    "\"ou\"",
+    "\"e\"",
     "\"pareHome\"",
+    "\"/n\"",
+    "\"tche\"",
+    "\"bah\"",
+    "\"dai\"",
+    "\"funcao\"",
+    "\"(\"",
+    "\")\"",
+    "\"loqueando\"",
+    "\"repeteco\"",
+    "\"de\"",
+    "\"ate\"",
+    "\"redondo\"",
+    "\"quebrado\"",
+    "\"trova\"",
+    "\"logico\"",
+    "\"vazio\"",
+    "<VALOR_BOOLEANO>",
+    "<NOME_VARIAVEL>",
+    "<NOME_FUNCAO>",
+    "<LETRA>",
+    "<MINUSCULAS>",
+    "<MAIUSCULAS>",
+    "<NUMERO>",
+    "<DIGITO>",
+    "<TEXTO>",
+    "<ASCII>",
   };
 
 }
