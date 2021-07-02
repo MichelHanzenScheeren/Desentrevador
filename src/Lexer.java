@@ -41,10 +41,10 @@ public class Lexer implements LexerConstants {
     }
 
   static final public void main() throws ParseException {
-    fimProgramaValido();
+    fimDePrograma();
   }
 
-  static final public void fimProgramaValido() throws ParseException {
+  static final public void fimDePrograma() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case 0:
       jj_consume_token(0);
@@ -71,11 +71,16 @@ public class Lexer implements LexerConstants {
   static private int jj_gen;
   static final private int[] jj_la1 = new int[1];
   static private int[] jj_la1_0;
+  static private int[] jj_la1_1;
   static {
       jj_la1_init_0();
+      jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x201,};
+      jj_la1_0 = new int[] {0x20001,};
+   }
+   private static void jj_la1_init_1() {
+      jj_la1_1 = new int[] {0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -213,7 +218,7 @@ public class Lexer implements LexerConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[10];
+    boolean[] la1tokens = new boolean[44];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -224,10 +229,13 @@ public class Lexer implements LexerConstants {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
             la1tokens[j] = true;
           }
+          if ((jj_la1_1[i] & (1<<j)) != 0) {
+            la1tokens[32+j] = true;
+          }
         }
       }
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 44; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

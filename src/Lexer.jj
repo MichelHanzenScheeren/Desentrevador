@@ -44,9 +44,55 @@ public class Lexer {
     }
 }
 
-PARSER_END(Lexer)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN : /* OPERATORS */{  < PLUS : "+" >| < MINUS : "-" >| < MULTIPLY : "*" >| < DIVIDE : "/" >}TOKEN :{
- < FIM_PROGRAMA: "pareHome" >}void main() :{}{  fimProgramaValido()}
+PARSER_END(Lexer)SKIP :{  " "| "\r"| "\t"}TOKEN: /* OPERADORES */ // TODO VALIDAR SIMBOLOS{   < MAIS: "+" >
+| < MENOS: "-" >
+| < VEZES: "*" >
+| < DIVIDIDO: "/" >
+| < ELEVADO: "^" >
+| < ATRIBUICAO: "=" >
+| < COMPARACAO: "==" >
+| < MAIOR: ">" >
+| < MENOR: "< " >
+| < MAIOR_IGUAL: ">=" >
+| < MENOR_IGUAL: "<=" >
+| < OU: "ou" >
+| < E: "e" >}TOKEN: /* PALAVRAS RESERVADAS */{
+  < FIM_PROGRAMA: "pareHome" >
+| < FIM_LINHA: "/n" >
+| < INICIO_BLOCO: "tche" >
+| < FIM_BLOCO: "bah" >
+| < OPERACAO_DE_LINHA: "dai" >
+| < DEFINICAO_DE_FUNCAO: "funcao" >
+| < ABRE_PARENTESE: "(" >
+| < FECHA_PARENTESE: ")" >
+| < LOQUEANDO: "loqueando" > // WHILE
+| < REPETECO: "repeteco" > // FOR
+| < MIN_REPETECO: "de" >
+| < MAX_REPETECO: "ate" >}
 
-void fimProgramaValido():
+TOKEN: /* TIPOS DE DADOS */
+{
+  < REDONDO: "redondo" > // INTEIRO
+| < QUEBRADO: "quebrado" > // FLOAT
+| < TROVA: "trova" > // STRING
+| < LOGICO: "logico" > // BOOL
+| < VAZIO: "vazio" > // VOID
+}
+
+TOKEN: /* FORMALIZAÇÃO DE DADOS */
+{
+  < VALOR_BOOLEANO: "causo" | "anedota" > // VERDADEIRO E FALSO
+| < NOME_VARIAVEL: (<MINUSCULAS> | "_") (<LETRA> | <DIGITO> | "_")* >
+| < NOME_FUNCAO: <MAIUSCULAS> (<LETRA> | <DIGITO> | "_")* >
+| < #LETRA: [ "A" - "Z", "a" - "z" ] > // "PRIVADO"
+| < #MINUSCULAS: [ "a" - "z" ] >  // "PRIVADO"
+| < #MAIUSCULAS: [ "A" - "Z" ] >  // "PRIVADO"
+| < NUMERO: (< DIGITO >)+("."(< DIGITO >)+)? >
+| < #DIGITO: [ "0" - "9" ] >  // "PRIVADO"
+| < TEXTO: ("\"" ((~["\"","\\","\n","\r"]) | < ASCII >)* "\"") | ("'" ((~["'","\\","\n","\r"]) | < ASCII >)* "'") > 
+| < #ASCII: ("\\" ( ["n","t","b","r","f","\\","'","\""] | ["0"-"7"] ( ["0"-"7"] )? | ["0"-"3"] ["0"-"7"] ["0"-"7"])) >  // "PRIVADO"
+}void main():{}{  fimDePrograma()}
+
+void fimDePrograma():
 {}
 { < EOF > | < FIM_PROGRAMA > }
