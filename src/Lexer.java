@@ -14,14 +14,11 @@ public class Lexer implements LexerConstants {
 
         public static void main(String[] args) {
         try {
-                if(args.length == 0) {
-                  System.out.println("\u005cnInforme seu c\u00f3digo: ");
-                  execute(new Lexer(System.in));
-                } else if(args[0].contains("\u005c\u005c")) {
-                        FileInputStream stream = new FileInputStream(args[0]);
-                        execute(new Lexer(stream));
-                } else {
-                        System.out.println("\u005cnSelecione o arquivo do programa: ");
+            if(args.length == 0) {
+                    System.out.println("\u005cnInforme seu c\u00f3digo: ");
+                    execute(new Lexer(System.in));
+                } else if(args[0].contains("-f")) {
+                    System.out.println("\u005cnSelecione o arquivo do programa: ");
                         JFileChooser arquivo = new JFileChooser();
                         arquivo.showOpenDialog(null);
                         File selected = arquivo.getSelectedFile();
@@ -30,13 +27,16 @@ public class Lexer implements LexerConstants {
                                 execute(new Lexer(stream));
                         } else {
                           System.out.println("\u005cn\u005cn------------------------------------");
-                          System.out.println("Processo cancelado pelo usu\u00e1rio!");
+                          System.out.println("Processo cancelado pelo usuario!");
                           System.out.println("--------------------------------");
                           return;
                         }
+                } else {
+                        FileInputStream stream = new FileInputStream(args[0]);
+                        execute(new Lexer(stream));
                 }
         } catch (Throwable e) {
-            System.out.println("Programa inv\u00e1lido!\u005cn " + e.getMessage());
+            System.out.println("Programa invalido!\u005cn " + e.getMessage());
         }
     }
 

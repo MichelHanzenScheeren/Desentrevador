@@ -17,14 +17,11 @@ public class Lexer {
   
 	public static void main(String[] args) {
         try {
-          	if(args.length == 0) {
-    		  System.out.println("\nInforme seu código: ");
-    		  execute(new Lexer(System.in));
-    		} else if(args[0].contains("\\")) {
-    			FileInputStream stream = new FileInputStream(args[0]);
-	          	execute(new Lexer(stream));
-    		} else {
-    		  	System.out.println("\nSelecione o arquivo do programa: ");
+            if(args.length == 0) {
+    		    System.out.println("\nInforme seu cÃ³digo: ");
+    		    execute(new Lexer(System.in));
+    		} else if(args[0].contains("-f")) {
+    		    System.out.println("\nSelecione o arquivo do programa: ");
     		 	JFileChooser arquivo = new JFileChooser();
 	          	arquivo.showOpenDialog(null);
 	          	File selected = arquivo.getSelectedFile();
@@ -33,13 +30,16 @@ public class Lexer {
 	          	 	execute(new Lexer(stream));
 	         	} else {
 	         	  System.out.println("\n\n------------------------------------");
-	         	  System.out.println("Processo cancelado pelo usuário!");
+	         	  System.out.println("Processo cancelado pelo usuario!");
 	         	  System.out.println("--------------------------------");
 	         	  return;
 	        	}
+    		} else {
+    		  	FileInputStream stream = new FileInputStream(args[0]);
+	          	execute(new Lexer(stream));
     		}
         } catch (Throwable e) {
-            System.out.println("Programa inválido!\n " + e.getMessage());
+            System.out.println("Programa invalido!\n " + e.getMessage());
         }
     }
 }
