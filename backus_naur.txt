@@ -1,0 +1,26 @@
+<S>           ::=   <linha> <S> | <bloco> <S>
+
+<linha>       ::=   <declaracao>      | <id-var> <atribuicao>
+<valor>       ::=   <equacao>         | <string>     | <bool>
+<declaracao>  ::=   <tipo> <lista-dec>
+<lista-dec>   ::=   <id-var> | <id-var> "," <lista-dec> | <id-var> <atribuicao> | <id-var> <atribuicao> "," <lista-dec>
+<atribuicao>  ::=   "=" <expressao>
+<expressao>   ::=   <valor> | <equacao>
+<equacao>     ::=   <numero> | <numero> <operacao> <numero>
+
+<abrebloco>   ::=   <iniciolaço> | <iniciofuncao>
+
+minusculo     =   [a-z]
+maiusculo     =   [A-Z]
+<tipo>        ::=   "int" | "float" | "bool" | "string"
+<id-var>      ::=   minusculo(maiusculo | minusculo)*
+
+
+<E> ::= <E> <op> <E> | "(" <E> ")" | <numero>
+
+
+---------------------------------------
+<E> ::= <numero> X  | "(" <E> ")"
+<X> ::= <op> <E>    | vazio
+
+(n + n) * n
