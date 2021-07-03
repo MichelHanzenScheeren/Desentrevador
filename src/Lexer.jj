@@ -18,7 +18,7 @@ public class Lexer {
 	public static void main(String[] args) {
         try {
           	if(args.length == 0) {
-    		  System.out.println("\nInforme seu código: ");
+    		  System.out.println("\nInforme seu codigo: ");
     		  execute(new Lexer(System.in));
     		} else if(args[0].contains("\\")) {
     			FileInputStream stream = new FileInputStream(args[0]);
@@ -33,18 +33,18 @@ public class Lexer {
 	          	 	execute(new Lexer(stream));
 	         	} else {
 	         	  System.out.println("\n\n------------------------------------");
-	         	  System.out.println("Processo cancelado pelo usuário!");
+	         	  System.out.println("Processo cancelado pelo usuario!");
 	         	  System.out.println("--------------------------------");
 	         	  return;
 	        	}
     		}
         } catch (Throwable e) {
-            System.out.println("Programa inválido!\n " + e.getMessage());
+            System.out.println("Programa invalido!\n " + e.getMessage());
         }
     }
 }
 
-PARSER_END(Lexer)SKIP :{  " "| "\r"| "\t"}TOKEN: /* OPERADORES */ // TODO VALIDAR SIMBOLOS{   < MAIS: "+" >
+PARSER_END(Lexer)SKIP :{  " "| "\r"| "\t"}TOKEN: /* OPERADORES */{   < MAIS: "+" >
 | < MENOS: "-" >
 | < VEZES: "*" >
 | < DIVIDIDO: "/" >
@@ -57,7 +57,7 @@ PARSER_END(Lexer)SKIP :{  " "| "\r"| "\t"}TOKEN: /* OPERADORES */ // TO
 | < MAIOR_IGUAL: ">=" >
 | < MENOR_IGUAL: "<=" >
 | < OU: "ou" >
-| < E: "e" >}TOKEN: /* PALAVRAS RESERVADAS */{
+| < E: "e" >}TOKEN: /* SIMBOLOS RESERVADAS */{
   < FIM_PROGRAMA: "pareHome" >
 | < FIM_LINHA: "\n" >
 | < INICIO_BLOCO: "tche" >
@@ -81,7 +81,7 @@ TOKEN: /* TIPOS DE DADOS */
 | < VAZIO: "vazio" > // VOID
 }
 
-TOKEN: /* FORMALIZAÇÃO DE DADOS */
+TOKEN: /* FORMALIZACAO DE DADOS */
 {
   < BOOLEANO: "causo" | "anedota" > // VERDADEIRO E FALSO
 | < NOME_VARIAVEL: (<MINUSCULAS> | "_") (<LETRA> | <DIGITO> | "_")* >
@@ -89,36 +89,67 @@ TOKEN: /* FORMALIZAÇÃO DE DADOS */
 | < #LETRA: [ "A" - "Z", "a" - "z" ] > // "PRIVADO"
 | < #MINUSCULAS: [ "a" - "z" ] >  // "PRIVADO"
 | < #MAIUSCULAS: [ "A" - "Z" ] >  // "PRIVADO"
-| < NUMERO: (< MAIS > | < MENOS >)?(" ")*(< DIGITO >)+("."(< DIGITO >)+)? >
+| < NUMERO: (< DIGITO >)+("."(< DIGITO >)+)? >
 | < #DIGITO: [ "0" - "9" ] >  // "PRIVADO"
 | < TEXTO: ("\"" ((~["\"","\\","\n","\r"]) | < ASCII >)* "\"") | ("'" ((~["'","\\","\n","\r"]) | < ASCII >)* "'") > 
 | < #ASCII: ("\\" ( ["n","t","b","r","f","\\","'","\""] | ["0"-"7"] ( ["0"-"7"] )? | ["0"-"3"] ["0"-"7"] ["0"-"7"])) >  // "PRIVADO"
-}void main():{}{
-  (atribuicaoCompleta() | definicaoVariavelCompleta())*  fimDePrograma()}
+}
 
-void atribuicaoCompleta():
+void main():
 {}
-{ nomeVariavel() atribuicaoSimples() fimLinha()  }
+{
+  (linha())*
+  fimDePrograma()
+}
 
+/* METODOS RELACIONADOS AOS TOKENS PARA POSTERIOR CONSTRUCAO DA ARVORE DE DERIVACAO */
 void nomeVariavel():
 {}
 { < NOME_VARIAVEL > }
 
-void atribuicaoSimples():
+void numeroComSinal():
 {}
-{ simboloAtribuicao() expressao()  }
+{ ((< MAIS > | < MENOS >)?< NUMERO >) }
 
 void simboloAtribuicao():
 {}
 { < ATRIBUICAO > }
 
-void expressao():
+void fimLinha():
 {}
-{ atribuivel() ((operadorMatematico() | operadorLogico()) atribuivel())*  }
+{ < FIM_LINHA > }
+
+void virgula():
+{}
+{ < VIRGULA > }
+
+void linha():
+{}
+{ (atribuicao() | declaracaoDeVariavel()) fimLinha() }
+
+void atribuicao():
+{}
+{ nomeVariavel() lacoDeAtribuicao() }
+
+void lacoDeAtribuicao():
+{}
+{ simboloAtribuicao() expressaoMatematica()  }
+
+void expressaoMatematica():
+{}
+{ expressaoLogica() (operadorMatematico() expressaoLogica())*  }
+
+void expressaoLogica():
+{}
+{ atribuivel() (operadorLogico() atribuivel())*  }
 
 void atribuivel():
 {}
-{ < NUMERO >  | < TEXTO > | < BOOLEANO > | nomeVariavel() }
+{ expressaoEntreParenteses() | numeroComSinal() | nomeVariavel() | < TEXTO > | < BOOLEANO > }
+
+void expressaoEntreParenteses():
+{}
+{ (< ABRE_PARENTESE > expressaoMatematica() < FECHA_PARENTESE >) }
 
 void operadorMatematico():
 {}
@@ -128,25 +159,17 @@ void operadorLogico():
 {}
 { < MAIOR > | < MENOR > | < MAIOR_IGUAL > | < MENOR_IGUAL > | < IGUAL > | < DIFERENTE > | < OU > | < E > }
 
-void fimLinha():
+void declaracaoDeVariavel():
 {}
-{ < FIM_LINHA > }
-
-void definicaoVariavelCompleta():
-{}
-{ (definicaoVariavelSimples()) (virgula() nomeVariavel() (atribuicaoSimples())?)* fimLinha() }
-
-void definicaoVariavelSimples():
-{}
-{ tipoDeDado() nomeVariavel() (atribuicaoSimples())? }
+{  tipoDeDado() listaDeDeclaracao() }
 
 void tipoDeDado():
 {}
 { < REDONDO > | < QUEBRADO > | < TROVA > | < LOGICO > }
 
-void virgula():
+void listaDeDeclaracao():
 {}
-{ < VIRGULA > }
+{ nomeVariavel() (lacoDeAtribuicao())? ("," nomeVariavel() (lacoDeAtribuicao())?)* }
 
 void fimDePrograma():
 {}
