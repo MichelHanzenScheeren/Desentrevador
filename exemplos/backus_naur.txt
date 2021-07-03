@@ -1,26 +1,47 @@
-<S>           ::=   <linha> <S> | <bloco> <S>
+IMPORTANTE:
+    Construções da forma <a>::=<b>|<bc> são "convertidas" para 
+<a>::=<b>(<c>)? no jflap (para evitar a ambiguidade).
+--------------------------------------------------------------------------------
 
-<linha>       ::=   <declaracao>      | <id-var> <atribuicao>
-<valor>       ::=   <equacao>         | <string>     | <bool>
-<declaracao>  ::=   <tipo> <lista-dec>
-<lista-dec>   ::=   <id-var> | <id-var> "," <lista-dec> | <id-var> <atribuicao> | <id-var> <atribuicao> "," <lista-dec>
-<atribuicao>  ::=   "=" <expressao>
-<expressao>   ::=   <valor> | <equacao>
-<equacao>     ::=   <numero> | <numero> <operacao> <numero>
+TOKENS {
+    <letra> ::= <minusculas> | <maiusculas>
+    <minusculas> ::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z
+    <maiusculas> ::= A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z
+    <nomeVariavel> > ::= (<minusculas> | "_") {<letra> | <DIGITO> | "_"} >
+    <nomeFuncao> ::= <maiusculas> {<letra> | <DIGITO> | "_"} >
+    <numero> ::= <digito>{<digito>} | <digito>{<digito>}"."<digito>{<digito>}
+    <digito> ::= 0|1|2|3|4|5|6|7|8|9
+    <texto> ::= "'" {%x01-7F} "'" | '"' {%x01-7F} '"'       ;tipo string com aspas simples ou duplas
+    <booleano> ::= "causo" | "anedota"
+}
 
-<abrebloco>   ::=   <iniciolaço> | <iniciofuncao>
+<S> ::=<linha><S> | <bloco><S> | <fimDePrograma>
+<linha> ::= "\n" | <atribuicao>"\n" | <declaraoDeVariavel>"\n"
+<atribuicao> ::= <nomeVariavel><lacoDeAtribuicao>
+<lacoDeAtribuicao> ::= "="<expressaoMatematica>
+<expressaoMatematica> ::= <expressaoBooleana> | <expressaoBooleana><operadorMatematico><expressaoMatematica>
+<expressaoBooleana> ::= <atribuivel> | <atribuivel><operadorLogico><expressaoBooleana>
+<atribuivel> ::= "("<expressaoMatematica>")" | <numero> | <texto> | <booleano> | <nomeVariavel>
+<operadorMatematico> ::= "+" | "-" | "*" | "/" | "^" | "%"
+<operadorLogico> ::= "ou" | "e" | ">" | "<" | ">=" | "<=" | "==" | "!=" | "!" 
+<declaraoDeVariavel> ::=  <tipoDeDado><listaDeDeclaracao>
+<tipoDeDado> ::= "redondo" | "quebrado" | "trova" | "logico"
+<listaDeDeclaracao> ::= <nomeVariavel> | <nomeVariavel><lacoDeAtribuicao> 
+                    | <nomeVariavel>","<listaDeDeclaracao> 
+                    | <nomeVariavel><lacoDeAtribuicao>","<listaDeDeclaracao>
 
-minusculo     =   [a-z]
-maiusculo     =   [A-Z]
-<tipo>        ::=   "int" | "float" | "bool" | "string"
-<id-var>      ::=   minusculo(maiusculo | minusculo)*
+<bloco> ::= <inicioLoqueando> | <inicioRepeteco> | <inicioSe>
+<inicioLoqueando> ::= "loqueando"<expressaoMatematica><meioLoqueando>
+<meioLoqueando> ::= "dai"<linha> | "tche""\n"<blocoLoqueando>
+<blocoLoqueando> ::= <linha><blocoLoqueando> | <bloco><blocoLoqueando> | "bah"
 
+<inicioRepeteco> ::= "repeteco"<nomeVariavel>"de"<numero>"ate"<numero><meioRepeteco>
+<meioRepeteco> ::= "dai"<linha> | "tche""\n"<blocoRepeteco"
+<blocoRepeteco> ::= <linha><blocoRepeteco> | <bloco><blocoRepeteco> | "bah"
 
-<E> ::= <E> <op> <E> | "(" <E> ")" | <numero>
+<inicioSe> ::= "se"<expressaoMatematica><meioSe>
+<meioSe> ::= "dai"<linha> | "tche""\n"<blocoSe>
+<blocoSe> ::= <linha><blocoSe> | <bloco><blocoSe> | "bah" | <inicioSenao>
+<inicioSenao> ::= "senao"<meioSe> | "senao"<inicioSe>
 
-
----------------------------------------
-<E> ::= <numero> X  | "(" <E> ")"
-<X> ::= <op> <E>    | vazio
-
-(n + n) * n
+<fimDePrograma> ::= "<EOF>" | "pareHome"
