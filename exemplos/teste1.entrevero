@@ -33,6 +33,8 @@ bah
 
 se teste != "Olá" tche 
     teste = "Olá"
+    se teste2 != "EAI" dai redondo teste3 = 1
+    se teste2 != "EAI" dai redondo teste3 = 1 senao redondo teste3 = 2
 bah
 
 se teste != "Olá" tche 
@@ -46,6 +48,11 @@ se teste != "Olá" tche
     teste = "Olá"
 senao tche
     teste = "Tchau"
+    se teste != "Olá" tche 
+        teste = "Olá"
+    senao tche
+        teste = "Tchau"
+    bah
 bah
 
 se teste != "Olá" tche 
@@ -60,8 +67,6 @@ bah
 
 se teste != "Olá" dai teste = "Olá"
 
-se teste != "Olá" dai teste = "Olá"
-senao se teste != "Tchau" dai teste = "Tchau"
-senao se teste != "Tchau" tche
-    teste = "Tchau"
-senao dai teste = teste + 1
+se teste != "Olá" dai teste = "Olá" senao dai teste = "Tchau"
+se teste != "Olá" dai teste = "Olá" senao teste = "Tchau"
+
