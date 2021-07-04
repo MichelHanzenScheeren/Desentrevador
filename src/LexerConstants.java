@@ -9,98 +9,106 @@ public interface LexerConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int MAIS = 4;
+  int SINGLE_LINE_COMMENT = 6;
   /** RegularExpression Id. */
-  int MENOS = 5;
+  int MULTI_LINE_COMMENT = 7;
   /** RegularExpression Id. */
-  int VEZES = 6;
+  int MAIS = 9;
   /** RegularExpression Id. */
-  int DIVIDIDO = 7;
+  int MENOS = 10;
   /** RegularExpression Id. */
-  int ELEVADO = 8;
+  int VEZES = 11;
   /** RegularExpression Id. */
-  int ATRIBUICAO = 9;
+  int DIVIDIDO = 12;
   /** RegularExpression Id. */
-  int IGUAL = 10;
+  int ELEVADO = 13;
   /** RegularExpression Id. */
-  int DIFERENTE = 11;
+  int ATRIBUICAO = 14;
   /** RegularExpression Id. */
-  int MAIOR = 12;
+  int IGUAL = 15;
   /** RegularExpression Id. */
-  int MENOR = 13;
+  int DIFERENTE = 16;
   /** RegularExpression Id. */
-  int MAIOR_IGUAL = 14;
+  int MAIOR = 17;
   /** RegularExpression Id. */
-  int MENOR_IGUAL = 15;
+  int MENOR = 18;
   /** RegularExpression Id. */
-  int OU = 16;
+  int MAIOR_IGUAL = 19;
   /** RegularExpression Id. */
-  int E = 17;
+  int MENOR_IGUAL = 20;
   /** RegularExpression Id. */
-  int FIM_PROGRAMA = 18;
+  int OU = 21;
   /** RegularExpression Id. */
-  int FIM_LINHA = 19;
+  int E = 22;
   /** RegularExpression Id. */
-  int VIRGULA = 20;
+  int FIM_PROGRAMA = 23;
   /** RegularExpression Id. */
-  int INICIO_BLOCO = 21;
+  int FIM_LINHA = 24;
   /** RegularExpression Id. */
-  int FIM_BLOCO = 22;
+  int VIRGULA = 25;
   /** RegularExpression Id. */
-  int INICIO_OPERACAO_LINHA = 23;
+  int INICIO_BLOCO = 26;
   /** RegularExpression Id. */
-  int FIM_OPERACAO_LINHA = 24;
+  int FIM_BLOCO = 27;
   /** RegularExpression Id. */
-  int DEFINICAO_DE_FUNCAO = 25;
+  int INICIO_OPERACAO_LINHA = 28;
   /** RegularExpression Id. */
-  int ABRE_PARENTESE = 26;
+  int FIM_OPERACAO_LINHA = 29;
   /** RegularExpression Id. */
-  int FECHA_PARENTESE = 27;
+  int DEFINICAO_DE_FUNCAO = 30;
   /** RegularExpression Id. */
-  int LOQUEANDO = 28;
+  int ABRE_PARENTESE = 31;
   /** RegularExpression Id. */
-  int REPETECO = 29;
+  int FECHA_PARENTESE = 32;
   /** RegularExpression Id. */
-  int MIN_REPETECO = 30;
+  int LOQUEANDO = 33;
   /** RegularExpression Id. */
-  int MAX_REPETECO = 31;
+  int REPETECO = 34;
   /** RegularExpression Id. */
-  int SE = 32;
+  int MIN_REPETECO = 35;
   /** RegularExpression Id. */
-  int SENAO = 33;
+  int MAX_REPETECO = 36;
   /** RegularExpression Id. */
-  int REDONDO = 34;
+  int SE = 37;
   /** RegularExpression Id. */
-  int QUEBRADO = 35;
+  int SENAO = 38;
   /** RegularExpression Id. */
-  int TROVA = 36;
+  int REDONDO = 39;
   /** RegularExpression Id. */
-  int LOGICO = 37;
+  int QUEBRADO = 40;
   /** RegularExpression Id. */
-  int VAZIO = 38;
+  int TROVA = 41;
   /** RegularExpression Id. */
-  int BOOLEANO = 39;
+  int LOGICO = 42;
   /** RegularExpression Id. */
-  int NOME_VARIAVEL = 40;
+  int VAZIO = 43;
   /** RegularExpression Id. */
-  int NOME_FUNCAO = 41;
+  int BOOLEANO = 44;
   /** RegularExpression Id. */
-  int LETRA = 42;
+  int NOME_VARIAVEL = 45;
   /** RegularExpression Id. */
-  int MINUSCULAS = 43;
+  int NOME_FUNCAO = 46;
   /** RegularExpression Id. */
-  int MAIUSCULAS = 44;
+  int LETRA = 47;
   /** RegularExpression Id. */
-  int NUMERO = 45;
+  int MINUSCULAS = 48;
   /** RegularExpression Id. */
-  int DIGITO = 46;
+  int MAIUSCULAS = 49;
   /** RegularExpression Id. */
-  int TEXTO = 47;
+  int NUMERO = 50;
   /** RegularExpression Id. */
-  int ASCII = 48;
+  int DIGITO = 51;
+  /** RegularExpression Id. */
+  int TEXTO = 52;
+  /** RegularExpression Id. */
+  int ASCII = 53;
 
   /** Lexical state. */
   int DEFAULT = 0;
+  /** Lexical state. */
+  int IN_SINGLE_LINE_COMMENT = 1;
+  /** Lexical state. */
+  int IN_MULTI_LINE_COMMENT = 2;
 
   /** Literal token values. */
   String[] tokenImage = {
@@ -108,6 +116,11 @@ public interface LexerConstants {
     "\" \"",
     "\"\\r\"",
     "\"\\t\"",
+    "\"//\"",
+    "\"/*\"",
+    "<SINGLE_LINE_COMMENT>",
+    "\"*/\"",
+    "<token of kind 8>",
     "\"+\"",
     "\"-\"",
     "\"*\"",
