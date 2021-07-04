@@ -40,8 +40,9 @@ senao tche
 bah
 
 se teste != "Olá" dai teste = "Olá"
-senao se teste != "Tchau" dai teste = "Tchau"
-senao tche
-    teste = 10
-    teste2 = "Olá"
-bah
+
+se teste != "Olá" dai teste = "Olá" ne
+senao se teste != "Tchau" dai teste = "Tchau" ne
+senao dai teste = teste + 1 ne
+senao dai teste = teste + 1
+

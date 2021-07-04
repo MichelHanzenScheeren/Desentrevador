@@ -82,7 +82,8 @@ TOKEN: /* SIMBOLOS RESERVADAS */
 | < VIRGULA: "," >
 | < INICIO_BLOCO: "tche" >
 | < FIM_BLOCO: "bah" >
-| < OPERACAO_DE_LINHA: "dai" >
+| < INICIO_OPERACAO_LINHA: "dai" >
+| < FIM_OPERACAO_LINHA: "ne" >
 | < DEFINICAO_DE_FUNCAO: "funcao" >
 | < ABRE_PARENTESE: "(" >
 | < FECHA_PARENTESE: ")" >
@@ -163,7 +164,11 @@ void fimBloco():
 
 void inicioOperacaoLinha():
 {}
-{ < OPERACAO_DE_LINHA > }
+{ < INICIO_OPERACAO_LINHA > }
+
+void fimOperacaoLinha():
+{}
+{ < FIM_OPERACAO_LINHA > }
 
 void minRepeteco():
 {}
@@ -185,7 +190,11 @@ void senao():
 /* INICIO DA LOGICA DE VALIDACAO DA LINGUAGEM */
 void linha():
 {}
-{ ((atribuicao() | declaracaoDeVariavel()) fimLinha()) | fimLinha() }
+{ (elementoDeLinha() fimLinha()) | fimLinha() }
+
+void elementoDeLinha():
+{}
+{ atribuicao() | declaracaoDeVariavel() }
 
 void atribuicao():
 {}
@@ -229,7 +238,7 @@ void tipoDeDado():
 
 void listaDeDeclaracao():
 {}
-{ nomeVariavel() (lacoDeAtribuicao())? ("," nomeVariavel() (lacoDeAtribuicao())?)* }
+{ nomeVariavel() (lacoDeAtribuicao())? (virgula() nomeVariavel() (lacoDeAtribuicao())?)* }
 
 void bloco():
 {}
@@ -261,23 +270,31 @@ void blocoRepeteco():
 
 void inicioSe():
 {}
-{ se() expressaoMatematica() meioSe() }
+{ se() expressaoMatematica() (inicioLinhaSe() | inicioBlocoSe()) }
 
-void meioSe():
-{}
-{ inicioOperacaoLinha() linha() possivelLinhaSenao() | inicioBloco() fimLinha() blocoSe() }
+//void inicioLinhaSe():
+//{}
+//{ inicioOperacaoLinha() elementoDeLinha() (senao() inicioOperacaoLinha() elementoDeLinha())? fimLinha() }
 
-void possivelLinhaSenao():
+void inicioLinhaSe():
 {}
-{ [ LOOKAHEAD(1) inicioSenao() ] } // LOOKAHEAD EXPLICITADO PARA DIZER AO COMPILADOR QUE SEI O QUE ESTOU FAZENDO
+{ inicioOperacaoLinha() elementoDeLinha() (fimLinha() | fimOperacaoLinha() fimLinha() senaoLinha())  }
 
-void blocoSe():
+void senaoLinha():
 {}
-{ linha() blocoSe() | bloco() blocoSe() | fimBloco() | inicioSenao() }
+{ senao() (inicioLinhaSe()  | se() expressaoMatematica() inicioLinhaSe()) }
 
-void inicioSenao():
+void inicioBlocoSe():
 {}
-{ senao() (meioSe() | inicioSe()) }
+{ inicioBloco() fimLinha() meioBlocoSe() }
+
+void meioBlocoSe():
+{}
+{ linha() meioBlocoSe() | bloco() meioBlocoSe() | fimBloco() | inicioBlocoSenao() }
+
+void inicioBlocoSenao():
+{}
+{ senao() (inicioBlocoSe() | se() expressaoMatematica() inicioBlocoSe()) }
 
 void fimDePrograma():
 {}

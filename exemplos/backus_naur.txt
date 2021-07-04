@@ -40,19 +40,22 @@ TOKENS {
 <blocoRepeteco> ::= <linha><blocoRepeteco> | <bloco><blocoRepeteco> | "bah"
 
 <inicioSe> ::= "se"<expressaoMatematica><meioSe>
-<meioSe> ::= "dai"<linha> | "tche""\n"<blocoSe>
+<meioSe> ::= "dai"<linha> | "dai"<linha> <inicioSenao> | "tche""\n"<blocoSe>
 <blocoSe> ::= <linha><blocoSe> | <bloco><blocoSe> | "bah" | <inicioSenao>
-<inicioSenao> ::= "senao"<meioSe> | "senao"<inicioSe>
+<inicioSenao> ::= "senao"<inicioSe> | "senao""dai"<linha> | "senao""tche""\n"<fimBlocoSenao>
+<fimBlocoSenao> ::= | <linha><fimBlocoSenao> | <bloco><fimBlocoSenao> | "bah"
 
 <fimDePrograma> ::= "<EOF>" | "pareHome"
 
 
 
-<inicioSe> ::= "se"<expressaoMatematica><inicioBlocoSe> | "se"<expressaoMatematica><inicioLinhaSe>
+<inicioSe> ::= "se"<expressaoMatematica><inicioLinhaSe> | "se"<expressaoMatematica><inicioBlocoSe>
+
+<inicioLinhaSe> ::= "dai"<linha> | "dai"<linha><senaoLinha>
+<senaoLinha> ::= "senao"<inicioLinhaSe> | "senao""se"<expressaoMatematica><inicioLinhaSe>
 
 <inicioBlocoSe> ::= "tche""\n"<meioBlocoSe>
 <meioBlocoSe> ::= <linha><meioBlocoSe> | <bloco><meioBlocoSe> | "bah" | <inicioBlocoSenao>
 <inicioBlocoSenao> ::= "senao"<inicioBlocoSe> | "senao""se"<expressaoMatematica><inicioBlocoSe>
 
-<inicioLinhaSe> ::= "dai"<linha> | "dai"<linha><senaoLinha>
-<senaoLinha> ::= "senao"<inicioLinhaSe> | "senao""se"<expressaoMatematica><inicioLinhaSe>
+
