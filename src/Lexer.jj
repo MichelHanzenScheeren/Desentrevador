@@ -276,11 +276,11 @@ void blocoRepeteco():
 
 void inicioSe():
 {}
-{ se() expressaoMatematica() meioSe() }
+{ se() expressaoMatematica() (seDeUmaLinha() | (inicioBloco() fimLinha() blocoSe())) }
 
-void meioSe():
+void seDeUmaLinha():
 {}
-{ inicioOperacaoLinha() linha() (LOOKAHEAD(1) inicioSenao())? | inicioBloco() fimLinha() blocoSe() }
+{ inicioOperacaoLinha() elementoDeLinha() (fimLinha() | senao() (inicioOperacaoLinha())? linha()) }
 
 void blocoSe():
 {}

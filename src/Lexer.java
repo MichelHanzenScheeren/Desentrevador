@@ -533,22 +533,9 @@ public class Lexer implements LexerConstants {
   static final public void inicioSe() throws ParseException {
     se();
     expressaoMatematica();
-    meioSe();
-  }
-
-  static final public void meioSe() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INICIO_OPERACAO_LINHA:
-      inicioOperacaoLinha();
-      linha();
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case SENAO:
-        inicioSenao();
-        break;
-      default:
-        jj_la1[20] = jj_gen;
-        ;
-      }
+      seDeUmaLinha();
       break;
     case INICIO_BLOCO:
       inicioBloco();
@@ -556,7 +543,33 @@ public class Lexer implements LexerConstants {
       blocoSe();
       break;
     default:
-      jj_la1[21] = jj_gen;
+      jj_la1[20] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void seDeUmaLinha() throws ParseException {
+    inicioOperacaoLinha();
+    elementoDeLinha();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case FIM_LINHA:
+      fimLinha();
+      break;
+    case SENAO:
+      senao();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case INICIO_OPERACAO_LINHA:
+        inicioOperacaoLinha();
+        break;
+      default:
+        jj_la1[21] = jj_gen;
+        ;
+      }
+      linha();
+      break;
+    default:
+      jj_la1[22] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -586,7 +599,7 @@ public class Lexer implements LexerConstants {
       inicioSenao();
       break;
     default:
-      jj_la1[22] = jj_gen;
+      jj_la1[23] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -608,7 +621,7 @@ public class Lexer implements LexerConstants {
       fimBlocoSenao();
       break;
     default:
-      jj_la1[23] = jj_gen;
+      jj_la1[24] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -635,7 +648,7 @@ public class Lexer implements LexerConstants {
       fimBloco();
       break;
     default:
-      jj_la1[24] = jj_gen;
+      jj_la1[25] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -650,7 +663,7 @@ public class Lexer implements LexerConstants {
       jj_consume_token(FIM_PROGRAMA);
       break;
     default:
-      jj_la1[25] = jj_gen;
+      jj_la1[26] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -666,7 +679,7 @@ public class Lexer implements LexerConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[26];
+  static final private int[] jj_la1 = new int[27];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -674,10 +687,10 @@ public class Lexer implements LexerConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x1000000,0x1000000,0x600,0x600,0x1000000,0x0,0x3e00,0x7f8000,0x80000600,0x3e00,0x7f8000,0x0,0x4000,0x2000000,0x4000,0x0,0x14000000,0x9000000,0x14000000,0x9000000,0x0,0x14000000,0x9000000,0x14000000,0x9000000,0x800001,};
+      jj_la1_0 = new int[] {0x1000000,0x1000000,0x600,0x600,0x1000000,0x0,0x3e00,0x7f8000,0x80000600,0x3e00,0x7f8000,0x0,0x4000,0x2000000,0x4000,0x0,0x14000000,0x9000000,0x14000000,0x9000000,0x14000000,0x10000000,0x1000000,0x9000000,0x14000000,0x9000000,0x800001,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x27a6,0x27a6,0x0,0x0,0x2780,0x2780,0x0,0x0,0x143000,0x0,0x0,0x780,0x0,0x0,0x0,0x26,0x0,0x27a6,0x0,0x27a6,0x40,0x0,0x27e6,0x20,0x27a6,0x0,};
+      jj_la1_1 = new int[] {0x27a6,0x27a6,0x0,0x0,0x2780,0x2780,0x0,0x0,0x143000,0x0,0x0,0x780,0x0,0x0,0x0,0x26,0x0,0x27a6,0x0,0x27a6,0x0,0x0,0x40,0x27e6,0x20,0x27a6,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -698,7 +711,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -712,7 +725,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -729,7 +742,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -739,7 +752,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -755,7 +768,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -764,7 +777,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -820,7 +833,7 @@ public class Lexer implements LexerConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 27; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
