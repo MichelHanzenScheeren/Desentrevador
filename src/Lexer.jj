@@ -14,9 +14,9 @@ import java.util.Scanner;
 public class Lexer {
 	public static void execute(Lexer analisador) throws ParseException {
 		analisador.main();
-		System.out.println("\n--------------------");
-	    System.out.println("Tudo ok! BOAAAA POHA");
-	    System.out.println("--------------------");
+		System.out.println("\n --------------------");
+	    System.out.println(" Mas ah indio veio!");
+	    System.out.println(" --------------------");
 	}
   
 	public static void main(String[] args) {
@@ -79,6 +79,7 @@ TOKEN: /* SIMBOLOS RESERVADAS */
 {
   < FIM_PROGRAMA: "pareHome" >
 | < FIM_LINHA: "\n" >
+| < VIRGULA: "," >
 | < INICIO_BLOCO: "tche" >
 | < FIM_BLOCO: "bah" >
 | < OPERACAO_DE_LINHA: "dai" >
@@ -89,7 +90,8 @@ TOKEN: /* SIMBOLOS RESERVADAS */
 | < REPETECO: "repeteco" > // FOR
 | < MIN_REPETECO: "de" >
 | < MAX_REPETECO: "ate" >
-| < VIRGULA: "," >
+| < SE: "se" >
+| < SENAO: "senao" >
 }
 
 TOKEN: /* TIPOS DE DADOS */
@@ -118,7 +120,7 @@ TOKEN: /* FORMALIZACAO DE DADOS */
 void main():
 {}
 {
-  (linha())*
+  (linha() | bloco())*
   fimDePrograma()
 }
 
@@ -143,9 +145,47 @@ void virgula():
 {}
 { < VIRGULA > }
 
+void loqueando():
+{}
+{ < LOQUEANDO > }
+
+void repeteco():
+{}
+{ < REPETECO > }
+
+void inicioBloco():
+{}
+{ < INICIO_BLOCO > }
+
+void fimBloco():
+{}
+{ < FIM_BLOCO > <FIM_LINHA > }
+
+void inicioOperacaoLinha():
+{}
+{ < OPERACAO_DE_LINHA > }
+
+void minRepeteco():
+{}
+{ < MIN_REPETECO > }
+
+void maxRepeteco():
+{}
+{ < MAX_REPETECO > }
+
+void se():
+{}
+{ < SE > }
+
+void senao():
+{}
+{ < SENAO > }
+
+
+/* INICIO DA LOGICA DE VALIDACAO DA LINGUAGEM */
 void linha():
 {}
-{ (atribuicao() | declaracaoDeVariavel()) fimLinha() }
+{ ((atribuicao() | declaracaoDeVariavel()) fimLinha()) | fimLinha() }
 
 void atribuicao():
 {}
@@ -190,6 +230,54 @@ void tipoDeDado():
 void listaDeDeclaracao():
 {}
 { nomeVariavel() (lacoDeAtribuicao())? ("," nomeVariavel() (lacoDeAtribuicao())?)* }
+
+void bloco():
+{}
+{ inicioLoqueando() | inicioRepeteco() | inicioSe() }
+
+void inicioLoqueando():
+{}
+{ loqueando() expressaoMatematica() meioLoqueando() }
+
+void meioLoqueando():
+{}
+{ inicioOperacaoLinha() linha() | inicioBloco() fimLinha() blocoLoqueando() }
+
+void blocoLoqueando():
+{}
+{ linha() blocoLoqueando() | bloco() blocoLoqueando() | fimBloco() }
+
+void inicioRepeteco():
+{}
+{ repeteco() nomeVariavel() minRepeteco() expressaoMatematica() maxRepeteco() expressaoMatematica() meioRepeteco() }
+
+void meioRepeteco():
+{}
+{ inicioOperacaoLinha() linha() | inicioBloco() fimLinha() blocoRepeteco() }
+
+void blocoRepeteco():
+{}
+{ linha() blocoRepeteco() | bloco() blocoRepeteco() | fimBloco() }
+
+void inicioSe():
+{}
+{ se() expressaoMatematica() meioSe() }
+
+void meioSe():
+{}
+{ inicioOperacaoLinha() linha() possivelLinhaSenao() | inicioBloco() fimLinha() blocoSe() }
+
+void possivelLinhaSenao():
+{}
+{ [ LOOKAHEAD(1) inicioSenao() ] } // LOOKAHEAD EXPLICITADO PARA DIZER AO COMPILADOR QUE SEI O QUE ESTOU FAZENDO
+
+void blocoSe():
+{}
+{ linha() blocoSe() | bloco() blocoSe() | fimBloco() | inicioSenao() }
+
+void inicioSenao():
+{}
+{ senao() (meioSe() | inicioSe()) }
 
 void fimDePrograma():
 {}

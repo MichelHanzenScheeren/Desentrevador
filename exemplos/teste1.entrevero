@@ -1,0 +1,47 @@
+loqueando i < 10 tche 
+    loqueando i < 10 dai teste = 1
+bah
+
+repeteco i de 0 ate 10 dai teste = 1
+
+repeteco i de 0 ate 10 tche 
+    teste = 1
+    loqueando i < 10 dai teste = 1
+    loqueando i < 10 tche 
+        loqueando i < 10 dai teste = 1
+    bah
+bah
+
+se teste != "Olá" tche 
+    teste = "Olá"
+bah
+
+se teste != "Olá" tche 
+    teste = "Olá"
+senao se teste != "Tchau" tche
+    repeteco i de 0 ate 10 dai teste = 1
+    teste = "Tchau"
+bah
+
+se teste != "Olá" tche 
+    teste = "Olá"
+senao tche
+    teste = "Tchau"
+bah
+
+se teste != "Olá" tche 
+    teste = "Olá"
+senao se teste != "Tchau" tche
+    teste = "Tchau"
+senao se teste != "Tchau" tche
+    teste = "Tchau"
+senao tche
+    teste = "Tchau"
+bah
+
+se teste != "Olá" dai teste = "Olá"
+senao se teste != "Tchau" dai teste = "Tchau"
+senao tche
+    teste = 10
+    teste2 = "Olá"
+bah
