@@ -45,3 +45,14 @@ TOKENS {
 <inicioSenao> ::= "senao"<meioSe> | "senao"<inicioSe>
 
 <fimDePrograma> ::= "<EOF>" | "pareHome"
+
+
+
+<inicioSe> ::= "se"<expressaoMatematica><inicioBlocoSe> | "se"<expressaoMatematica><inicioLinhaSe>
+
+<inicioBlocoSe> ::= "tche""\n"<meioBlocoSe>
+<meioBlocoSe> ::= <linha><meioBlocoSe> | <bloco><meioBlocoSe> | "bah" | <inicioBlocoSenao>
+<inicioBlocoSenao> ::= "senao"<inicioBlocoSe> | "senao""se"<expressaoMatematica><inicioBlocoSe>
+
+<inicioLinhaSe> ::= "dai"<linha> | "dai"<linha><senaoLinha>
+<senaoLinha> ::= "senao"<inicioLinhaSe> | "senao""se"<expressaoMatematica><inicioLinhaSe>
