@@ -55,7 +55,7 @@ public interface LexerConstants {
   /** RegularExpression Id. */
   int FIM_OPERACAO_LINHA = 29;
   /** RegularExpression Id. */
-  int DEFINICAO_DE_FUNCAO = 30;
+  int FUNCAO = 30;
   /** RegularExpression Id. */
   int ABRE_PARENTESE = 31;
   /** RegularExpression Id. */
