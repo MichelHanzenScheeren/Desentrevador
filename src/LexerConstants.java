@@ -47,55 +47,57 @@ public interface LexerConstants {
   /** RegularExpression Id. */
   int FIM_BLOCO = 22;
   /** RegularExpression Id. */
-  int OPERACAO_DE_LINHA = 23;
+  int INICIO_OPERACAO_LINHA = 23;
   /** RegularExpression Id. */
-  int DEFINICAO_DE_FUNCAO = 24;
+  int FIM_OPERACAO_LINHA = 24;
   /** RegularExpression Id. */
-  int ABRE_PARENTESE = 25;
+  int DEFINICAO_DE_FUNCAO = 25;
   /** RegularExpression Id. */
-  int FECHA_PARENTESE = 26;
+  int ABRE_PARENTESE = 26;
   /** RegularExpression Id. */
-  int LOQUEANDO = 27;
+  int FECHA_PARENTESE = 27;
   /** RegularExpression Id. */
-  int REPETECO = 28;
+  int LOQUEANDO = 28;
   /** RegularExpression Id. */
-  int MIN_REPETECO = 29;
+  int REPETECO = 29;
   /** RegularExpression Id. */
-  int MAX_REPETECO = 30;
+  int MIN_REPETECO = 30;
   /** RegularExpression Id. */
-  int SE = 31;
+  int MAX_REPETECO = 31;
   /** RegularExpression Id. */
-  int SENAO = 32;
+  int SE = 32;
   /** RegularExpression Id. */
-  int REDONDO = 33;
+  int SENAO = 33;
   /** RegularExpression Id. */
-  int QUEBRADO = 34;
+  int REDONDO = 34;
   /** RegularExpression Id. */
-  int TROVA = 35;
+  int QUEBRADO = 35;
   /** RegularExpression Id. */
-  int LOGICO = 36;
+  int TROVA = 36;
   /** RegularExpression Id. */
-  int VAZIO = 37;
+  int LOGICO = 37;
   /** RegularExpression Id. */
-  int BOOLEANO = 38;
+  int VAZIO = 38;
   /** RegularExpression Id. */
-  int NOME_VARIAVEL = 39;
+  int BOOLEANO = 39;
   /** RegularExpression Id. */
-  int NOME_FUNCAO = 40;
+  int NOME_VARIAVEL = 40;
   /** RegularExpression Id. */
-  int LETRA = 41;
+  int NOME_FUNCAO = 41;
   /** RegularExpression Id. */
-  int MINUSCULAS = 42;
+  int LETRA = 42;
   /** RegularExpression Id. */
-  int MAIUSCULAS = 43;
+  int MINUSCULAS = 43;
   /** RegularExpression Id. */
-  int NUMERO = 44;
+  int MAIUSCULAS = 44;
   /** RegularExpression Id. */
-  int DIGITO = 45;
+  int NUMERO = 45;
   /** RegularExpression Id. */
-  int TEXTO = 46;
+  int DIGITO = 46;
   /** RegularExpression Id. */
-  int ASCII = 47;
+  int TEXTO = 47;
+  /** RegularExpression Id. */
+  int ASCII = 48;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -126,6 +128,7 @@ public interface LexerConstants {
     "\"tche\"",
     "\"bah\"",
     "\"dai\"",
+    "\"ne\"",
     "\"funcao\"",
     "\"(\"",
     "\")\"",
