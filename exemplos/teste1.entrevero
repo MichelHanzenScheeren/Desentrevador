@@ -1,3 +1,19 @@
+// COMENTARIOS DE UMA LINHA
+/* COMENTARIO DE
+MULTIPLAS LINHAS */
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+/* TESTES DE DECLARACAO DE VARIAVEIS */
+
+redondo teste
+quebrado teste2, teste3
+trova teste4 = "Olá", teste5, teste6 = "Sei lá!"
+logico teste7 = (teste > 5) e ((teste2 < 10) ou (teste3 == 15))
+redondo teste8 = (3 * 4) + 7 - (34 / 3 - (8 ^3)) 
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+/* TESTES DE LACOS DE REPETICAO */
+
 loqueando i < 10 tche 
     loqueando i < 10 dai teste = 1
 bah
@@ -11,6 +27,9 @@ repeteco i de 0 ate 10 tche
         loqueando i < 10 dai teste = 1
     bah
 bah
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+/* TESTES DE CONDICIONAIS */
 
 se teste != "Olá" tche 
     teste = "Olá"
@@ -46,4 +65,3 @@ senao se teste != "Tchau" dai teste = "Tchau"
 senao se teste != "Tchau" tche
     teste = "Tchau"
 senao dai teste = teste + 1
-
