@@ -41,8 +41,9 @@ bah
 
 se teste != "Olá" dai teste = "Olá"
 
-se teste != "Olá" dai teste = "Olá" ne
-senao se teste != "Tchau" dai teste = "Tchau" ne
-senao dai teste = teste + 1 ne
+se teste != "Olá" dai teste = "Olá"
+senao se teste != "Tchau" dai teste = "Tchau"
+senao se teste != "Tchau" tche
+    teste = "Tchau"
 senao dai teste = teste + 1
 

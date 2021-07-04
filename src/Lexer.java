@@ -533,34 +533,27 @@ public class Lexer implements LexerConstants {
   static final public void inicioSe() throws ParseException {
     se();
     expressaoMatematica();
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case INICIO_OPERACAO_LINHA:
-      inicioLinhaSe();
-      break;
-    case INICIO_BLOCO:
-      inicioBlocoSe();
-      break;
-    default:
-      jj_la1[20] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+    meioSe();
   }
 
-//void inicioLinhaSe():
-//{}
-//{ inicioOperacaoLinha() elementoDeLinha() (senao() inicioOperacaoLinha() elementoDeLinha())? fimLinha() }
-  static final public void inicioLinhaSe() throws ParseException {
-    inicioOperacaoLinha();
-    elementoDeLinha();
+  static final public void meioSe() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case FIM_LINHA:
-      fimLinha();
+    case INICIO_OPERACAO_LINHA:
+      inicioOperacaoLinha();
+      linha();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case SENAO:
+        inicioSenao();
+        break;
+      default:
+        jj_la1[20] = jj_gen;
+        ;
+      }
       break;
-    case FIM_OPERACAO_LINHA:
-      fimOperacaoLinha();
+    case INICIO_BLOCO:
+      inicioBloco();
       fimLinha();
-      senaoLinha();
+      blocoSe();
       break;
     default:
       jj_la1[21] = jj_gen;
@@ -569,31 +562,7 @@ public class Lexer implements LexerConstants {
     }
   }
 
-  static final public void senaoLinha() throws ParseException {
-    senao();
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case INICIO_OPERACAO_LINHA:
-      inicioLinhaSe();
-      break;
-    case SE:
-      se();
-      expressaoMatematica();
-      inicioLinhaSe();
-      break;
-    default:
-      jj_la1[22] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
-  }
-
-  static final public void inicioBlocoSe() throws ParseException {
-    inicioBloco();
-    fimLinha();
-    meioBlocoSe();
-  }
-
-  static final public void meioBlocoSe() throws ParseException {
+  static final public void blocoSe() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case FIM_LINHA:
     case REDONDO:
@@ -602,19 +571,41 @@ public class Lexer implements LexerConstants {
     case LOGICO:
     case NOME_VARIAVEL:
       linha();
-      meioBlocoSe();
+      blocoSe();
       break;
     case LOQUEANDO:
     case REPETECO:
     case SE:
       bloco();
-      meioBlocoSe();
+      blocoSe();
       break;
     case FIM_BLOCO:
       fimBloco();
       break;
     case SENAO:
-      inicioBlocoSenao();
+      inicioSenao();
+      break;
+    default:
+      jj_la1[22] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void inicioSenao() throws ParseException {
+    senao();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case SE:
+      inicioSe();
+      break;
+    case INICIO_OPERACAO_LINHA:
+      inicioOperacaoLinha();
+      linha();
+      break;
+    case INICIO_BLOCO:
+      inicioBloco();
+      fimLinha();
+      fimBlocoSenao();
       break;
     default:
       jj_la1[23] = jj_gen;
@@ -623,16 +614,25 @@ public class Lexer implements LexerConstants {
     }
   }
 
-  static final public void inicioBlocoSenao() throws ParseException {
-    senao();
+  static final public void fimBlocoSenao() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case INICIO_BLOCO:
-      inicioBlocoSe();
+    case FIM_LINHA:
+    case REDONDO:
+    case QUEBRADO:
+    case TROVA:
+    case LOGICO:
+    case NOME_VARIAVEL:
+      linha();
+      fimBlocoSenao();
       break;
+    case LOQUEANDO:
+    case REPETECO:
     case SE:
-      se();
-      expressaoMatematica();
-      inicioBlocoSe();
+      bloco();
+      fimBlocoSenao();
+      break;
+    case FIM_BLOCO:
+      fimBloco();
       break;
     default:
       jj_la1[24] = jj_gen;
@@ -674,10 +674,10 @@ public class Lexer implements LexerConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x30080000,0x30080000,0x30,0x30,0x80000,0x0,0x1f0,0x3fc00,0x4000030,0x1f0,0x3fc00,0x0,0x200,0x100000,0x200,0x30000000,0xa00000,0x30480000,0xa00000,0x30480000,0xa00000,0x1080000,0x800000,0x30480000,0x200000,0x40001,};
+      jj_la1_0 = new int[] {0x30080000,0x30080000,0x30,0x30,0x80000,0x0,0x1f0,0x3fc00,0x4000030,0x1f0,0x3fc00,0x0,0x200,0x100000,0x200,0x30000000,0xa00000,0x30480000,0xa00000,0x30480000,0x0,0xa00000,0x30480000,0xa00000,0x30480000,0x40001,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x13d,0x13d,0x0,0x0,0x13c,0x13c,0x0,0x0,0xa180,0x0,0x0,0x3c,0x0,0x0,0x0,0x1,0x0,0x13d,0x0,0x13d,0x0,0x0,0x1,0x13f,0x1,0x0,};
+      jj_la1_1 = new int[] {0x13d,0x13d,0x0,0x0,0x13c,0x13c,0x0,0x0,0xa180,0x0,0x0,0x3c,0x0,0x0,0x0,0x1,0x0,0x13d,0x0,0x13d,0x2,0x0,0x13f,0x1,0x13d,0x0,};
    }
 
   /** Constructor with InputStream. */

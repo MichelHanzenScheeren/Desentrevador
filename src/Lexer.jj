@@ -270,31 +270,23 @@ void blocoRepeteco():
 
 void inicioSe():
 {}
-{ se() expressaoMatematica() (inicioLinhaSe() | inicioBlocoSe()) }
+{ se() expressaoMatematica() meioSe() }
 
-//void inicioLinhaSe():
-//{}
-//{ inicioOperacaoLinha() elementoDeLinha() (senao() inicioOperacaoLinha() elementoDeLinha())? fimLinha() }
-
-void inicioLinhaSe():
+void meioSe():
 {}
-{ inicioOperacaoLinha() elementoDeLinha() (fimLinha() | fimOperacaoLinha() fimLinha() senaoLinha())  }
+{ inicioOperacaoLinha() linha() (LOOKAHEAD(1) inicioSenao())? | inicioBloco() fimLinha() blocoSe() }
 
-void senaoLinha():
+void blocoSe():
 {}
-{ senao() (inicioLinhaSe()  | se() expressaoMatematica() inicioLinhaSe()) }
+{ linha() blocoSe() | bloco() blocoSe() | fimBloco() | inicioSenao() }
 
-void inicioBlocoSe():
+void inicioSenao():
 {}
-{ inicioBloco() fimLinha() meioBlocoSe() }
+{ senao() (inicioSe() | inicioOperacaoLinha() linha() | inicioBloco() fimLinha() fimBlocoSenao()) }
 
-void meioBlocoSe():
+void fimBlocoSenao():
 {}
-{ linha() meioBlocoSe() | bloco() meioBlocoSe() | fimBloco() | inicioBlocoSenao() }
-
-void inicioBlocoSenao():
-{}
-{ senao() (inicioBlocoSe() | se() expressaoMatematica() inicioBlocoSe()) }
+{ linha() fimBlocoSenao() | bloco() fimBlocoSenao() | fimBloco()  }
 
 void fimDePrograma():
 {}
