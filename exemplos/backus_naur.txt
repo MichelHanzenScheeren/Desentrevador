@@ -17,6 +17,7 @@ TOKENS {
 
 <S> ::=<linha><S> | <bloco><S> | <fimDePrograma>
 <linha> ::= "\n" | <atribuicao>"\n" | <declaraoDeVariavel>"\n"
+
 <atribuicao> ::= <nomeVariavel><lacoDeAtribuicao>
 <lacoDeAtribuicao> ::= "="<expressaoMatematica>
 <expressaoMatematica> ::= <expressaoBooleana> | <expressaoBooleana><operadorMatematico><expressaoMatematica>
@@ -24,6 +25,7 @@ TOKENS {
 <atribuivel> ::= "("<expressaoMatematica>")" | <numero> | <texto> | <booleano> | <nomeVariavel>
 <operadorMatematico> ::= "+" | "-" | "*" | "/" | "^" | "%"
 <operadorLogico> ::= "ou" | "e" | ">" | "<" | ">=" | "<=" | "==" | "!=" | "!" 
+
 <declaraoDeVariavel> ::=  <tipoDeDado><listaDeDeclaracao>
 <tipoDeDado> ::= "redondo" | "quebrado" | "trova" | "logico"
 <listaDeDeclaracao> ::= <nomeVariavel> | <nomeVariavel><lacoDeAtribuicao> 
@@ -46,16 +48,3 @@ TOKENS {
 <fimBlocoSenao> ::= | <linha><fimBlocoSenao> | <bloco><fimBlocoSenao> | "bah"
 
 <fimDePrograma> ::= "<EOF>" | "pareHome"
-
-
-
-<inicioSe> ::= "se"<expressaoMatematica><inicioLinhaSe> | "se"<expressaoMatematica><inicioBlocoSe>
-
-<inicioLinhaSe> ::= "dai"<linha> | "dai"<linha><senaoLinha>
-<senaoLinha> ::= "senao"<inicioLinhaSe> | "senao""se"<expressaoMatematica><inicioLinhaSe>
-
-<inicioBlocoSe> ::= "tche""\n"<meioBlocoSe>
-<meioBlocoSe> ::= <linha><meioBlocoSe> | <bloco><meioBlocoSe> | "bah" | <inicioBlocoSenao>
-<inicioBlocoSenao> ::= "senao"<inicioBlocoSe> | "senao""se"<expressaoMatematica><inicioBlocoSe>
-
-
