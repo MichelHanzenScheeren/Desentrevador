@@ -32,7 +32,7 @@ TOKENS {
                     | <nomeVariavel>","<listaDeDeclaracao> 
                     | <nomeVariavel><lacoDeAtribuicao>","<listaDeDeclaracao>
 
-<bloco> ::= <inicioLoqueando> | <inicioRepeteco> | <inicioSe>
+<bloco> ::= <inicioLoqueando> | <inicioRepeteco> | <inicioSe> | <definicaoDeFuncao>
 <inicioLoqueando> ::= "loqueando"<expressaoMatematica><meioLoqueando>
 <meioLoqueando> ::= "dai"<linha> | "tche""\n"<blocoLoqueando>
 <blocoLoqueando> ::= <linha><blocoLoqueando> | <bloco><blocoLoqueando> | "bah"
@@ -55,5 +55,8 @@ TOKENS {
 <meioFuncao> ::= "dai"<linha> | "tche""\n"<blocoFuncao>
 <blocoFuncao> ::= <linha><blocoFuncao> | <bloco><blocoFuncao> | "bah"
 <tipoDeRetorno> ::= "vazio" | <tipoDeDado>
+
+<chamadaDeFuncao> ::= <nomeFuncao>"("") | <nomeFuncao>"("<passagemDeParametros>")"
+<passagemDeParametros> ::= <atribuicao> | <atribuicao>","<passagemDeParametros>
 
 <fimDePrograma> ::= "<EOF>" | "pareHome"

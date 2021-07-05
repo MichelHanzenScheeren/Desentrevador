@@ -73,35 +73,37 @@ public interface LexerConstants {
   /** RegularExpression Id. */
   int SENAO = 38;
   /** RegularExpression Id. */
-  int REDONDO = 39;
+  int TROVAR = 39;
   /** RegularExpression Id. */
-  int QUEBRADO = 40;
+  int REDONDO = 40;
   /** RegularExpression Id. */
-  int TROVA = 41;
+  int QUEBRADO = 41;
   /** RegularExpression Id. */
-  int LOGICO = 42;
+  int TROVA = 42;
   /** RegularExpression Id. */
-  int VAZIO = 43;
+  int LOGICO = 43;
   /** RegularExpression Id. */
-  int BOOLEANO = 44;
+  int VAZIO = 44;
   /** RegularExpression Id. */
-  int NOME_VARIAVEL = 45;
+  int BOOLEANO = 45;
   /** RegularExpression Id. */
-  int NOME_FUNCAO = 46;
+  int NOME_VARIAVEL = 46;
   /** RegularExpression Id. */
-  int LETRA = 47;
+  int NOME_FUNCAO = 47;
   /** RegularExpression Id. */
-  int MINUSCULAS = 48;
+  int LETRA = 48;
   /** RegularExpression Id. */
-  int MAIUSCULAS = 49;
+  int MINUSCULAS = 49;
   /** RegularExpression Id. */
-  int NUMERO = 50;
+  int MAIUSCULAS = 50;
   /** RegularExpression Id. */
-  int DIGITO = 51;
+  int NUMERO = 51;
   /** RegularExpression Id. */
-  int TEXTO = 52;
+  int DIGITO = 52;
   /** RegularExpression Id. */
-  int ASCII = 53;
+  int TEXTO = 53;
+  /** RegularExpression Id. */
+  int ASCII = 54;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -151,6 +153,7 @@ public interface LexerConstants {
     "\"ate\"",
     "\"se\"",
     "\"senao\"",
+    "\"Trovar\"",
     "\"redondo\"",
     "\"quebrado\"",
     "\"trova\"",

@@ -99,6 +99,7 @@ TOKEN: /* SIMBOLOS RESERVADAS */
 | < MAX_REPETECO: "ate" >
 | < SE: "se" >
 | < SENAO: "senao" >
+| < TROVAR: "Trovar">
 }
 
 TOKEN: /* TIPOS DE DADOS */
@@ -204,6 +205,10 @@ void nomeFuncao():
 {}
 { < NOME_FUNCAO > }
 
+void trovar():
+{}
+{ < TROVAR > }
+
 /* INICIO DA LOGICA DE VALIDACAO DA LINGUAGEM */
 void linha():
 {}
@@ -211,7 +216,7 @@ void linha():
 
 void elementoDeLinha():
 {}
-{ atribuicao() | declaracaoDeVariavel() }
+{ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcaoTrovar() }
 
 void atribuicao():
 {}
@@ -324,6 +329,22 @@ void meioFuncao():
 void blocoFuncao():
 {}
 {  linha() blocoFuncao() | bloco() blocoFuncao() | fimBloco() }
+
+void chamadaDeFuncao():
+{}
+{ nomeFuncao() < ABRE_PARENTESE > (passagemDeParametros())? < FECHA_PARENTESE >  }
+
+void passagemDeParametros():
+{}
+{ parametrosAtribuiveis() (virgula() parametrosAtribuiveis())* }
+
+void parametrosAtribuiveis():
+{}
+{ expressaoEntreParenteses() | numeroComSinal() | (nomeVariavel() (lacoDeAtribuicao())?) | < TEXTO > | < BOOLEANO > }
+
+void funcaoTrovar():
+{}
+{ trovar() < ABRE_PARENTESE > expressaoMatematica() < FECHA_PARENTESE > }
 
 void fimDePrograma():
 {}
