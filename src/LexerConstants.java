@@ -41,69 +41,67 @@ public interface LexerConstants {
   /** RegularExpression Id. */
   int E = 22;
   /** RegularExpression Id. */
-  int FIM_PROGRAMA = 23;
+  int PARE_HOME = 23;
   /** RegularExpression Id. */
-  int FIM_LINHA = 24;
+  int TCHE = 24;
   /** RegularExpression Id. */
-  int VIRGULA = 25;
+  int BAH = 25;
   /** RegularExpression Id. */
-  int INICIO_BLOCO = 26;
+  int DAI = 26;
   /** RegularExpression Id. */
-  int FIM_BLOCO = 27;
+  int FUNCAO = 27;
   /** RegularExpression Id. */
-  int INICIO_OPERACAO_LINHA = 28;
+  int LOQUEANDO = 28;
   /** RegularExpression Id. */
-  int FIM_OPERACAO_LINHA = 29;
+  int REPETECO = 29;
   /** RegularExpression Id. */
-  int FUNCAO = 30;
+  int DE = 30;
   /** RegularExpression Id. */
-  int ABRE_PARENTESE = 31;
+  int ATE = 31;
   /** RegularExpression Id. */
-  int FECHA_PARENTESE = 32;
+  int SE = 32;
   /** RegularExpression Id. */
-  int LOQUEANDO = 33;
+  int SENAO = 33;
   /** RegularExpression Id. */
-  int REPETECO = 34;
+  int TROVAR = 34;
   /** RegularExpression Id. */
-  int MIN_REPETECO = 35;
+  int FIM_LINHA = 35;
   /** RegularExpression Id. */
-  int MAX_REPETECO = 36;
+  int VIRGULA = 36;
   /** RegularExpression Id. */
-  int SE = 37;
+  int ABRE_PARENTESE = 37;
   /** RegularExpression Id. */
-  int SENAO = 38;
+  int FECHA_PARENTESE = 38;
   /** RegularExpression Id. */
-  int TROVAR = 39;
+  int REDONDO = 39;
   /** RegularExpression Id. */
-  int REDONDO = 40;
+  int QUEBRADO = 40;
   /** RegularExpression Id. */
-  int QUEBRADO = 41;
+  int TROVA = 41;
   /** RegularExpression Id. */
-  int TROVA = 42;
+  int LOGICO = 42;
   /** RegularExpression Id. */
-  int LOGICO = 43;
+  int VAZIO = 43;
   /** RegularExpression Id. */
-  int VAZIO = 44;
+  int BOOLEANO = 44;
   /** RegularExpression Id. */
-  int BOOLEANO = 45;
+  int NOME_VARIAVEL = 45;
   /** RegularExpression Id. */
-  int NOME_VARIAVEL = 46;
+  int NOME_FUNCAO = 46;
   /** RegularExpression Id. */
-  int NOME_FUNCAO = 47;
+  int LETRA = 47;
   /** RegularExpression Id. */
-  int LETRA = 48;
+  int MINUSCULAS = 48;
   /** RegularExpression Id. */
-  int MINUSCULAS = 49;
+  int MAIUSCULAS = 49;
   /** RegularExpression Id. */
-  int MAIUSCULAS = 50;
+  int NUMERO = 50;
   /** RegularExpression Id. */
-  int NUMERO = 51;
+  int DIGITO = 51;
   /** RegularExpression Id. */
-  int DIGITO = 52;
+  int TEXTO = 52;
   /** RegularExpression Id. */
-  int TEXTO = 53;
-  /** RegularExpression Id. */
-  int ASCII = 54;
+  int ASCII = 53;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -138,15 +136,10 @@ public interface LexerConstants {
     "\"ou\"",
     "\"e\"",
     "\"pareHome\"",
-    "\"\\n\"",
-    "\",\"",
     "\"tche\"",
     "\"bah\"",
     "\"dai\"",
-    "\"ne\"",
     "\"funcao\"",
-    "\"(\"",
-    "\")\"",
     "\"loqueando\"",
     "\"repeteco\"",
     "\"de\"",
@@ -154,6 +147,10 @@ public interface LexerConstants {
     "\"se\"",
     "\"senao\"",
     "\"Trovar\"",
+    "\"\\n\"",
+    "\",\"",
+    "\"(\"",
+    "\")\"",
     "\"redondo\"",
     "\"quebrado\"",
     "\"trova\"",
