@@ -90,7 +90,7 @@ TOKEN: /* SIMBOLOS RESERVADAS */
 | < FIM_BLOCO: "bah" >
 | < INICIO_OPERACAO_LINHA: "dai" >
 | < FIM_OPERACAO_LINHA: "ne" >
-| < DEFINICAO_DE_FUNCAO: "funcao" >
+| < FUNCAO: "funcao" >
 | < ABRE_PARENTESE: "(" >
 | < FECHA_PARENTESE: ")" >
 | < LOQUEANDO: "loqueando" > // WHILE
@@ -99,6 +99,7 @@ TOKEN: /* SIMBOLOS RESERVADAS */
 | < MAX_REPETECO: "ate" >
 | < SE: "se" >
 | < SENAO: "senao" >
+| < TROVAR: "Trovar">
 }
 
 TOKEN: /* TIPOS DE DADOS */
@@ -192,6 +193,21 @@ void senao():
 {}
 { < SENAO > }
 
+void funcao():
+{}
+{ < FUNCAO > }
+
+void vazio():
+{}
+{ < VAZIO > }
+
+void nomeFuncao():
+{}
+{ < NOME_FUNCAO > }
+
+void trovar():
+{}
+{ < TROVAR > }
 
 /* INICIO DA LOGICA DE VALIDACAO DA LINGUAGEM */
 void linha():
@@ -200,7 +216,7 @@ void linha():
 
 void elementoDeLinha():
 {}
-{ atribuicao() | declaracaoDeVariavel() }
+{ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcaoTrovar() }
 
 void atribuicao():
 {}
@@ -248,7 +264,7 @@ void listaDeDeclaracao():
 
 void bloco():
 {}
-{ inicioLoqueando() | inicioRepeteco() | inicioSe() }
+{ inicioLoqueando() | inicioRepeteco() | inicioSe() | definicaoDeFuncao() }
 
 void inicioLoqueando():
 {}
@@ -293,6 +309,42 @@ void inicioSenao():
 void fimBlocoSenao():
 {}
 { linha() fimBlocoSenao() | bloco() fimBlocoSenao() | fimBloco()  }
+
+void definicaoDeFuncao():
+{}
+{ funcao() tipoDeRetorno() nomeFuncao() < ABRE_PARENTESE > (definicaoParametros())? < FECHA_PARENTESE > meioFuncao() }
+
+void tipoDeRetorno():
+{}
+{ vazio() | tipoDeDado() }
+
+void definicaoParametros():
+{}
+{ tipoDeDado() nomeVariavel() (lacoDeAtribuicao())? (virgula() tipoDeDado() nomeVariavel() (lacoDeAtribuicao())?)* }
+
+void meioFuncao():
+{}
+{ inicioOperacaoLinha() linha() | inicioBloco() fimLinha() blocoFuncao() }
+
+void blocoFuncao():
+{}
+{  linha() blocoFuncao() | bloco() blocoFuncao() | fimBloco() }
+
+void chamadaDeFuncao():
+{}
+{ nomeFuncao() < ABRE_PARENTESE > (passagemDeParametros())? < FECHA_PARENTESE >  }
+
+void passagemDeParametros():
+{}
+{ parametrosAtribuiveis() (virgula() parametrosAtribuiveis())* }
+
+void parametrosAtribuiveis():
+{}
+{ expressaoEntreParenteses() | numeroComSinal() | (nomeVariavel() (lacoDeAtribuicao())?) | < TEXTO > | < BOOLEANO > }
+
+void funcaoTrovar():
+{}
+{ trovar() < ABRE_PARENTESE > expressaoMatematica() < FECHA_PARENTESE > }
 
 void fimDePrograma():
 {}

@@ -45,14 +45,17 @@ public class Lexer implements LexerConstants {
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case FIM_LINHA:
+      case FUNCAO:
       case LOQUEANDO:
       case REPETECO:
       case SE:
+      case TROVAR:
       case REDONDO:
       case QUEBRADO:
       case TROVA:
       case LOGICO:
       case NOME_VARIAVEL:
+      case NOME_FUNCAO:
         ;
         break;
       default:
@@ -61,13 +64,16 @@ public class Lexer implements LexerConstants {
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case FIM_LINHA:
+      case TROVAR:
       case REDONDO:
       case QUEBRADO:
       case TROVA:
       case LOGICO:
       case NOME_VARIAVEL:
+      case NOME_FUNCAO:
         linha();
         break;
+      case FUNCAO:
       case LOQUEANDO:
       case REPETECO:
       case SE:
@@ -164,14 +170,32 @@ public class Lexer implements LexerConstants {
     jj_consume_token(SENAO);
   }
 
+  static final public void funcao() throws ParseException {
+    jj_consume_token(FUNCAO);
+  }
+
+  static final public void vazio() throws ParseException {
+    jj_consume_token(VAZIO);
+  }
+
+  static final public void nomeFuncao() throws ParseException {
+    jj_consume_token(NOME_FUNCAO);
+  }
+
+  static final public void trovar() throws ParseException {
+    jj_consume_token(TROVAR);
+  }
+
 /* INICIO DA LOGICA DE VALIDACAO DA LINGUAGEM */
   static final public void linha() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case TROVAR:
     case REDONDO:
     case QUEBRADO:
     case TROVA:
     case LOGICO:
     case NOME_VARIAVEL:
+    case NOME_FUNCAO:
       elementoDeLinha();
       fimLinha();
       break;
@@ -195,6 +219,12 @@ public class Lexer implements LexerConstants {
     case TROVA:
     case LOGICO:
       declaracaoDeVariavel();
+      break;
+    case NOME_FUNCAO:
+      chamadaDeFuncao();
+      break;
+    case TROVAR:
+      funcaoTrovar();
       break;
     default:
       jj_la1[5] = jj_gen;
@@ -417,6 +447,9 @@ public class Lexer implements LexerConstants {
     case SE:
       inicioSe();
       break;
+    case FUNCAO:
+      definicaoDeFuncao();
+      break;
     default:
       jj_la1[15] = jj_gen;
       jj_consume_token(-1);
@@ -451,14 +484,17 @@ public class Lexer implements LexerConstants {
   static final public void blocoLoqueando() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case FIM_LINHA:
+    case TROVAR:
     case REDONDO:
     case QUEBRADO:
     case TROVA:
     case LOGICO:
     case NOME_VARIAVEL:
+    case NOME_FUNCAO:
       linha();
       blocoLoqueando();
       break;
+    case FUNCAO:
     case LOQUEANDO:
     case REPETECO:
     case SE:
@@ -506,14 +542,17 @@ public class Lexer implements LexerConstants {
   static final public void blocoRepeteco() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case FIM_LINHA:
+    case TROVAR:
     case REDONDO:
     case QUEBRADO:
     case TROVA:
     case LOGICO:
     case NOME_VARIAVEL:
+    case NOME_FUNCAO:
       linha();
       blocoRepeteco();
       break;
+    case FUNCAO:
     case LOQUEANDO:
     case REPETECO:
     case SE:
@@ -578,14 +617,17 @@ public class Lexer implements LexerConstants {
   static final public void blocoSe() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case FIM_LINHA:
+    case TROVAR:
     case REDONDO:
     case QUEBRADO:
     case TROVA:
     case LOGICO:
     case NOME_VARIAVEL:
+    case NOME_FUNCAO:
       linha();
       blocoSe();
       break;
+    case FUNCAO:
     case LOQUEANDO:
     case REPETECO:
     case SE:
@@ -630,14 +672,17 @@ public class Lexer implements LexerConstants {
   static final public void fimBlocoSenao() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case FIM_LINHA:
+    case TROVAR:
     case REDONDO:
     case QUEBRADO:
     case TROVA:
     case LOGICO:
     case NOME_VARIAVEL:
+    case NOME_FUNCAO:
       linha();
       fimBlocoSenao();
       break;
+    case FUNCAO:
     case LOQUEANDO:
     case REPETECO:
     case SE:
@@ -654,6 +699,205 @@ public class Lexer implements LexerConstants {
     }
   }
 
+  static final public void definicaoDeFuncao() throws ParseException {
+    funcao();
+    tipoDeRetorno();
+    nomeFuncao();
+    jj_consume_token(ABRE_PARENTESE);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case REDONDO:
+    case QUEBRADO:
+    case TROVA:
+    case LOGICO:
+      definicaoParametros();
+      break;
+    default:
+      jj_la1[26] = jj_gen;
+      ;
+    }
+    jj_consume_token(FECHA_PARENTESE);
+    meioFuncao();
+  }
+
+  static final public void tipoDeRetorno() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case VAZIO:
+      vazio();
+      break;
+    case REDONDO:
+    case QUEBRADO:
+    case TROVA:
+    case LOGICO:
+      tipoDeDado();
+      break;
+    default:
+      jj_la1[27] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void definicaoParametros() throws ParseException {
+    tipoDeDado();
+    nomeVariavel();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ATRIBUICAO:
+      lacoDeAtribuicao();
+      break;
+    default:
+      jj_la1[28] = jj_gen;
+      ;
+    }
+    label_5:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case VIRGULA:
+        ;
+        break;
+      default:
+        jj_la1[29] = jj_gen;
+        break label_5;
+      }
+      virgula();
+      tipoDeDado();
+      nomeVariavel();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ATRIBUICAO:
+        lacoDeAtribuicao();
+        break;
+      default:
+        jj_la1[30] = jj_gen;
+        ;
+      }
+    }
+  }
+
+  static final public void meioFuncao() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case INICIO_OPERACAO_LINHA:
+      inicioOperacaoLinha();
+      linha();
+      break;
+    case INICIO_BLOCO:
+      inicioBloco();
+      fimLinha();
+      blocoFuncao();
+      break;
+    default:
+      jj_la1[31] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void blocoFuncao() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case FIM_LINHA:
+    case TROVAR:
+    case REDONDO:
+    case QUEBRADO:
+    case TROVA:
+    case LOGICO:
+    case NOME_VARIAVEL:
+    case NOME_FUNCAO:
+      linha();
+      blocoFuncao();
+      break;
+    case FUNCAO:
+    case LOQUEANDO:
+    case REPETECO:
+    case SE:
+      bloco();
+      blocoFuncao();
+      break;
+    case FIM_BLOCO:
+      fimBloco();
+      break;
+    default:
+      jj_la1[32] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void chamadaDeFuncao() throws ParseException {
+    nomeFuncao();
+    jj_consume_token(ABRE_PARENTESE);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case MAIS:
+    case MENOS:
+    case ABRE_PARENTESE:
+    case BOOLEANO:
+    case NOME_VARIAVEL:
+    case NUMERO:
+    case TEXTO:
+      passagemDeParametros();
+      break;
+    default:
+      jj_la1[33] = jj_gen;
+      ;
+    }
+    jj_consume_token(FECHA_PARENTESE);
+  }
+
+  static final public void passagemDeParametros() throws ParseException {
+    parametrosAtribuiveis();
+    label_6:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case VIRGULA:
+        ;
+        break;
+      default:
+        jj_la1[34] = jj_gen;
+        break label_6;
+      }
+      virgula();
+      parametrosAtribuiveis();
+    }
+  }
+
+  static final public void parametrosAtribuiveis() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ABRE_PARENTESE:
+      expressaoEntreParenteses();
+      break;
+    case MAIS:
+    case MENOS:
+    case NUMERO:
+      numeroComSinal();
+      break;
+    case NOME_VARIAVEL:
+      nomeVariavel();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ATRIBUICAO:
+        lacoDeAtribuicao();
+        break;
+      default:
+        jj_la1[35] = jj_gen;
+        ;
+      }
+      break;
+    case TEXTO:
+      jj_consume_token(TEXTO);
+      break;
+    case BOOLEANO:
+      jj_consume_token(BOOLEANO);
+      break;
+    default:
+      jj_la1[36] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  static final public void funcaoTrovar() throws ParseException {
+    trovar();
+    jj_consume_token(ABRE_PARENTESE);
+    expressaoMatematica();
+    jj_consume_token(FECHA_PARENTESE);
+  }
+
   static final public void fimDePrograma() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case 0:
@@ -663,7 +907,7 @@ public class Lexer implements LexerConstants {
       jj_consume_token(FIM_PROGRAMA);
       break;
     default:
-      jj_la1[26] = jj_gen;
+      jj_la1[37] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -679,7 +923,7 @@ public class Lexer implements LexerConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[27];
+  static final private int[] jj_la1 = new int[38];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -687,10 +931,10 @@ public class Lexer implements LexerConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x1000000,0x1000000,0x600,0x600,0x1000000,0x0,0x3e00,0x7f8000,0x80000600,0x3e00,0x7f8000,0x0,0x4000,0x2000000,0x4000,0x0,0x14000000,0x9000000,0x14000000,0x9000000,0x14000000,0x10000000,0x1000000,0x9000000,0x14000000,0x9000000,0x800001,};
+      jj_la1_0 = new int[] {0x41000000,0x41000000,0x600,0x600,0x1000000,0x0,0x3e00,0x7f8000,0x80000600,0x3e00,0x7f8000,0x0,0x4000,0x2000000,0x4000,0x40000000,0x14000000,0x49000000,0x14000000,0x49000000,0x14000000,0x10000000,0x1000000,0x49000000,0x14000000,0x49000000,0x0,0x0,0x4000,0x2000000,0x4000,0x14000000,0x49000000,0x80000600,0x2000000,0x4000,0x80000600,0x800001,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x27a6,0x27a6,0x0,0x0,0x2780,0x2780,0x0,0x0,0x143000,0x0,0x0,0x780,0x0,0x0,0x0,0x26,0x0,0x27a6,0x0,0x27a6,0x0,0x0,0x40,0x27e6,0x20,0x27a6,0x0,};
+      jj_la1_1 = new int[] {0xcfa6,0xcfa6,0x0,0x0,0xcf80,0xcf80,0x0,0x0,0x286000,0x0,0x0,0xf00,0x0,0x0,0x0,0x26,0x0,0xcfa6,0x0,0xcfa6,0x0,0x0,0x40,0xcfe6,0x20,0xcfa6,0xf00,0x1f00,0x0,0x0,0x0,0x0,0xcfa6,0x286000,0x0,0x0,0x286000,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -711,7 +955,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -725,7 +969,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -742,7 +986,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -752,7 +996,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -768,7 +1012,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -777,7 +1021,7 @@ public class Lexer implements LexerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -828,12 +1072,12 @@ public class Lexer implements LexerConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[54];
+    boolean[] la1tokens = new boolean[55];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 27; i++) {
+    for (int i = 0; i < 38; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -845,7 +1089,7 @@ public class Lexer implements LexerConstants {
         }
       }
     }
-    for (int i = 0; i < 54; i++) {
+    for (int i = 0; i < 55; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
