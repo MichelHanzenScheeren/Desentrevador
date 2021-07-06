@@ -1,0 +1,451 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
+ */
+
+options { static = true; }
+
+PARSER_BEGIN(Lexer)
+
+import javax.swing.JFileChooser;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Scanner;
+
+public class Lexer {
+	public static void execute(Lexer analisador) throws ParseException {
+		SimpleNode node = analisador.main();
+		node.dump("->");
+		System.out.println("\n --------------------");
+	    System.out.println(" Mas ah indio veio!");
+	    System.out.println(" --------------------");
+	}
+  
+	public static void main(String[] args) {
+        try {
+            if(args.length == 0) {
+    		    System.out.println("\nInforme seu codigo: ");
+    		    execute(new Lexer(System.in));
+    		} else if(args[0].contains("-f")) {
+    		    System.out.println("\nSelecione o arquivo do programa: ");
+    		 	JFileChooser arquivo = new JFileChooser();
+	          	arquivo.showOpenDialog(null);
+	          	File selected = arquivo.getSelectedFile();
+	          	if(selected != null) {
+	          	 	FileInputStream stream = new FileInputStream(selected.getAbsolutePath());
+	          	 	execute(new Lexer(stream));
+	         	} else {
+	         	  System.out.println("\n\n------------------------------------");
+	         	  System.out.println("Processo cancelado pelo usuario!");
+	         	  System.out.println("--------------------------------");
+	         	  return;
+	        	}
+    		} else {
+    		  	FileInputStream stream = new FileInputStream(args[0]);
+	          	execute(new Lexer(stream));
+    		}
+        } catch (Throwable e) {
+            System.out.println("Programa invalido!\n " + e.getMessage());
+        }
+    }
+}
+
+PARSER_END(Lexer)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+}
+
+/* PARA IGNORAR OS COMENTARIOS */
+MORE: { "//" : IN_SINGLE_LINE_COMMENT | "/*" : IN_MULTI_LINE_COMMENT }
+<IN_SINGLE_LINE_COMMENT> SPECIAL_TOKEN: { <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > : DEFAULT }
+<IN_MULTI_LINE_COMMENT> SPECIAL_TOKEN: { <MULTI_LINE_COMMENT: "*/" >: DEFAULT }
+<IN_SINGLE_LINE_COMMENT,IN_MULTI_LINE_COMMENT> MORE : { < ~[] > }
+
+TOKEN: /* OPERADORES */
+{ 
+  < MAIS: "+" >
+| < MENOS: "-" >
+| < VEZES: "*" >
+| < DIVIDIDO: "/" >
+| < ELEVADO: "^" >
+| < ATRIBUICAO: "=" >
+| < IGUAL: "==" >
+| < DIFERENTE: "!=" >
+| < MAIOR: ">" >
+| < MENOR: "< " >
+| < MAIOR_IGUAL: ">=" >
+| < MENOR_IGUAL: "<=" >
+| < OU: "ou" >
+| < E: "e" >
+}
+
+TOKEN: /* SIMBOLOS RESERVADAS */
+{
+  < FIM_PROGRAMA: "pareHome" >
+| < FIM_LINHA: "\n" >
+| < VIRGULA: "," >
+| < INICIO_BLOCO: "tche" >
+| < FIM_BLOCO: "bah" >
+| < INICIO_OPERACAO_LINHA: "dai" >
+| < FIM_OPERACAO_LINHA: "ne" >
+| < FUNCAO: "funcao" >
+| < ABRE_PARENTESE: "(" >
+| < FECHA_PARENTESE: ")" >
+| < LOQUEANDO: "loqueando" > // WHILE
+| < REPETECO: "repeteco" > // FOR
+| < MIN_REPETECO: "de" >
+| < MAX_REPETECO: "ate" >
+| < SE: "se" >
+| < SENAO: "senao" >
+| < TROVAR: "Trovar">
+}
+
+TOKEN: /* TIPOS DE DADOS */
+{
+  < REDONDO: "redondo" > // INTEIRO
+| < QUEBRADO: "quebrado" > // FLOAT
+| < TROVA: "trova" > // STRING
+| < LOGICO: "logico" > // BOOL
+| < VAZIO: "vazio" > // VOID
+}
+
+TOKEN: /* FORMALIZACAO DE DADOS */
+{
+  < BOOLEANO: "causo" | "anedota" > // VERDADEIRO E FALSO
+| < NOME_VARIAVEL: (<MINUSCULAS> | "_") (<LETRA> | <DIGITO> | "_")* >
+| < NOME_FUNCAO: <MAIUSCULAS> (<LETRA> | <DIGITO> | "_")* >
+| < #LETRA: [ "A" - "Z", "a" - "z" ] > // "PRIVADO"
+| < #MINUSCULAS: [ "a" - "z" ] >  // "PRIVADO"
+| < #MAIUSCULAS: [ "A" - "Z" ] >  // "PRIVADO"
+| < NUMERO: (< DIGITO >)+("."(< DIGITO >)+)? >
+| < #DIGITO: [ "0" - "9" ] >  // "PRIVADO"
+| < TEXTO: ("\"" ((~["\"","\\","\n","\r"]) | < ASCII >)* "\"") | ("'" ((~["'","\\","\n","\r"]) | < ASCII >)* "'") > 
+| < #ASCII: ("\\" ( ["n","t","b","r","f","\\","'","\""] | ["0"-"7"] ( ["0"-"7"] )? | ["0"-"3"] ["0"-"7"] ["0"-"7"])) >  // "PRIVADO"
+}
+
+SimpleNode main():
+{}
+{
+  (linha() | bloco())*
+  (fimDePrograma() | fimDeArquivo())
+  { return jjtThis; }
+}
+
+
+/* OPERADORES */
+void mais():
+{}
+{ < MAIS > }
+
+void menos():
+{}
+{ < MENOS > }
+
+void vezes():
+{}
+{ < VEZES > }
+
+void dividido():
+{}
+{ < DIVIDIDO > }
+
+void elevado():
+{}
+{ < ELEVADO > }
+
+void maior():
+{}
+{ < MAIOR > }
+
+void menor():
+{}
+{ < MENOR > }
+
+void maiorIgual():
+{}
+{ < MAIOR_IGUAL > }
+
+void menorIgual():
+{}
+{ < MENOR_IGUAL > }
+
+void igual():
+{}
+{ < IGUAL > }
+
+void diferente():
+{}
+{ < DIFERENTE > }
+
+void ou():
+{}
+{ < OU > }
+
+void e():
+{}
+{ < E > }
+
+
+/* PALAVRAS RESERVADAS */
+void loqueando():
+{}
+{ < LOQUEANDO > }
+
+void repeteco():
+{}
+{ < REPETECO > }
+
+void inicioBloco():
+{}
+{ < INICIO_BLOCO > }
+
+void fimBloco():
+{}
+{ < FIM_BLOCO > <FIM_LINHA > }
+
+void inicioOperacaoLinha():
+{}
+{ < INICIO_OPERACAO_LINHA > }
+
+void fimOperacaoLinha():
+{}
+{ < FIM_OPERACAO_LINHA > }
+
+void minRepeteco():
+{}
+{ < MIN_REPETECO > }
+
+void maxRepeteco():
+{}
+{ < MAX_REPETECO > }
+
+void se():
+{}
+{ < SE > }
+
+void senao():
+{}
+{ < SENAO > }
+
+void funcao():
+{}
+{ < FUNCAO > }
+
+void trovar():
+{}
+{ < TROVAR > }
+
+void fimDeArquivo():
+{}
+{ < EOF > }
+
+void fimDePrograma():
+{}
+{ < FIM_PROGRAMA > }
+
+
+/* SIMBOLOS */
+void simboloAtribuicao():
+{}
+{ < ATRIBUICAO > }
+
+void abreParentese():
+{}
+{ < ABRE_PARENTESE > }
+
+void fechaParentese():
+{}
+{ < FECHA_PARENTESE > }
+
+void fimLinha():
+{}
+{ < FIM_LINHA > }
+
+void virgula():
+{}
+{ < VIRGULA > }
+
+
+/* IDENTIFICADORES: */
+void nomeVariavel():
+{}
+{ < NOME_VARIAVEL > }
+
+void nomeFuncao():
+{}
+{ < NOME_FUNCAO > }
+
+void texto():
+{}
+{ < TEXTO > }
+
+void numeroComSinal():
+{}
+{ ((mais() | menos())?< NUMERO >) }
+
+void booleano():
+{}
+{ < BOOLEANO > }
+
+
+/* TIPOS DE DADO */
+void redondo():
+{}
+{ < REDONDO > }
+
+void quebrado():
+{}
+{ < QUEBRADO > }
+
+void trova():
+{}
+{ < TROVA > }
+
+void logico():
+{}
+{ < LOGICO > }
+
+void vazio():
+{}
+{ < VAZIO > }
+
+
+/* INICIO DA ANALISE SINTATICA */
+void linha():
+{}
+{ (elementoDeLinha() fimLinha()) | fimLinha() }
+
+void elementoDeLinha():
+{}
+{ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcaoTrovar() }
+
+void atribuicao():
+{}
+{ nomeVariavel() lacoDeAtribuicao() }
+
+void lacoDeAtribuicao():
+{}
+{ simboloAtribuicao() expressaoMatematica()  }
+
+void expressaoMatematica():
+{}
+{ expressaoLogica() (operadorMatematico() expressaoLogica())*  }
+
+void expressaoLogica():
+{}
+{ atribuivel() (operadorLogico() atribuivel())*  }
+
+void atribuivel():
+{}
+{ expressaoEntreParenteses() | numeroComSinal() | nomeVariavel() | texto() | booleano() }
+
+void expressaoEntreParenteses():
+{}
+{ (abreParentese() expressaoMatematica() fechaParentese()) }
+
+void operadorMatematico():
+{}
+{ mais() | menos() | vezes() | dividido() | elevado() }
+
+void operadorLogico():
+{}
+{ maior() | menor() | maiorIgual() | menorIgual() | igual() | diferente() | ou() | e() }
+
+void declaracaoDeVariavel():
+{}
+{  tipoDeDado() listaDeDeclaracao() }
+
+void tipoDeDado():
+{}
+{ redondo() | quebrado() | trova() | logico() }
+
+void listaDeDeclaracao():
+{}
+{ nomeVariavel() (lacoDeAtribuicao())? (virgula() nomeVariavel() (lacoDeAtribuicao())?)* }
+
+void bloco():
+{}
+{ inicioDoLoqueando() | inicioDoRepeteco() | inicioSe() | definicaoDeFuncao() }
+
+void inicioDoLoqueando():
+{}
+{ loqueando() expressaoMatematica() meioDoLoqueando() }
+
+void meioDoLoqueando():
+{}
+{ inicioOperacaoLinha() linha() | inicioBloco() fimLinha() blocoDoLoqueando() }
+
+void blocoDoLoqueando():
+{}
+{ linha() blocoDoLoqueando() | bloco() blocoDoLoqueando() | fimBloco() }
+
+void inicioDoRepeteco():
+{}
+{ repeteco() nomeVariavel() minRepeteco() expressaoMatematica() maxRepeteco() expressaoMatematica() meioDoRepeteco() }
+
+void meioDoRepeteco():
+{}
+{ inicioOperacaoLinha() linha() | inicioBloco() fimLinha() blocoDoRepeteco() }
+
+void blocoDoRepeteco():
+{}
+{ linha() blocoDoRepeteco() | bloco() blocoDoRepeteco() | fimBloco() }
+
+void inicioSe():
+{}
+{ se() expressaoMatematica() (seDeUmaLinha() | (inicioBloco() fimLinha() blocoSe())) }
+
+void seDeUmaLinha():
+{}
+{ inicioOperacaoLinha() elementoDeLinha() (fimLinha() | senao() (inicioOperacaoLinha())? linha()) }
+
+void blocoSe():
+{}
+{ linha() blocoSe() | bloco() blocoSe() | fimBloco() | inicioSenao() }
+
+void inicioSenao():
+{}
+{ senao() (inicioSe() | inicioOperacaoLinha() linha() | inicioBloco() fimLinha() fimBlocoSenao()) }
+
+void fimBlocoSenao():
+{}
+{ linha() fimBlocoSenao() | bloco() fimBlocoSenao() | fimBloco()  }
+
+void definicaoDeFuncao():
+{}
+{ funcao() tipoDeRetorno() nomeFuncao() abreParentese() (definicaoDeParametros())? fechaParentese() meioDeFuncao() }
+
+void tipoDeRetorno():
+{}
+{ vazio() | tipoDeDado() }
+
+void definicaoDeParametros():
+{}
+{ tipoDeDado() nomeVariavel() (lacoDeAtribuicao())? (virgula() tipoDeDado() nomeVariavel() (lacoDeAtribuicao())?)* }
+
+void meioDeFuncao():
+{}
+{ inicioOperacaoLinha() linha() | inicioBloco() fimLinha() blocoDeFuncao() }
+
+void blocoDeFuncao():
+{}
+{  linha() blocoDeFuncao() | bloco() blocoDeFuncao() | fimBloco() }
+
+void chamadaDeFuncao():
+{}
+{ nomeFuncao() abreParentese() (passagemDeParametros())? fechaParentese()  }
+
+void passagemDeParametros():
+{}
+{ parametrosAtribuiveis() (virgula() parametrosAtribuiveis())* }
+
+void parametrosAtribuiveis():
+{}
+{ expressaoEntreParenteses() | numeroComSinal() | (nomeVariavel() (lacoDeAtribuicao())?) | texto() | booleano() }
+
+void funcaoTrovar():
+{}
+{ trovar() abreParentese() expressaoMatematica() fechaParentese() }
