@@ -10,7 +10,7 @@ TOKENS {
     <booleano> ::= "causo" | "anedota"
 }
 
-<S> ::=<linha><S> | <bloco><S> | <fimDePrograma> | "pareHome" | "<EOF>"
+<S> ::=<linha><S> | <bloco><S> | "pareHome" | "<EOF>"
 <linha> ::= <elementoDeLinha><fimLinha> | <fimLinha>  
 <elementoDeLinha> <atribuicao> | <declaracaoDeVariavel> | <chamadaDeFuncao> | <funcaoTrovar>
 
