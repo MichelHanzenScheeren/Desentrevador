@@ -1,0 +1,87 @@
+/* teste comentario de linha */
+redondo teste
+quebrado teste2, teste3
+trova teste4 = "Olá", teste5, teste6 = "Sei lá!"
+logico teste7 = (teste > 5) e ((teste2 < 10) ou (teste3 == 15))
+redondo teste8 = (3 * 4) + 7 - (34 / 3 - (8 ^3))
+
+loqueando i < 10 tche
+    loqueando i < 10 dai teste = 1
+bah
+
+repeteco i de 0 ate 10 dai teste = 1
+
+repeteco i de 0 ate 10 tche
+    teste = 1
+    loqueando i < 10 dai teste = 1
+    loqueando i < 10 tche
+        loqueando i < 10 dai teste = 1
+    bah
+bah
+
+se teste != "Olá" tche
+    teste = "Olá"
+    se teste2 != "EAI" dai redondo teste3 = 1
+    se teste2 != "EAI" dai redondo teste3 = 1 senao redondo teste3 = 2
+bah
+
+se teste != "Olá" tche
+    teste = "Olá"
+senao se teste != "Tchau" tche
+    repeteco i de 0 ate 10 dai teste = 1
+    teste = "Tchau"
+bah
+
+se teste != "Olá" tche
+    teste = "Olá"
+senao tche
+    teste = "Tchau"
+    se teste != "Olá" tche
+        teste = "Olá"
+    senao tche
+        teste = "Tchau"
+    bah
+bah
+
+se teste != "Olá" tche
+    teste = "Olá"
+senao se teste != "Tchau" tche
+    teste = "Tchau"
+senao se teste != "Tchau" tche
+    teste = "Tchau"
+senao tche
+    teste = "Tchau"
+bah
+
+se teste != "Olá" dai teste = "Olá"
+
+se teste != "Olá" dai teste = "Olá" senao dai teste = "Tchau"
+se teste != "Olá" dai teste = "Olá" senao teste = "Tchau"
+
+funcao vazio Teste() dai teste = teste + 1
+
+funcao redondo Teste2() tche
+    teste = teste + 1
+    trova teste = ""
+    se teste2 > 10 dai testeCompleto = causo
+bah
+
+funcao vazio Teste(redondo teste1) dai teste = teste + 1
+funcao vazio Teste(redondo teste1, trova teste2) dai teste = teste + 1
+funcao vazio Teste(redondo teste1, trova teste2 = "Olá", logico seiLa = anedota) dai teste = teste + 1
+Teste()
+Teste(12)
+Teste(teste, 15.5, anedota,  (18*6+(7/2)))
+Teste(teste, teste2 = teste3+(18*6+(7/2)), 12)
+
+Trovar("Olá, mundo!")
+Trovar(15.5)
+Trovar(teste)
+
+se esteExemplo ou !(!i > (teste + -2)) e causo dai teste = 4
+
+repeteco i de teste + teste2 / 8 - (18 % outroTeste) + 7 ate 10 dai teste = 1
+repeteco i de teste + teste2 / 8 - (18 % outroTeste) + 7 ate 1 dai teste = 1
+
+logico meuTeste = !((12 + teste % "Ola") > teste2) ou (i != 15)
+redondo seiLa = 12 - 15 / (teste * 34 - (12 * 1) % 5) + 4
