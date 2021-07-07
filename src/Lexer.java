@@ -200,6 +200,20 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     }
   }
 
+  static final public void resto() throws ParseException {
+ /*@bgen(jjtree) resto */
+  SimpleNode jjtn000 = new SimpleNode(JJTRESTO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      jj_consume_token(RESTO);
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
   static final public void maior() throws ParseException {
  /*@bgen(jjtree) maior */
   SimpleNode jjtn000 = new SimpleNode(JJTMAIOR);
@@ -305,6 +319,20 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
   jjtree.openNodeScope(jjtn000);
     try {
       jj_consume_token(E);
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void negacao() throws ParseException {
+ /*@bgen(jjtree) negacao */
+  SimpleNode jjtn000 = new SimpleNode(JJTNEGACAO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      jj_consume_token(NEGACAO);
     } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
@@ -874,7 +902,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
   jjtree.openNodeScope(jjtn000);
     try {
       simboloAtribuicao();
-      expressaoMatematica();
+      expressao();
     } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -902,24 +930,8 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
     try {
-      expressaoLogica();
-      label_2:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case MAIS:
-        case MENOS:
-        case VEZES:
-        case DIVIDIDO:
-        case ELEVADO:
-          ;
-          break;
-        default:
-          jj_la1[7] = jj_gen;
-          break label_2;
-        }
-        operadorMatematico();
-        expressaoLogica();
-      }
+      atribuivelMatematico();
+      lacoMatematico();
     } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -941,32 +953,27 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     }
   }
 
-  static final public void expressaoLogica() throws ParseException {
- /*@bgen(jjtree) expressaoLogica */
-  SimpleNode jjtn000 = new SimpleNode(JJTEXPRESSAOLOGICA);
+  static final public void lacoMatematico() throws ParseException {
+ /*@bgen(jjtree) lacoMatematico */
+  SimpleNode jjtn000 = new SimpleNode(JJTLACOMATEMATICO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
     try {
-      atribuivel();
-      label_3:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case IGUAL:
-        case DIFERENTE:
-        case MAIOR:
-        case MENOR:
-        case MAIOR_IGUAL:
-        case MENOR_IGUAL:
-        case OU:
-        case E:
-          ;
-          break;
-        default:
-          jj_la1[8] = jj_gen;
-          break label_3;
-        }
-        operadorLogico();
-        atribuivel();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case MAIS:
+      case MENOS:
+      case VEZES:
+      case DIVIDIDO:
+      case ELEVADO:
+      case RESTO:
+        operadorMatematico();
+        expressaoMatematica();
+        break;
+      default:
+        jj_la1[7] = jj_gen;
+                                                   jjtree.closeNodeScope(jjtn000, true);
+                                                   jjtc000 = false;
+
       }
     } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -989,9 +996,9 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     }
   }
 
-  static final public void atribuivel() throws ParseException {
- /*@bgen(jjtree) atribuivel */
-  SimpleNode jjtn000 = new SimpleNode(JJTATRIBUIVEL);
+  static final public void atribuivelMatematico() throws ParseException {
+ /*@bgen(jjtree) atribuivelMatematico */
+  SimpleNode jjtn000 = new SimpleNode(JJTATRIBUIVELMATEMATICO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
     try {
@@ -1006,17 +1013,14 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
       case NUMERO:
         numeroComSinal();
         break;
-      case NOME_VARIAVEL:
-        nomeVariavel();
-        break;
       case TEXTO:
         texto();
         break;
-      case BOOLEANO:
-        booleano();
+      case NOME_VARIAVEL:
+        nomeVariavel();
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[8] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1063,11 +1067,276 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
       case ELEVADO:
         elevado();
         break;
+      case RESTO:
+        resto();
+        break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[9] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void expressaoLogica() throws ParseException {
+ /*@bgen(jjtree) expressaoLogica */
+  SimpleNode jjtn000 = new SimpleNode(JJTEXPRESSAOLOGICA);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case NEGACAO:
+        negacao();
+        break;
+      default:
+        jj_la1[10] = jj_gen;
+        ;
+      }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ABRE_PARENTESE:
+        expressaoLogicaEntreParenteses();
+        break;
+      case BOOLEANO:
+        booleano();
+        lacoLogico();
+        break;
+      case NOME_VARIAVEL:
+        verificacaoDeVariavel();
+        break;
+      case MAIS:
+      case MENOS:
+      case NUMERO:
+      case TEXTO:
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case MAIS:
+        case MENOS:
+        case NUMERO:
+          numeroComSinal();
+          break;
+        case TEXTO:
+          texto();
+          break;
+        default:
+          jj_la1[11] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+        lacoMatematico();
+        ligacaoLogica();
+        break;
+      default:
+        jj_la1[12] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void expressaoLogicaEntreParenteses() throws ParseException {
+ /*@bgen(jjtree) expressaoLogicaEntreParenteses */
+  SimpleNode jjtn000 = new SimpleNode(JJTEXPRESSAOLOGICAENTREPARENTESES);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      abreParentese();
+      expressaoLogica();
+      fechaParentese();
+      lacoLogico();
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void lacoLogico() throws ParseException {
+ /*@bgen(jjtree) lacoLogico */
+  SimpleNode jjtn000 = new SimpleNode(JJTLACOLOGICO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case OU:
+      case E:
+        conectorLogico();
+        expressaoLogica();
+        break;
+      default:
+        jj_la1[13] = jj_gen;
+                                         jjtree.closeNodeScope(jjtn000, true);
+                                         jjtc000 = false;
+
+      }
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void conectorLogico() throws ParseException {
+ /*@bgen(jjtree) conectorLogico */
+  SimpleNode jjtn000 = new SimpleNode(JJTCONECTORLOGICO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case E:
+        e();
+        break;
+      case OU:
+        ou();
+        break;
+      default:
+        jj_la1[14] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void verificacaoDeVariavel() throws ParseException {
+ /*@bgen(jjtree) verificacaoDeVariavel */
+  SimpleNode jjtn000 = new SimpleNode(JJTVERIFICACAODEVARIAVEL);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      nomeVariavel();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case MAIS:
+      case MENOS:
+      case VEZES:
+      case DIVIDIDO:
+      case ELEVADO:
+      case RESTO:
+        operadorMatematico();
+        expressaoMatematica();
+        ligacaoLogica();
+        break;
+      case IGUAL:
+      case DIFERENTE:
+      case MAIOR:
+      case MENOR:
+      case MAIOR_IGUAL:
+      case MENOR_IGUAL:
+        ligacaoLogica();
+        break;
+      default:
+        jj_la1[15] = jj_gen;
+        lacoLogico();
+      }
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void ligacaoLogica() throws ParseException {
+ /*@bgen(jjtree) ligacaoLogica */
+  SimpleNode jjtn000 = new SimpleNode(JJTLIGACAOLOGICA);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      operadorLogico();
+      expressaoMatematica();
+      lacoLogico();
     } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1114,14 +1383,171 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
       case DIFERENTE:
         diferente();
         break;
-      case OU:
-        ou();
-        break;
-      case E:
-        e();
+      default:
+        jj_la1[16] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void expressao() throws ParseException {
+ /*@bgen(jjtree) expressao */
+  SimpleNode jjtn000 = new SimpleNode(JJTEXPRESSAO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case NEGACAO:
+        negacao();
         break;
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[17] = jj_gen;
+        ;
+      }
+      atribuivel();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case MAIS:
+      case MENOS:
+      case VEZES:
+      case DIVIDIDO:
+      case ELEVADO:
+      case RESTO:
+      case IGUAL:
+      case DIFERENTE:
+      case MAIOR:
+      case MENOR:
+      case MAIOR_IGUAL:
+      case MENOR_IGUAL:
+      case OU:
+      case E:
+        operador();
+        expressao();
+        break;
+      default:
+        jj_la1[18] = jj_gen;
+        ;
+      }
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void atribuivel() throws ParseException {
+ /*@bgen(jjtree) atribuivel */
+  SimpleNode jjtn000 = new SimpleNode(JJTATRIBUIVEL);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ABRE_PARENTESE:
+        abreParentese();
+        expressao();
+        fechaParentese();
+        break;
+      case MAIS:
+      case MENOS:
+      case NUMERO:
+        numeroComSinal();
+        break;
+      case TEXTO:
+        texto();
+        break;
+      case BOOLEANO:
+        booleano();
+        break;
+      case NOME_VARIAVEL:
+        nomeVariavel();
+        break;
+      default:
+        jj_la1[19] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
+  }
+
+  static final public void operador() throws ParseException {
+ /*@bgen(jjtree) operador */
+  SimpleNode jjtn000 = new SimpleNode(JJTOPERADOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IGUAL:
+      case DIFERENTE:
+      case MAIOR:
+      case MENOR:
+      case MAIOR_IGUAL:
+      case MENOR_IGUAL:
+        operadorLogico();
+        break;
+      case MAIS:
+      case MENOS:
+      case VEZES:
+      case DIVIDIDO:
+      case ELEVADO:
+      case RESTO:
+        operadorMatematico();
+        break;
+      case OU:
+      case E:
+        conectorLogico();
+        break;
+      default:
+        jj_la1[20] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1195,7 +1621,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         logico();
         break;
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[21] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1232,18 +1658,18 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         lacoDeAtribuicao();
         break;
       default:
-        jj_la1[13] = jj_gen;
+        jj_la1[22] = jj_gen;
         ;
       }
-      label_4:
+      label_2:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case VIRGULA:
           ;
           break;
         default:
-          jj_la1[14] = jj_gen;
-          break label_4;
+          jj_la1[23] = jj_gen;
+          break label_2;
         }
         virgula();
         nomeVariavel();
@@ -1252,7 +1678,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
           lacoDeAtribuicao();
           break;
         default:
-          jj_la1[15] = jj_gen;
+          jj_la1[24] = jj_gen;
           ;
         }
       }
@@ -1297,7 +1723,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         definicaoDeFuncao();
         break;
       default:
-        jj_la1[16] = jj_gen;
+        jj_la1[25] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1329,7 +1755,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
   jjtree.openNodeScope(jjtn000);
     try {
       loqueando();
-      expressaoMatematica();
+      expressaoLogica();
       meioDoLoqueando();
     } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -1369,7 +1795,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         blocoDoLoqueando();
         break;
       default:
-        jj_la1[17] = jj_gen;
+        jj_la1[26] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1423,7 +1849,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         bah();
         break;
       default:
-        jj_la1[18] = jj_gen;
+        jj_la1[27] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1499,7 +1925,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         blocoDoRepeteco();
         break;
       default:
-        jj_la1[19] = jj_gen;
+        jj_la1[28] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1553,7 +1979,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         bah();
         break;
       default:
-        jj_la1[20] = jj_gen;
+        jj_la1[29] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1585,7 +2011,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
   jjtree.openNodeScope(jjtn000);
     try {
       se();
-      expressaoMatematica();
+      expressaoLogica();
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case DAI:
         seDeUmaLinha();
@@ -1596,7 +2022,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         blocoSe();
         break;
       default:
-        jj_la1[21] = jj_gen;
+        jj_la1[30] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1640,13 +2066,13 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
           dai();
           break;
         default:
-          jj_la1[22] = jj_gen;
+          jj_la1[31] = jj_gen;
           ;
         }
         linha();
         break;
       default:
-        jj_la1[23] = jj_gen;
+        jj_la1[32] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1703,7 +2129,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         inicioSenao();
         break;
       default:
-        jj_la1[24] = jj_gen;
+        jj_la1[33] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1749,7 +2175,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         fimBlocoSenao();
         break;
       default:
-        jj_la1[25] = jj_gen;
+        jj_la1[34] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1803,7 +2229,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         bah();
         break;
       default:
-        jj_la1[26] = jj_gen;
+        jj_la1[35] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1846,7 +2272,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         definicaoDeParametros();
         break;
       default:
-        jj_la1[27] = jj_gen;
+        jj_la1[36] = jj_gen;
         ;
       }
       fechaParentese();
@@ -1889,7 +2315,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         tipoDeDado();
         break;
       default:
-        jj_la1[28] = jj_gen;
+        jj_la1[37] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1927,18 +2353,18 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         lacoDeAtribuicao();
         break;
       default:
-        jj_la1[29] = jj_gen;
+        jj_la1[38] = jj_gen;
         ;
       }
-      label_5:
+      label_3:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case VIRGULA:
           ;
           break;
         default:
-          jj_la1[30] = jj_gen;
-          break label_5;
+          jj_la1[39] = jj_gen;
+          break label_3;
         }
         virgula();
         tipoDeDado();
@@ -1948,7 +2374,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
           lacoDeAtribuicao();
           break;
         default:
-          jj_la1[31] = jj_gen;
+          jj_la1[40] = jj_gen;
           ;
         }
       }
@@ -1990,7 +2416,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         blocoDeFuncao();
         break;
       default:
-        jj_la1[32] = jj_gen;
+        jj_la1[41] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2044,7 +2470,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         bah();
         break;
       default:
-        jj_la1[33] = jj_gen;
+        jj_la1[42] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2088,7 +2514,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         passagemDeParametros();
         break;
       default:
-        jj_la1[34] = jj_gen;
+        jj_la1[43] = jj_gen;
         ;
       }
       fechaParentese();
@@ -2120,15 +2546,15 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
   jjtree.openNodeScope(jjtn000);
     try {
       parametrosAtribuiveis();
-      label_6:
+      label_4:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case VIRGULA:
           ;
           break;
         default:
-          jj_la1[35] = jj_gen;
-          break label_6;
+          jj_la1[44] = jj_gen;
+          break label_4;
         }
         virgula();
         parametrosAtribuiveis();
@@ -2163,7 +2589,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ABRE_PARENTESE:
         abreParentese();
-        expressaoMatematica();
+        expressao();
         fechaParentese();
         break;
       case MAIS:
@@ -2178,7 +2604,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
           lacoDeAtribuicao();
           break;
         default:
-          jj_la1[36] = jj_gen;
+          jj_la1[45] = jj_gen;
           ;
         }
         break;
@@ -2189,7 +2615,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         booleano();
         break;
       default:
-        jj_la1[37] = jj_gen;
+        jj_la1[46] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -2222,7 +2648,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     try {
       trovar();
       abreParentese();
-      expressaoMatematica();
+      expressao();
       fechaParentese();
     } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -2255,7 +2681,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[38];
+  static final private int[] jj_la1 = new int[47];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -2263,10 +2689,10 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x38000000,0x38000000,0x800001,0x600,0x600,0x0,0x0,0x3e00,0x7f8000,0x600,0x3e00,0x7f8000,0x0,0x4000,0x0,0x4000,0x38000000,0x5000000,0x3a000000,0x5000000,0x3a000000,0x5000000,0x4000000,0x0,0x3a000000,0x5000000,0x3a000000,0x0,0x0,0x4000,0x0,0x4000,0x5000000,0x3a000000,0x600,0x0,0x4000,0x600,};
+      jj_la1_0 = new int[] {0xe0000000,0xe0000000,0x2000001,0x600,0x600,0x0,0x0,0x7e00,0x600,0x7e00,0x1000000,0x600,0x600,0xc00000,0xc00000,0x3f7e00,0x3f0000,0x1000000,0xff7e00,0x600,0xff7e00,0x0,0x8000,0x0,0x8000,0xe0000000,0x14000000,0xe8000000,0x14000000,0xe8000000,0x14000000,0x10000000,0x0,0xe8000000,0x14000000,0xe8000000,0x0,0x0,0x8000,0x0,0x8000,0x14000000,0xe8000000,0x600,0x0,0x8000,0x600,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x678d,0x678d,0x0,0x0,0x0,0x678c,0x6784,0x0,0x0,0x143020,0x0,0x0,0x780,0x0,0x10,0x0,0x1,0x0,0x678d,0x0,0x678d,0x0,0x0,0xa,0x678f,0x1,0x678d,0x780,0xf80,0x0,0x10,0x0,0x0,0x678d,0x143020,0x10,0x0,0x143020,};
+      jj_la1_1 = new int[] {0x19e34,0x19e34,0x0,0x0,0x0,0x19e30,0x19e10,0x0,0x508080,0x0,0x0,0x500000,0x50c080,0x0,0x0,0x0,0x0,0x0,0x0,0x50c080,0x0,0x1e00,0x0,0x40,0x0,0x4,0x0,0x19e34,0x0,0x19e34,0x0,0x0,0x28,0x19e3c,0x4,0x19e34,0x1e00,0x3e00,0x0,0x40,0x0,0x0,0x19e34,0x50c080,0x40,0x0,0x50c080,};
    }
 
   /** Constructor with InputStream. */
@@ -2287,7 +2713,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -2302,7 +2728,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -2319,7 +2745,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -2330,7 +2756,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -2346,7 +2772,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -2356,7 +2782,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 38; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -2407,12 +2833,12 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[54];
+    boolean[] la1tokens = new boolean[56];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 38; i++) {
+    for (int i = 0; i < 47; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -2424,7 +2850,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         }
       }
     }
-    for (int i = 0; i < 54; i++) {
+    for (int i = 0; i < 56; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

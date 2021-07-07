@@ -7,75 +7,86 @@ public interface LexerTreeConstants
   public int JJTVEZES = 3;
   public int JJTDIVIDIDO = 4;
   public int JJTELEVADO = 5;
-  public int JJTMAIOR = 6;
-  public int JJTMENOR = 7;
-  public int JJTMAIORIGUAL = 8;
-  public int JJTMENORIGUAL = 9;
-  public int JJTIGUAL = 10;
-  public int JJTDIFERENTE = 11;
-  public int JJTOU = 12;
-  public int JJTE = 13;
-  public int JJTLOQUEANDO = 14;
-  public int JJTREPETECO = 15;
-  public int JJTTCHE = 16;
-  public int JJTBAH = 17;
-  public int JJTDAI = 18;
-  public int JJTDE = 19;
-  public int JJTATE = 20;
-  public int JJTSE = 21;
-  public int JJTSENAO = 22;
-  public int JJTFUNCAO = 23;
-  public int JJTTROVAR = 24;
-  public int JJTFIMDEARQUIVO = 25;
-  public int JJTPAREHOME = 26;
-  public int JJTSIMBOLOATRIBUICAO = 27;
-  public int JJTABREPARENTESE = 28;
-  public int JJTFECHAPARENTESE = 29;
-  public int JJTFIMLINHA = 30;
-  public int JJTVIRGULA = 31;
-  public int JJTREDONDO = 32;
-  public int JJTQUEBRADO = 33;
-  public int JJTTROVA = 34;
-  public int JJTLOGICO = 35;
-  public int JJTVAZIO = 36;
-  public int JJTNOMEVARIAVEL = 37;
-  public int JJTNOMEFUNCAO = 38;
-  public int JJTTEXTO = 39;
-  public int JJTNUMEROCOMSINAL = 40;
-  public int JJTBOOLEANO = 41;
-  public int JJTLINHA = 42;
-  public int JJTELEMENTODELINHA = 43;
-  public int JJTATRIBUICAO = 44;
-  public int JJTLACODEATRIBUICAO = 45;
-  public int JJTEXPRESSAOMATEMATICA = 46;
-  public int JJTEXPRESSAOLOGICA = 47;
-  public int JJTATRIBUIVEL = 48;
-  public int JJTOPERADORMATEMATICO = 49;
-  public int JJTOPERADORLOGICO = 50;
-  public int JJTDECLARACAODEVARIAVEL = 51;
-  public int JJTTIPODEDADO = 52;
-  public int JJTLISTADEDECLARACAO = 53;
-  public int JJTBLOCO = 54;
-  public int JJTINICIODOLOQUEANDO = 55;
-  public int JJTMEIODOLOQUEANDO = 56;
-  public int JJTBLOCODOLOQUEANDO = 57;
-  public int JJTINICIODOREPETECO = 58;
-  public int JJTMEIODOREPETECO = 59;
-  public int JJTBLOCODOREPETECO = 60;
-  public int JJTINICIOSE = 61;
-  public int JJTSEDEUMALINHA = 62;
-  public int JJTBLOCOSE = 63;
-  public int JJTINICIOSENAO = 64;
-  public int JJTFIMBLOCOSENAO = 65;
-  public int JJTDEFINICAODEFUNCAO = 66;
-  public int JJTTIPODERETORNO = 67;
-  public int JJTDEFINICAODEPARAMETROS = 68;
-  public int JJTMEIODEFUNCAO = 69;
-  public int JJTBLOCODEFUNCAO = 70;
-  public int JJTCHAMADADEFUNCAO = 71;
-  public int JJTPASSAGEMDEPARAMETROS = 72;
-  public int JJTPARAMETROSATRIBUIVEIS = 73;
-  public int JJTFUNCAOTROVAR = 74;
+  public int JJTRESTO = 6;
+  public int JJTMAIOR = 7;
+  public int JJTMENOR = 8;
+  public int JJTMAIORIGUAL = 9;
+  public int JJTMENORIGUAL = 10;
+  public int JJTIGUAL = 11;
+  public int JJTDIFERENTE = 12;
+  public int JJTOU = 13;
+  public int JJTE = 14;
+  public int JJTNEGACAO = 15;
+  public int JJTLOQUEANDO = 16;
+  public int JJTREPETECO = 17;
+  public int JJTTCHE = 18;
+  public int JJTBAH = 19;
+  public int JJTDAI = 20;
+  public int JJTDE = 21;
+  public int JJTATE = 22;
+  public int JJTSE = 23;
+  public int JJTSENAO = 24;
+  public int JJTFUNCAO = 25;
+  public int JJTTROVAR = 26;
+  public int JJTFIMDEARQUIVO = 27;
+  public int JJTPAREHOME = 28;
+  public int JJTSIMBOLOATRIBUICAO = 29;
+  public int JJTABREPARENTESE = 30;
+  public int JJTFECHAPARENTESE = 31;
+  public int JJTFIMLINHA = 32;
+  public int JJTVIRGULA = 33;
+  public int JJTREDONDO = 34;
+  public int JJTQUEBRADO = 35;
+  public int JJTTROVA = 36;
+  public int JJTLOGICO = 37;
+  public int JJTVAZIO = 38;
+  public int JJTNOMEVARIAVEL = 39;
+  public int JJTNOMEFUNCAO = 40;
+  public int JJTTEXTO = 41;
+  public int JJTNUMEROCOMSINAL = 42;
+  public int JJTBOOLEANO = 43;
+  public int JJTLINHA = 44;
+  public int JJTELEMENTODELINHA = 45;
+  public int JJTATRIBUICAO = 46;
+  public int JJTLACODEATRIBUICAO = 47;
+  public int JJTEXPRESSAOMATEMATICA = 48;
+  public int JJTLACOMATEMATICO = 49;
+  public int JJTATRIBUIVELMATEMATICO = 50;
+  public int JJTOPERADORMATEMATICO = 51;
+  public int JJTEXPRESSAOLOGICA = 52;
+  public int JJTEXPRESSAOLOGICAENTREPARENTESES = 53;
+  public int JJTLACOLOGICO = 54;
+  public int JJTCONECTORLOGICO = 55;
+  public int JJTVERIFICACAODEVARIAVEL = 56;
+  public int JJTLIGACAOLOGICA = 57;
+  public int JJTOPERADORLOGICO = 58;
+  public int JJTEXPRESSAO = 59;
+  public int JJTATRIBUIVEL = 60;
+  public int JJTOPERADOR = 61;
+  public int JJTDECLARACAODEVARIAVEL = 62;
+  public int JJTTIPODEDADO = 63;
+  public int JJTLISTADEDECLARACAO = 64;
+  public int JJTBLOCO = 65;
+  public int JJTINICIODOLOQUEANDO = 66;
+  public int JJTMEIODOLOQUEANDO = 67;
+  public int JJTBLOCODOLOQUEANDO = 68;
+  public int JJTINICIODOREPETECO = 69;
+  public int JJTMEIODOREPETECO = 70;
+  public int JJTBLOCODOREPETECO = 71;
+  public int JJTINICIOSE = 72;
+  public int JJTSEDEUMALINHA = 73;
+  public int JJTBLOCOSE = 74;
+  public int JJTINICIOSENAO = 75;
+  public int JJTFIMBLOCOSENAO = 76;
+  public int JJTDEFINICAODEFUNCAO = 77;
+  public int JJTTIPODERETORNO = 78;
+  public int JJTDEFINICAODEPARAMETROS = 79;
+  public int JJTMEIODEFUNCAO = 80;
+  public int JJTBLOCODEFUNCAO = 81;
+  public int JJTCHAMADADEFUNCAO = 82;
+  public int JJTPASSAGEMDEPARAMETROS = 83;
+  public int JJTPARAMETROSATRIBUIVEIS = 84;
+  public int JJTFUNCAOTROVAR = 85;
 
 
   public String[] jjtNodeName = {
@@ -85,6 +96,7 @@ public interface LexerTreeConstants
     "vezes",
     "dividido",
     "elevado",
+    "resto",
     "maior",
     "menor",
     "maiorIgual",
@@ -93,6 +105,7 @@ public interface LexerTreeConstants
     "diferente",
     "ou",
     "e",
+    "negacao",
     "loqueando",
     "repeteco",
     "tche",
@@ -126,10 +139,19 @@ public interface LexerTreeConstants
     "atribuicao",
     "lacoDeAtribuicao",
     "expressaoMatematica",
-    "expressaoLogica",
-    "atribuivel",
+    "lacoMatematico",
+    "atribuivelMatematico",
     "operadorMatematico",
+    "expressaoLogica",
+    "expressaoLogicaEntreParenteses",
+    "lacoLogico",
+    "conectorLogico",
+    "verificacaoDeVariavel",
+    "ligacaoLogica",
     "operadorLogico",
+    "expressao",
+    "atribuivel",
+    "operador",
     "declaracaoDeVariavel",
     "tipoDeDado",
     "listaDeDeclaracao",
@@ -156,4 +178,4 @@ public interface LexerTreeConstants
     "funcaoTrovar",
   };
 }
-/* JavaCC - OriginalChecksum=aa5293b1ef85dabec3363c9d546160e0 (do not edit this line) */
+/* JavaCC - OriginalChecksum=28138e774a85d486cc364d98eafd4fa4 (do not edit this line) */

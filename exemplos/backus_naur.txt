@@ -15,13 +15,26 @@ TOKENS {
 <elementoDeLinha> <atribuicao> | <declaracaoDeVariavel> | <chamadaDeFuncao> | <funcaoTrovar>
 
 <atribuicao> ::= <nomeVariavel><lacoDeAtribuicao>
-<lacoDeAtribuicao> ::= "="<expressaoMatematica>
-<expressaoMatematica> ::= <expressaoLogica> | <expressaoLogica><operadorMatematico><expressaoMatematica>
-<expressaoLogica> ::= <atribuivel> | <atribuivel><operadorLogico><expressaoLogica>
-<atribuivel> ::= "("<expressaoMatematica>")" | <numeroComSinal> | <texto> | <booleano> | <nomeVariavel>
-<numeroComSinal> ::= <numero> | "+"<numero> | "-"<numero>
+<lacoDeAtribuicao> ::= "="<expressao>
+
+<expressaoMatematica> ::= <atribuivelMatematico><lacoMatematico>
+<lacoMatematico> ::= <operadorMatematico><expressaoMatematica> | &
+<atribuivelMatematico> ::= "("<expressaoMatematica>")" | <numeroComSinal> | <texto> | <nomeVariavel>
 <operadorMatematico> ::= "+" | "-" | "*" | "/" | "^" | "%"
-<operadorLogico> ::= "ou" | "e" | ">" | "<" | ">=" | "<=" | "==" | "!=" | "!" 
+
+<expressaoLogica> ::= "("<expressaoLogica>")"<lacoLogico> | <booleano><lacoLogico>
+                    | <verificacaoDeVariavel> | <tiposPrimitivos><lacoMatematico><ligacaoLogica>
+<lacoLogico> ::= <conectorLogico><expressaoLogica> | &
+<conectorLogico> ::= "e" | "ou"
+<verificacaoDeVariavel> ::= <nomeVariavel><opcoesVariavel>
+<opcoesVariavel> ::= <operadorMatematico><expressaoMatematica><ligacaoLogica> | <ligacaoLogica> | <lacoLogico> 
+<ligacaoLogica> ::= <operadorLogico><expressaoMatematica><lacoLogico>
+<operadorLogico> ::= ">" | "<" | ">=" | "<=" | "==" | "!=" 
+<tiposPrimitivos> ::= <numeroComSinal> | <texto>
+
+<expressao> ::= <atribuivel> | <atribuivel><operador><expressao>
+<atribuivel> ::= "("<expressao>")" | <numeroComSinal> | <texto> | <booleano> | <nomeVariavel>
+<operador> ::= <operadorLogico> | <operadorMatematico> | <conectorLogico>
 
 <declaracaoDeVariavel> ::=  <tipoDeDado><listaDeDeclaracao>
 <tipoDeDado> ::= "redondo" | "quebrado" | "trova" | "logico"
@@ -30,7 +43,8 @@ TOKENS {
                     | <nomeVariavel><lacoDeAtribuicao>","<listaDeDeclaracao>
 
 <bloco> ::= <inicioDoLoqueando> | <inicioDoRepeteco> | <inicioSe> | <definicaoDeFuncao>
-<inicioDoLoqueando> ::= "loqueando"<expressaoMatematica><meioLoqueando>
+
+<inicioDoLoqueando> ::= "loqueando"<expressaoLogica><meioLoqueando>
 <meioLoqueando> ::= "dai"<linha> | "tche""\n"<blocoDoLoqueando>
 <blocoDoLoqueando> ::= <linha><blocoDoLoqueando> | <bloco><blocoDoLoqueando> | "bah"
 
@@ -38,10 +52,9 @@ TOKENS {
 <meioRepeteco> ::= "dai"<linha> | "tche""\n"<blocoRepeteco"
 <blocoRepeteco> ::= <linha><blocoRepeteco> | <bloco><blocoRepeteco> | "bah"
 
-<inicioSe> ::= "se"<expressaoMatematica><seDeUmaLinha> | "se"<expressaoMatematica>"tche""\n"<blocoSe>
+<inicioSe> ::= "se"<expressaoLogica><seDeUmaLinha> | "se"<expressaoLogica>"tche""\n"<blocoSe>
 <seDeUmaLinha> ::= "dai"<elementoDeLinha>"\n" | "dai"<elementoDeLinha>"senao""dai"<linha> 
                 | "dai"<elementoDeLinha>"senao"<linha>
-                
 <blocoSe> ::= <linha><blocoSe> | <bloco><blocoSe> | "bah" | <inicioSenao>
 <inicioSenao> ::= "senao"<inicioSe> | "senao""dai"<linha> | "senao""tche""\n"<fimBlocoSenao>
 <fimBlocoSenao> ::= <linha><fimBlocoSenao> | <bloco><fimBlocoSenao> | "bah"
@@ -58,7 +71,8 @@ TOKENS {
 
 <chamadaDeFuncao> ::= <nomeFuncao>"("") | <nomeFuncao>"("<passagemDeParametros>")"
 <passagemDeParametros> ::= <parametrosAtribuiveis> | <parametrosAtribuiveis>","<passagemDeParametros>
-<parametrosAtribuiveis> ::=  "("<expressaoMatematica>")" | <numeroComSinal> | <nomeVariavel> 
+<parametrosAtribuiveis> ::=  "("<expressao>")" | <numeroComSinal> | <nomeVariavel> 
                             | <nomeVariavel><lacoDeAtribuicao> | <texto> | <booleano>
 
-<funcaoTrovar> ::= "Trovar""("<expressaoMatematica>")"
+<funcaoTrovar> ::= "Trovar""("<expressao>")"
+

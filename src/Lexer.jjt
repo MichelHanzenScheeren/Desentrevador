@@ -60,7 +60,7 @@ SKIP :
 
 /* PARA IGNORAR OS COMENTARIOS */
 MORE: { "//" : IN_SINGLE_LINE_COMMENT | "/*" : IN_MULTI_LINE_COMMENT }
-<IN_SINGLE_LINE_COMMENT> SPECIAL_TOKEN: { <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > : DEFAULT }
+<IN_SINGLE_LINE_COMMENT> SPECIAL_TOKEN: { <SINGLE_LINE_COMMENT: "\r" > : DEFAULT }
 <IN_MULTI_LINE_COMMENT> SPECIAL_TOKEN: { <MULTI_LINE_COMMENT: "*/" >: DEFAULT }
 <IN_SINGLE_LINE_COMMENT,IN_MULTI_LINE_COMMENT> MORE : { < ~[] > }
 
@@ -71,6 +71,7 @@ TOKEN: /* OPERADORES */
 | < VEZES: "*" >
 | < DIVIDIDO: "/" >
 | < ELEVADO: "^" >
+| < RESTO: "%" >
 | < ATRIBUICAO: "=" >
 | < IGUAL: "==" >
 | < DIFERENTE: "!=" >
@@ -80,6 +81,7 @@ TOKEN: /* OPERADORES */
 | < MENOR_IGUAL: "<=" >
 | < OU: "ou" >
 | < E: "e" >
+| < NEGACAO: "!" >
 }
 
 TOKEN: /* PALAVRAS RESERVADAS */
@@ -160,6 +162,10 @@ void elevado():
 {}
 { < ELEVADO > }
 
+void resto():
+{}
+{ < RESTO > }
+
 void maior():
 {}
 { < MAIOR > }
@@ -191,6 +197,10 @@ void ou():
 void e():
 {}
 { < E > }
+
+void negacao():
+{}
+{ < NEGACAO > }
 
 
 /* PALAVRAS RESERVADAS */
@@ -328,27 +338,63 @@ void atribuicao():
 
 void lacoDeAtribuicao():
 {}
-{ simboloAtribuicao() expressaoMatematica()  }
+{ simboloAtribuicao() expressao()  }
 
 void expressaoMatematica():
 {}
-{ expressaoLogica() (operadorMatematico() expressaoLogica())*  }
+{ atribuivelMatematico() lacoMatematico() }
 
-void expressaoLogica():
+void lacoMatematico():
 {}
-{ atribuivel() (operadorLogico() atribuivel())*  }
+{ (operadorMatematico() expressaoMatematica()) | {} }
 
-void atribuivel():
+void atribuivelMatematico():
 {}
-{ (abreParentese() expressaoMatematica() fechaParentese()) | numeroComSinal() | nomeVariavel() | texto() | booleano() }
+{ (abreParentese() expressaoMatematica() fechaParentese()) | numeroComSinal() | texto() | nomeVariavel() }
 
 void operadorMatematico():
 {}
-{ mais() | menos() | vezes() | dividido() | elevado() }
+{ mais() | menos() | vezes() | dividido() | elevado() | resto() }
+
+void expressaoLogica():
+{}
+{ (negacao())? (expressaoLogicaEntreParenteses() | (booleano() lacoLogico()) | verificacaoDeVariavel() | ((numeroComSinal() | texto()) lacoMatematico() ligacaoLogica())) }
+
+void expressaoLogicaEntreParenteses():
+{}
+{ abreParentese() expressaoLogica() fechaParentese() lacoLogico() }
+
+void lacoLogico():
+{}
+{ conectorLogico() expressaoLogica() | {} }
+
+void conectorLogico():
+{}
+{ e() | ou() }
+
+void verificacaoDeVariavel():
+{}
+{ nomeVariavel() ((operadorMatematico() expressaoMatematica() ligacaoLogica()) | ligacaoLogica() | lacoLogico()) }
+
+void ligacaoLogica():
+{}
+{ operadorLogico() expressaoMatematica() lacoLogico() }
 
 void operadorLogico():
 {}
-{ maior() | menor() | maiorIgual() | menorIgual() | igual() | diferente() | ou() | e() }
+{ maior() | menor() | maiorIgual() | menorIgual() | igual() | diferente() }
+
+void expressao():
+{}
+{ (negacao())? atribuivel() (operador() expressao())? }
+
+void atribuivel():
+{}
+{ abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() }
+
+void operador():
+{}
+{ operadorLogico() | operadorMatematico() | conectorLogico() }
 
 void declaracaoDeVariavel():
 {}
@@ -368,7 +414,7 @@ void bloco():
 
 void inicioDoLoqueando():
 {}
-{ loqueando() expressaoMatematica() meioDoLoqueando() }
+{ loqueando() expressaoLogica() meioDoLoqueando() }
 
 void meioDoLoqueando():
 {}
@@ -392,7 +438,7 @@ void blocoDoRepeteco():
 
 void inicioSe():
 {}
-{ se() expressaoMatematica() (seDeUmaLinha() | (tche() fimLinha() blocoSe())) }
+{ se() expressaoLogica() (seDeUmaLinha() | (tche() fimLinha() blocoSe())) }
 
 void seDeUmaLinha():
 {}
@@ -440,8 +486,8 @@ void passagemDeParametros():
 
 void parametrosAtribuiveis():
 {}
-{ (abreParentese() expressaoMatematica() fechaParentese()) | numeroComSinal() | (nomeVariavel() (lacoDeAtribuicao())?) | texto() | booleano() }
+{ (abreParentese() expressao() fechaParentese()) | numeroComSinal() | (nomeVariavel() (lacoDeAtribuicao())?) | texto() | booleano() }
 
 void funcaoTrovar():
 {}
-{ trovar() abreParentese() expressaoMatematica() fechaParentese() }
+{ trovar() abreParentese() expressao() fechaParentese() }

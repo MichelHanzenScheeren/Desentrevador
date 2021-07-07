@@ -95,3 +95,21 @@ Teste(teste, teste2 = teste3+(18*6+(7/2)), 12)
 Trovar("Olá, mundo!")
 Trovar(15.5)
 Trovar(teste)
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+/* TESTES DAS EXPRESSOES (GERAL, LOGICA E MATEMATICA) */
+
+se teste dai teste = 4 // VARIAVEL BOOLEANA
+se causo dai teste = 4 // TIPO BOOLEANO 
+se teste ou (i > (teste + 2)) e causo dai teste = 4 // USANDO CONECTOR
+se (teste ou (i > (teste + 2)) e causo) dai teste = 4 // ABUSANDO DE PARENTESES
+se 15.7 != teste ou 'olá' != 'Sei lá' ou teste2 e 15/5 > 12^6 dai teste = 4 // INICIANDO COM TIPOS PRIMITIVOS
+se !teste dai teste = 4 // VARIAVEL BOOLEANA
+se !causo dai teste = 4 // TIPO BOOLEANO 
+se esteExemplo ou !(!i > (teste + -2)) e causo dai teste = 4
+
+repeteco i de teste + teste2 / 8 - (18 % outroTeste) + 7 ate 10 dai teste = 1
+repeteco i de teste + teste2 / 8 - (18 % outroTeste) + 7 ate 1 dai teste = 1
+
+logico meuTeste = !((12 + teste % "Ola") > teste2) ou (i != 15)
+redondo seiLa = 12 - 15 / (teste * 34 - (12 * 1) % 5) + 4
