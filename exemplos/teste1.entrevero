@@ -9,7 +9,8 @@ redondo teste
 quebrado teste2, teste3
 trova teste4 = "Olá", teste5, teste6 = "Sei lá!"
 logico teste7 = (teste > 5) e ((teste2 < 10) ou (teste3 == 15))
-redondo teste8 = (3 * 4) + 7 - (34 / 3 - (8 ^3)) 
+redondo teste8 = (3 * 4) + 7 ^ Teste() - (34 / 3 - (8 ^3))
+i /= (1 + 4) 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /* TESTES DE LACOS DE REPETICAO */
@@ -37,11 +38,12 @@ se teste != "Olá" tche
     se teste2 != "EAI" dai redondo teste3 = 1 senao redondo teste3 = 2
 bah
 
-se teste != "Olá" tche 
+se teste != "Olá" e Teste(teste) tche 
     teste = "Olá"
 senao se teste != "Tchau" tche
     repeteco i de 0 ate 10 dai teste = 1
     teste = "Tchau"
+    Teste()
 bah
 
 se teste != "Olá" tche 
@@ -81,10 +83,19 @@ funcao redondo Teste2() tche
     se teste2 > 10 dai testeCompleto = causo
 bah
 
+funcao redondo Teste2(redondo teste) tche
+    teste += 1
+    devolta teste
+bah
+
+funcao redondo Teste2(redondo teste) tche
+    teste += 1
+    devolta teste
+
 funcao vazio Teste(redondo teste1) dai teste = teste + 1
 funcao vazio Teste(redondo teste1, trova teste2) dai teste = teste + 1
 funcao vazio Teste(redondo teste1, trova teste2 = "Olá", logico seiLa = anedota) dai teste = teste + 1
-
+funcao redondo Elevado(redondo valor) dai devolta valor + 1
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /* TESTES DE CHAMADA DE FUNCAO */
 Teste()
