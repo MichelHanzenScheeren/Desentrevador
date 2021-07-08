@@ -15,22 +15,22 @@ TOKENS {
 <elementoDeLinha> <atribuicao> | <declaracaoDeVariavel> | <chamadaDeFuncao> | <funcaoTrovar>
 
 <atribuicao> ::= <nomeVariavel><lacoDeAtribuicao>
-<lacoDeAtribuicao> ::= "="<expressao>
+<lacoDeAtribuicao> ::= <operadorMatematico>"="<expressao> | "="<expressao>
 
 <expressaoMatematica> ::= <atribuivelMatematico><lacoMatematico>
 <lacoMatematico> ::= <operadorMatematico><expressaoMatematica> | &
-<atribuivelMatematico> ::= "("<expressaoMatematica>")" | <numeroComSinal> | <texto> | <nomeVariavel>
+<atribuivelMatematico> ::= "("<expressaoMatematica>")" | <numeroComSinal> | <texto> | <nomeVariavel> | <chamadaDeFuncao>
 <operadorMatematico> ::= "+" | "-" | "*" | "/" | "^" | "%"
 
 <expressaoLogica> ::= "("<expressaoLogica>")"<lacoLogico> | <booleano><lacoLogico>
-                    | <verificacaoDeVariavel> | <tiposPrimitivos><lacoMatematico><ligacaoLogica>
+                    | <verificacaoDeVariavel> | <primitivosLogicos><lacoMatematico><ligacaoLogica>
 <lacoLogico> ::= <conectorLogico><expressaoLogica> | &
 <conectorLogico> ::= "e" | "ou"
-<verificacaoDeVariavel> ::= <nomeVariavel><opcoesVariavel>
+<verificacaoDeVariavel> ::= <nomeVariavel><opcoesVariavel> | <chamadaDeFuncao><opcoesVariavel>
 <opcoesVariavel> ::= <operadorMatematico><expressaoMatematica><ligacaoLogica> | <ligacaoLogica> | <lacoLogico> 
 <ligacaoLogica> ::= <operadorLogico><expressaoMatematica><lacoLogico>
 <operadorLogico> ::= ">" | "<" | ">=" | "<=" | "==" | "!=" 
-<tiposPrimitivos> ::= <numeroComSinal> | <texto>
+<primitivosLogicos> ::= <numeroComSinal> | <texto>
 
 <expressao> ::= <atribuivel> | <atribuivel><operador><expressao>
 <atribuivel> ::= "("<expressao>")" | <numeroComSinal> | <texto> | <booleano> | <nomeVariavel>
@@ -59,14 +59,17 @@ TOKENS {
 <inicioSenao> ::= "senao"<inicioSe> | "senao""dai"<linha> | "senao""tche""\n"<fimBlocoSenao>
 <fimBlocoSenao> ::= <linha><fimBlocoSenao> | <bloco><fimBlocoSenao> | "bah"
 
-<definicaoDeFuncao> ::= "funcao"<tipoDeRetorno><nomeFuncao>"("")"<meioFuncao>
-                    | "funcao"<tipoDeRetorno><nomeFuncao>"("<definicaoParametros>")"<meioFuncao>
+<definicaoDeFuncao> ::= "funcao"<tipoDeRetorno><nomeFuncao>"("")"<meioDeFuncao>
+                    | "funcao"<tipoDeRetorno><nomeFuncao>"("<definicaoParametros>")"<meioDeFuncao>
 <tipoDeRetorno> ::= "vazio" | <tipoDeDado>
 <definicaoParametros> ::= <tipoDeDado><nomeVariavel> | <tipoDeDado><nomeVariavel><lacoDeAtribuicao> 
                         | <tipoDeDado><nomeVariavel>","<definicaoParametros>
                         | <tipoDeDado><nomeVariavel><lacoDeAtribuicao>","<definicaoParametros>
-<meioFuncao> ::= "dai"<linha> | "tche""\n"<blocoFuncao>
-<blocoFuncao> ::= <linha><blocoFuncao> | <bloco><blocoFuncao> | "bah"
+<meioDeFuncao> ::= "dai"<funcaoDeLinha> | "tche""\n"<blocoFuncao>
+<funcaoDeLinha> ::= <linha> | "devolta"<expressao>
+<blocoFuncao> ::= <linha><blocoFuncao> | <bloco><blocoFuncao> | <retornoDeFuncao> |  "bah"
+<retornoDeFuncao> ::= "devolta"<expressao>"\n"<fimBlocoFuncao>
+<fimBlocoFuncao> ::= "bah" | &
 
 
 <chamadaDeFuncao> ::= <nomeFuncao>"("") | <nomeFuncao>"("<passagemDeParametros>")"
