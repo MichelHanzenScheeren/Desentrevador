@@ -96,6 +96,7 @@ funcao vazio Teste(redondo teste1) dai teste = teste + 1
 funcao vazio Teste(redondo teste1, trova teste2) dai teste = teste + 1
 funcao vazio Teste(redondo teste1, trova teste2 = "Olá", logico seiLa = anedota) dai teste = teste + 1
 funcao redondo Elevado(redondo valor) dai devolta valor + 1
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /* TESTES DE CHAMADA DE FUNCAO */
 Teste()
