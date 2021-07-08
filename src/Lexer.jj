@@ -2064,7 +2064,7 @@ void funcaoDeLinha():
 /*@egen*/}
 {/*@bgen(jjtree) funcaoDeLinha */
   try {
-/*@egen*/ linha() | devolta() expressao()/*@bgen(jjtree)*/
+/*@egen*/ linha() | devolta() expressao() fimLinha()/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);

@@ -2558,6 +2558,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
       case DEVOLTA:
         devolta();
         expressao();
+        fimLinha();
         break;
       default:
         jj_la1[44] = jj_gen;
