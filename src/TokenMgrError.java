@@ -106,7 +106,7 @@ public class TokenMgrError extends Error
     return("Bixo burro, errou as tecla seu dedo gordo, da uma olhada na linha " +
           errorLine + ", coluna " +
           errorColumn + ".  La tinha um: " +
-          (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int)curChar + "), ") +
+          (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\" ")) +
           "despois de: \"" + addEscapes(errorAfter) + "\"");
   }
 

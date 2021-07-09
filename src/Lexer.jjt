@@ -14,19 +14,19 @@ import java.util.Scanner;
 public class Lexer {
 	public static void execute(Lexer analisador) throws ParseException {
 		SimpleNode node = analisador.main();
-		node.dump("->");
-		System.out.println("\n --------------------");
-	    System.out.println(" Mas ah indio veio!");
-	    System.out.println(" --------------------");
+		// node.dump("->");
+		System.out.println("\n ------------------------------------------");
+	    System.out.println("   Mas ah indio veio, que escrita bagual!");
+	    System.out.println(" ------------------------------------------\n");
 	}
   
 	public static void main(String[] args) {
         try {
             if(args.length == 0) {
-    		    System.out.println("\nInforme seu codigo: ");
+    		    System.out.println("\nBota teu codigo ai guri: ");
     		    execute(new Lexer(System.in));
     		} else if(args[0].contains("-f")) {
-    		    System.out.println("\nSelecione o arquivo do programa: ");
+    		    System.out.println("\nTu trata de pega o arquivo ai entao: ");
     		 	JFileChooser arquivo = new JFileChooser();
 	          	arquivo.showOpenDialog(null);
 	          	File selected = arquivo.getSelectedFile();
@@ -35,7 +35,7 @@ public class Lexer {
 	          	 	execute(new Lexer(stream));
 	         	} else {
 	         	  System.out.println("\n\n------------------------------------");
-	         	  System.out.println("Processo cancelado pelo usuario!");
+	         	  System.out.println("O tongo veio, cancelou o negocio!");
 	         	  System.out.println("--------------------------------");
 	         	  return;
 	        	}
@@ -44,7 +44,7 @@ public class Lexer {
 	          	execute(new Lexer(stream));
     		}
         } catch (Throwable e) {
-            System.out.println("Programa invalido!\n " + e.getMessage());
+            System.out.println("Deu ruim pia!\n " + e.getMessage());
         }
     }
 }

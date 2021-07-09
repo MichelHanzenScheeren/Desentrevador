@@ -7,19 +7,19 @@ import java.util.Scanner;
 public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants {/*@bgen(jjtree)*/
   protected static JJTLexerState jjtree = new JJTLexerState();public static void execute(Lexer analisador) throws ParseException {
                 SimpleNode node = analisador.main();
-                node.dump("->");
-                System.out.println("\u005cn --------------------");
-            System.out.println(" Mas ah indio veio!");
-            System.out.println(" --------------------");
+                // node.dump("->");
+                System.out.println("\u005cn ------------------------------------------");
+            System.out.println("   Mas ah indio veio, que escrita bagual!");
+            System.out.println(" ------------------------------------------\u005cn");
         }
 
         public static void main(String[] args) {
         try {
             if(args.length == 0) {
-                    System.out.println("\u005cnInforme seu codigo: ");
+                    System.out.println("\u005cnBota teu codigo ai guri: ");
                     execute(new Lexer(System.in));
                 } else if(args[0].contains("-f")) {
-                    System.out.println("\u005cnSelecione o arquivo do programa: ");
+                    System.out.println("\u005cnTu trata de pega o arquivo ai entao: ");
                         JFileChooser arquivo = new JFileChooser();
                         arquivo.showOpenDialog(null);
                         File selected = arquivo.getSelectedFile();
@@ -28,7 +28,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
                                 execute(new Lexer(stream));
                         } else {
                           System.out.println("\u005cn\u005cn------------------------------------");
-                          System.out.println("Processo cancelado pelo usuario!");
+                          System.out.println("O tongo veio, cancelou o negocio!");
                           System.out.println("--------------------------------");
                           return;
                         }
@@ -37,7 +37,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
                         execute(new Lexer(stream));
                 }
         } catch (Throwable e) {
-            System.out.println("Programa invalido!\u005cn " + e.getMessage());
+            System.out.println("Deu ruim pia!\u005cn " + e.getMessage());
         }
     }
 
