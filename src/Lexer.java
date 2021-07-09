@@ -49,7 +49,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
                         execute(new Lexer(stream));
                 }
         } catch (Throwable e) {
-            System.out.println("Deu ruim pia!\u005cn " + e.getMessage());
+            System.out.println("  Deu ruim pia!\u005cn    " + e.getMessage() + "\u005cn");
         }
     }
 

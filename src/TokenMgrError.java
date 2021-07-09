@@ -105,9 +105,9 @@ public class TokenMgrError extends Error
   protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
     return("Bixo burro, errou as tecla seu dedo gordo, da uma olhada na linha " +
           errorLine + ", coluna " +
-          errorColumn + ".  La tinha um: " +
+          errorColumn + ". La tinha um " +
           (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\" ")) +
-          "despois de: \"" + addEscapes(errorAfter) + "\"");
+          "que nem devia ter.");
   }
 
   /**
