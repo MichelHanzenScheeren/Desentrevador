@@ -111,13 +111,13 @@ Trovar(teste)
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /* TESTES DAS EXPRESSOES (GERAL, LOGICA E MATEMATICA) */
 
-se teste dai teste = 4 // VARIAVEL BOOLEANA
-se causo dai teste = 4 // TIPO BOOLEANO 
-se teste ou (i > (teste + 2)) e causo dai teste = 4 // USANDO CONECTOR
-se (teste ou (i > (teste + 2)) e causo) dai teste = 4 // ABUSANDO DE PARENTESES
-se 15.7 != teste ou 'olá' != 'Sei lá' ou teste2 e 15/5 > 12^6 dai teste = 4 // INICIANDO COM TIPOS PRIMITIVOS
-se !teste dai teste = 4 // VARIAVEL BOOLEANA
-se !causo dai teste = 4 // TIPO BOOLEANO 
+se teste dai teste = 4
+se causo dai teste = 4
+se teste ou (i > (teste + 2)) e causo dai teste = 4
+se (teste ou (i > (teste + 2)) e causo) dai teste = 4
+se 15.7 != teste ou 'olá' != 'Sei lá' ou teste2 e 15/5 > 12^6 dai teste = 4
+se !teste dai teste = 4
+se !causo dai teste = 4
 se esteExemplo ou !(!i > (teste + -2)) e causo dai teste = 4
 
 repeteco i de teste + teste2 / 8 - (18 % outroTeste) + 7 ate 10 dai teste = 1

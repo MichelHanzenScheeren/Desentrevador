@@ -114,11 +114,11 @@ public class ParseException extends Exception {
       tok = tok.next;
     }
     retval += "\" na linha " + currentToken.next.beginLine + ", coluna " + currentToken.next.beginColumn;
-    retval += "." + eol;
+    retval += ". ";
     if (expectedTokenSequences.length == 1) {
-      retval += " Tava esperando: ";
+      retval += "Tava esperando: ";
     } else {
-      retval += " Tava esperando algo como: ";
+      retval += "Tava esperando algo como: ";
     }
     retval += expected.toString();
     return retval;

@@ -15,9 +15,9 @@ public class Lexer {
 	public static void execute(Lexer analisador) throws ParseException {
 		SimpleNode node = analisador.main();
 		// node.dump("->");
-		System.out.println("\n ------------------------------------------");
+		System.out.println("\n  ------------------------------------------");
 	    System.out.println("   Mas ah indio veio, que escrita bagual!");
-	    System.out.println(" ------------------------------------------\n");
+	    System.out.println("  ------------------------------------------\n");
 	}
 
 	public static void extensionCheck(String file) throws Throwable {
@@ -56,7 +56,7 @@ public class Lexer {
 	          	execute(new Lexer(stream));
     		}
         } catch (Throwable e) {
-            System.out.println("Deu ruim pia!\n " + e.getMessage());
+            System.out.println("  Deu ruim pia!\n    " + e.getMessage() + "\n");
         }
     }
 }
