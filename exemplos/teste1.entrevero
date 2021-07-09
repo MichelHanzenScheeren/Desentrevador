@@ -108,6 +108,10 @@ Trovar("Olá, mundo!")
 Trovar(15.5)
 Trovar(teste)
 
+Escuitar()
+Escuitar("Bota qualquer coisa ai")
+teste = Escuitar('Quero um numero: ')
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /* TESTES DAS EXPRESSOES (GERAL, LOGICA E MATEMATICA) */
 
@@ -116,6 +120,7 @@ se causo dai teste = 4
 se teste ou (i > (teste + 2)) e causo dai teste = 4
 se (teste ou (i > (teste + 2)) e causo) dai teste = 4
 se 15.7 != teste ou 'olá' != 'Sei lá' ou teste2 e 15/5 > 12^6 dai teste = 4
+se Escuitar("Sua idade: ") >= 18 dai Trovar("Maior de idade!")
 se !teste dai teste = 4
 se !causo dai teste = 4
 se esteExemplo ou !(!i > (teste + -2)) e causo dai teste = 4
