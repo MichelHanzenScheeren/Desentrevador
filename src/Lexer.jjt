@@ -109,7 +109,8 @@ TOKEN: /* PALAVRAS RESERVADAS */
 | < ATE: "ate" >
 | < SE: "se" >
 | < SENAO: "senao" >
-| < TROVAR: "Trovar">
+| < TROVAR: "Trovar"> // METODO DE ESCRITA
+| < ESCUITAR: "Escuitar" > // METODO DE LEITURA
 | < DEVOLTA: "devolta" >
 }
 
@@ -265,6 +266,10 @@ void trovar():
 {}
 { < TROVAR > }
 
+void escuitar():
+{}
+{ < ESCUITAR > }
+
 void fimDeArquivo():
 {}
 { < EOF > }
@@ -347,7 +352,7 @@ void linha():
 
 void elementoDeLinha():
 {}
-{ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcaoTrovar() }
+{ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas() }
 
 void atribuicao():
 {}
@@ -367,7 +372,7 @@ void lacoMatematico():
 
 void atribuivelMatematico():
 {}
-{ (abreParentese() expressaoMatematica() fechaParentese()) | numeroComSinal() | texto() | nomeVariavel() | chamadaDeFuncao() }
+{ (abreParentese() expressaoMatematica() fechaParentese()) | numeroComSinal() | texto() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar() }
 
 void operadorMatematico():
 {}
@@ -403,7 +408,7 @@ void operadorLogico():
 
 void primitivosLogicos():
 {}
-{ numeroComSinal() | texto() }
+{ numeroComSinal() | texto() | funcaoEscuitar() }
 
 void expressao():
 {}
@@ -411,7 +416,7 @@ void expressao():
 
 void atribuivel():
 {}
-{ abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao() }
+{ abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar() }
 
 void operador():
 {}
@@ -521,6 +526,14 @@ void parametrosAtribuiveis():
 {}
 { (abreParentese() expressao() fechaParentese()) | numeroComSinal() | (nomeVariavel() (lacoDeAtribuicao())?) | texto() | booleano() }
 
+void funcoesNativas():
+{}
+{ funcaoTrovar() |  funcaoEscuitar() }
+
 void funcaoTrovar():
 {}
 { trovar() abreParentese() expressao() fechaParentese() }
+
+void funcaoEscuitar():
+{}
+{ escuitar() abreParentese() (texto())? fechaParentese()  }

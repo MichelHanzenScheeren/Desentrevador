@@ -113,7 +113,8 @@ TOKEN: /* PALAVRAS RESERVADAS */
 | < ATE: "ate" >
 | < SE: "se" >
 | < SENAO: "senao" >
-| < TROVAR: "Trovar">
+| < TROVAR: "Trovar"> // METODO DE ESCRITA
+| < ESCUITAR: "Escuitar" > // METODO DE LEITURA
 | < DEVOLTA: "devolta" >
 }
 
@@ -624,6 +625,22 @@ void trovar():
   }
 /*@egen*/ }
 
+void escuitar():
+{/*@bgen(jjtree) escuitar */
+  SimpleNode jjtn000 = new SimpleNode(JJTESCUITAR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) escuitar */
+  try {
+/*@egen*/ < ESCUITAR >/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/ }
+
 void fimDeArquivo():
 {/*@bgen(jjtree) fimDeArquivo */
   SimpleNode jjtn000 = new SimpleNode(JJTFIMDEARQUIVO);
@@ -956,7 +973,7 @@ void elementoDeLinha():
 /*@egen*/}
 {/*@bgen(jjtree) elementoDeLinha */
   try {
-/*@egen*/ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcaoTrovar()/*@bgen(jjtree)*/
+/*@egen*/ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas()/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1111,7 +1128,7 @@ void atribuivelMatematico():
 /*@egen*/}
 {/*@bgen(jjtree) atribuivelMatematico */
   try {
-/*@egen*/ (abreParentese() expressaoMatematica() fechaParentese()) | numeroComSinal() | texto() | nomeVariavel() | chamadaDeFuncao()/*@bgen(jjtree)*/
+/*@egen*/ (abreParentese() expressaoMatematica() fechaParentese()) | numeroComSinal() | texto() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar()/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1386,7 +1403,7 @@ void primitivosLogicos():
 /*@egen*/}
 {/*@bgen(jjtree) primitivosLogicos */
   try {
-/*@egen*/ numeroComSinal() | texto()/*@bgen(jjtree)*/
+/*@egen*/ numeroComSinal() | texto() | funcaoEscuitar()/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1446,7 +1463,7 @@ void atribuivel():
 /*@egen*/}
 {/*@bgen(jjtree) atribuivel */
   try {
-/*@egen*/ abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao()/*@bgen(jjtree)*/
+/*@egen*/ abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar()/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -2283,6 +2300,36 @@ void parametrosAtribuiveis():
   }
 /*@egen*/ }
 
+void funcoesNativas():
+{/*@bgen(jjtree) funcoesNativas */
+  SimpleNode jjtn000 = new SimpleNode(JJTFUNCOESNATIVAS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) funcoesNativas */
+  try {
+/*@egen*/ funcaoTrovar() |  funcaoEscuitar()/*@bgen(jjtree)*/
+  } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      throw (RuntimeException)jjte000;
+    }
+    if (jjte000 instanceof ParseException) {
+      throw (ParseException)jjte000;
+    }
+    throw (Error)jjte000;
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/ }
+
 void funcaoTrovar():
 {/*@bgen(jjtree) funcaoTrovar */
   SimpleNode jjtn000 = new SimpleNode(JJTFUNCAOTROVAR);
@@ -2312,3 +2359,33 @@ void funcaoTrovar():
     }
   }
 /*@egen*/ }
+
+void funcaoEscuitar():
+{/*@bgen(jjtree) funcaoEscuitar */
+  SimpleNode jjtn000 = new SimpleNode(JJTFUNCAOESCUITAR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) funcaoEscuitar */
+  try {
+/*@egen*/ escuitar() abreParentese() (texto())? fechaParentese()/*@bgen(jjtree)*/
+  } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      throw (RuntimeException)jjte000;
+    }
+    if (jjte000 instanceof ParseException) {
+      throw (ParseException)jjte000;
+    }
+    throw (Error)jjte000;
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/  }
