@@ -13,6 +13,16 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
             System.out.println(" ------------------------------------------\u005cn");
         }
 
+        public static void extensionCheck(String file) throws Throwable {
+                String extension = "";
+                int i = file.lastIndexOf('.');
+                if (i >= 0) { extension = file.substring(i+1); }
+
+                if(!extension.equals("entrevero")) {
+                        throw new Throwable("Meu favor, nao sabe nem a extensao, bixo buro! Mah use um aquivo .entrevero.");
+                }
+        }
+
         public static void main(String[] args) {
         try {
             if(args.length == 0) {
@@ -24,6 +34,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
                         arquivo.showOpenDialog(null);
                         File selected = arquivo.getSelectedFile();
                         if(selected != null) {
+                                extensionCheck(selected.getAbsolutePath());
                                 FileInputStream stream = new FileInputStream(selected.getAbsolutePath());
                                 execute(new Lexer(stream));
                         } else {
@@ -33,6 +44,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
                           return;
                         }
                 } else {
+                        extensionCheck(args[0]);
                         FileInputStream stream = new FileInputStream(args[0]);
                         execute(new Lexer(stream));
                 }
