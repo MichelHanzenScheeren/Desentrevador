@@ -8,9 +8,9 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
   protected static JJTLexerState jjtree = new JJTLexerState();public static void execute(Lexer analisador) throws ParseException {
                 SimpleNode node = analisador.main();
                 // node.dump("->");
-                System.out.println("\u005cn ------------------------------------------");
+                System.out.println("\u005cn  ------------------------------------------");
             System.out.println("   Mas ah indio veio, que escrita bagual!");
-            System.out.println(" ------------------------------------------\u005cn");
+            System.out.println("  ------------------------------------------\u005cn");
         }
 
         public static void extensionCheck(String file) throws Throwable {
