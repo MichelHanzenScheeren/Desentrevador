@@ -136,13 +136,13 @@ TOKEN: /* IDENTIFICADORES */
   < BOOLEANO: "causo" | "anedota" > // VERDADEIRO E FALSO
 | < NOME_VARIAVEL: (<MINUSCULAS> | "_") (<LETRA> | <DIGITO> | "_")* >
 | < NOME_FUNCAO: <MAIUSCULAS> (<LETRA> | <DIGITO> | "_")* >
-| < #LETRA: [ "A" - "Z", "a" - "z" ] > // "PRIVADO"
-| < #MINUSCULAS: [ "a" - "z" ] >  // "PRIVADO"
-| < #MAIUSCULAS: [ "A" - "Z" ] >  // "PRIVADO"
+| < #LETRA: [ "A" - "Z", "a" - "z" ] >
+| < #MINUSCULAS: [ "a" - "z" ] > 
+| < #MAIUSCULAS: [ "A" - "Z" ] >
 | < NUMERO: (< DIGITO >)+("."(< DIGITO >)+)? >
-| < #DIGITO: [ "0" - "9" ] >  // "PRIVADO"
+| < #DIGITO: [ "0" - "9" ] >
 | < TEXTO: ("\"" ((~["\"","\\","\n","\r"]) | < ASCII >)* "\"") | ("'" ((~["'","\\","\n","\r"]) | < ASCII >)* "'") > 
-| < #ASCII: ("\\" ( ["n","t","b","r","f","\\","'","\""] | ["0"-"7"] ( ["0"-"7"] )? | ["0"-"3"] ["0"-"7"] ["0"-"7"])) >  // "PRIVADO"
+| < #ASCII: ("\\" ( ["n","t","b","r","f","\\","'","\""] | ["0"-"7"] ( ["0"-"7"] )? | ["0"-"3"] ["0"-"7"] ["0"-"7"])) > 
 }
 
 /* INICIO DO CODIGO RELACIONADO A ANALISE SINTATICA */
@@ -345,22 +345,51 @@ void booleano():
 { < BOOLEANO > }
 
 
-/* INICIO DOS SIMBOLOS NAO TERMINAIS RELACIONADOS A CONSTRUCAO DA ANALISE SINTATICA */
+/* REGRAS SINTATICA */
 void linha():
 {}
-{ (elementoDeLinha() fimLinha()) | fimLinha() }
+{ (elementoDeLinha())? fimLinha() }
 
 void elementoDeLinha():
 {}
 { atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas() }
 
+void bloco():
+{}
+{ inicioDoLoqueando() | inicioDoRepeteco() | inicioSe() | definicaoDeFuncao() }
+
+// LINHA
 void atribuicao():
 {}
-{ nomeVariavel() lacoDeAtribuicao() }
+{ nomeVariavel() (operadorMatematico())? lacoDeAtribuicao() }
 
 void lacoDeAtribuicao():
 {}
-{ (operadorMatematico())? simboloAtribuicao() expressao()  }
+{ simboloAtribuicao() expressao()  }
+
+void expressao():
+{}
+{ (negacao())? atribuivel() (operador() expressao())? }
+
+void atribuivel():
+{}
+{ abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar() }
+
+void operador():
+{}
+{ operadorMatematico() | operadorLogico() | conectorLogico() }
+
+void operadorMatematico():
+{}
+{ mais() | menos() | vezes() | dividido() | elevado() | resto() }
+
+void operadorLogico():
+{}
+{ maior() | menor() | maiorIgual() | menorIgual() | igual() | diferente() }
+
+void conectorLogico():
+{}
+{ e() | ou() }
 
 void expressaoMatematica():
 {}
@@ -374,13 +403,9 @@ void atribuivelMatematico():
 {}
 { (abreParentese() expressaoMatematica() fechaParentese()) | numeroComSinal() | texto() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar() }
 
-void operadorMatematico():
-{}
-{ mais() | menos() | vezes() | dividido() | elevado() | resto() }
-
 void expressaoLogica():
 {}
-{ (negacao())? (expressaoLogicaEntreParenteses() | (booleano() lacoLogico()) | verificacaoDeVariavel() | (primitivosLogicos() lacoMatematico() ligacaoLogica())) }
+{ (negacao())? (expressaoLogicaEntreParenteses() | (booleano() lacoLogico()) | verificacaoDeNome() | (primitivosLogicos() lacoMatematico() ligacaoLogica())) }
 
 void expressaoLogicaEntreParenteses():
 {}
@@ -390,37 +415,21 @@ void lacoLogico():
 {}
 { conectorLogico() expressaoLogica() | {} }
 
-void conectorLogico():
+void verificacaoDeNome():
 {}
-{ e() | ou() }
+{ (nomeVariavel() | chamadaDeFuncao()) opcoesDeNome() }
 
-void verificacaoDeVariavel():
+void opcoesDeNome():
 {}
-{ (nomeVariavel() | chamadaDeFuncao()) ((operadorMatematico() expressaoMatematica() ligacaoLogica()) | ligacaoLogica() | lacoLogico()) }
+{ (operadorMatematico() expressaoMatematica() ligacaoLogica()) | ligacaoLogica() | lacoLogico() }
 
 void ligacaoLogica():
 {}
 { operadorLogico() expressaoMatematica() lacoLogico() }
 
-void operadorLogico():
-{}
-{ maior() | menor() | maiorIgual() | menorIgual() | igual() | diferente() }
-
 void primitivosLogicos():
 {}
 { numeroComSinal() | texto() | funcaoEscuitar() }
-
-void expressao():
-{}
-{ (negacao())? atribuivel() (operador() expressao())? }
-
-void atribuivel():
-{}
-{ abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar() }
-
-void operador():
-{}
-{ operadorLogico() | operadorMatematico() | conectorLogico() }
 
 void declaracaoDeVariavel():
 {}
@@ -432,35 +441,44 @@ void tipoDeDado():
 
 void listaDeDeclaracao():
 {}
-{ nomeVariavel() (lacoDeAtribuicao())? (virgula() nomeVariavel() (lacoDeAtribuicao())?)* }
+{ nomeVariavel() (lacoDeAtribuicao())? (virgula() listaDeDeclaracao())? }
 
-void bloco():
+void chamadaDeFuncao():
 {}
-{ inicioDoLoqueando() | inicioDoRepeteco() | inicioSe() | definicaoDeFuncao() }
+{ nomeFuncao() abreParentese() (passagemDeParametros())? fechaParentese()  }
 
+void passagemDeParametros():
+{}
+{ expressao() (virgula() passagemDeParametros())? }
+
+void funcoesNativas():
+{}
+{ funcaoTrovar() |  funcaoEscuitar() }
+
+void funcaoTrovar():
+{}
+{ trovar() abreParentese() expressao() fechaParentese() }
+
+void funcaoEscuitar():
+{}
+{ escuitar() abreParentese() (texto())? fechaParentese()  }
+
+// BLOCO
 void inicioDoLoqueando():
 {}
-{ loqueando() expressaoLogica() meioDoLoqueando() }
-
-void meioDoLoqueando():
-{}
-{ dai() linha() | tche() fimLinha() blocoDoLoqueando() }
-
-void blocoDoLoqueando():
-{}
-{ linha() blocoDoLoqueando() | bloco() blocoDoLoqueando() | bah() }
+{ loqueando() expressaoLogica() meioBlocoRepeticao() }
 
 void inicioDoRepeteco():
 {}
-{ repeteco() nomeVariavel() de() expressaoMatematica() ate() expressaoMatematica() meioDoRepeteco() }
+{ repeteco() nomeVariavel() de() expressaoMatematica() ate() expressaoMatematica() meioBlocoRepeticao() }
 
-void meioDoRepeteco():
+void meioBlocoRepeticao():
 {}
-{ dai() linha() | tche() fimLinha() blocoDoRepeteco() }
+{ dai() linha() | tche() fimLinha() fimBlocoRepeticao() }
 
-void blocoDoRepeteco():
+void fimBlocoRepeticao():
 {}
-{ linha() blocoDoRepeteco() | bloco() blocoDoRepeteco() | bah() }
+{ linha() fimBlocoRepeticao() | bloco() fimBlocoRepeticao() | bah() }
 
 void inicioSe():
 {}
@@ -476,7 +494,7 @@ void blocoSe():
 
 void inicioSenao():
 {}
-{ senao() (inicioSe() | dai() linha() | tche() fimLinha() fimBlocoSenao()) }
+{ senao() (inicioSe() | tche() fimLinha() fimBlocoSenao()) }
 
 void fimBlocoSenao():
 {}
@@ -492,7 +510,7 @@ void tipoDeRetorno():
 
 void definicaoDeParametros():
 {}
-{ tipoDeDado() nomeVariavel() (lacoDeAtribuicao())? (virgula() tipoDeDado() nomeVariavel() (lacoDeAtribuicao())?)* }
+{ tipoDeDado() nomeVariavel() (lacoDeAtribuicao())? (virgula() definicaoDeParametros())? }
 
 void meioDeFuncao():
 {}
@@ -508,32 +526,4 @@ void blocoDeFuncao():
 
 void retornoDeFuncao():
 {}
-{ devolta() expressao() fimLinha() fimBlocoFuncao() }
-
-void fimBlocoFuncao():
-{}
-{ bah() | {} }
-
-void chamadaDeFuncao():
-{}
-{ nomeFuncao() abreParentese() (passagemDeParametros())? fechaParentese()  }
-
-void passagemDeParametros():
-{}
-{ parametrosAtribuiveis() (virgula() parametrosAtribuiveis())* }
-
-void parametrosAtribuiveis():
-{}
-{ (abreParentese() expressao() fechaParentese()) | numeroComSinal() | (nomeVariavel() (lacoDeAtribuicao())?) | texto() | booleano() }
-
-void funcoesNativas():
-{}
-{ funcaoTrovar() |  funcaoEscuitar() }
-
-void funcaoTrovar():
-{}
-{ trovar() abreParentese() expressao() fechaParentese() }
-
-void funcaoEscuitar():
-{}
-{ escuitar() abreParentese() (texto())? fechaParentese()  }
+{ devolta() expressao() fimLinha() bah() }

@@ -88,10 +88,6 @@ funcao redondo Teste2(redondo teste) tche
     devolta teste
 bah
 
-funcao redondo Teste2(redondo teste) tche
-    teste += 1
-    devolta teste
-
 funcao vazio Teste(redondo teste1) dai teste = teste + 1
 funcao vazio Teste(redondo teste1, trova teste2) dai teste = teste + 1
 funcao vazio Teste(redondo teste1, trova teste2 = "Olá", logico seiLa = anedota) dai teste = teste + 1
@@ -102,7 +98,7 @@ funcao redondo Elevado(redondo valor) dai devolta valor + 1
 Teste()
 Teste(12)
 Teste(teste, 15.5, anedota,  (18*6+(7/2)))
-Teste(teste, teste2 = teste3+(18*6+(7/2)), 12)
+Teste(teste, teste3+(18*6+(7/2)), 12)
 
 Trovar("Olá, mundo!")
 Trovar(15.5)
