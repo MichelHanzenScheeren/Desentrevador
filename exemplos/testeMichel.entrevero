@@ -18,10 +18,9 @@ redondo qtdNumerosPerfeitos = 0, numeroAtual = 2
 // Lógica geral
 loqueando qtdNumerosPerfeitos != 5 tche
   se NumeroPerfeito(numeroAtual) tche
+    Trovar("Novo número perfeito encontrado: " + numeroAtual + "\n")
     qtdNumerosPerfeitos += 1
-    Trovar("Novo número perfeito encontrado: ")
-    Trovar(numeroAtual)
-    Trovar('\n')
   bah
   numeroAtual += 1
 bah
+Trovar('\nTodos os números perfeitos foram encontrados!\nAté a próxima.')
