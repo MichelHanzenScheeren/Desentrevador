@@ -1,0 +1,27 @@
+/* 
+  EXEMPLO VÁLIDO - LINGUAGEM GAUCHOL
+    Programa para encontrar os 5 primeiros números perfeitos
+*/
+
+// definião de função
+funcao logico NumeroPerfeito(redondo numero = 2) tche
+  redondo somatorioDivisores = 0
+  repeteco i de 1 ate numero tche
+    se numero % i == 0 dai somatorioDivisores += i
+  bah
+  devolta somatorioDivisores == numero
+bah
+
+// Definição das variáveis (globais)
+redondo qtdNumerosPerfeitos = 0, numeroAtual = 2
+
+// Lógica geral
+loqueando qtdNumerosPerfeitos != 5 tche
+  se NumeroPerfeito(numeroAtual) tche
+    qtdNumerosPerfeitos += 1
+    Trovar("Novo número perfeito encontrado: ")
+    Trovar(numeroAtual)
+    Trovar('\n')
+  bah
+  numeroAtual += 1
+bah
