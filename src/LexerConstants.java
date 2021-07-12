@@ -55,23 +55,23 @@ public interface LexerConstants {
   /** RegularExpression Id. */
   int FUNCAO = 29;
   /** RegularExpression Id. */
-  int LOQUEANDO = 30;
+  int DEVOLTA = 30;
   /** RegularExpression Id. */
-  int REPETECO = 31;
+  int LOQUEANDO = 31;
   /** RegularExpression Id. */
-  int DE = 32;
+  int REPETECO = 32;
   /** RegularExpression Id. */
-  int ATE = 33;
+  int DE = 33;
   /** RegularExpression Id. */
-  int SE = 34;
+  int ATE = 34;
   /** RegularExpression Id. */
-  int SENAO = 35;
+  int SE = 35;
   /** RegularExpression Id. */
-  int TROVAR = 36;
+  int SENAO = 36;
   /** RegularExpression Id. */
-  int ESCUITAR = 37;
+  int TROVAR = 37;
   /** RegularExpression Id. */
-  int DEVOLTA = 38;
+  int ESCUITAR = 38;
   /** RegularExpression Id. */
   int FIM_LINHA = 39;
   /** RegularExpression Id. */
@@ -139,7 +139,7 @@ public interface LexerConstants {
     "\"==\"",
     "\"!=\"",
     "\">\"",
-    "\"< \"",
+    "\"<\"",
     "\">=\"",
     "\"<=\"",
     "\"ou\"",
@@ -150,6 +150,7 @@ public interface LexerConstants {
     "\"bah\"",
     "\"dai\"",
     "\"funcao\"",
+    "\"devolta\"",
     "\"loqueando\"",
     "\"repeteco\"",
     "\"de\"",
@@ -158,7 +159,6 @@ public interface LexerConstants {
     "\"senao\"",
     "\"Trovar\"",
     "\"Escuitar\"",
-    "\"devolta\"",
     "\"\\n\"",
     "\",\"",
     "\"(\"",

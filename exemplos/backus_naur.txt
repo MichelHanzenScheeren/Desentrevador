@@ -15,7 +15,7 @@
 /* REGRAS SINTATICAS */
 <S> ::= (<linha> | <bloco>)* ("pareHome" | "EOF")
 <linha> ::= (<elementoDeLinha>)? "\n"  
-<elementoDeLinha> <atribuicao> | <declaracaoDeVariavel> | <chamadaDeFuncao> | <funcoesNativas>
+<elementoDeLinha> ::= <atribuicao> | <declaracaoDeVariavel> | <chamadaDeFuncao> | <funcoesNativas>
 <bloco> ::= <inicioDoLoqueando> | <inicioDoRepeteco> | <inicioSe> | <definicaoDeFuncao>
 
 // LINHA
@@ -68,7 +68,7 @@
 
 <definicaoDeFuncao> ::= "funcao" <tipoDeRetorno> <nomeFuncao> "(" (<definicaoParametros>)? ")" <meioDeFuncao>
 <tipoDeRetorno> ::= "vazio" | <tipoDeDado>
-<definicaoParametros> ::= <tipoDeDado> <nomeVariavel> (<lacoDeAtribuicao>)? (virgula() definicaoDeParametros())?
+<definicaoParametros> ::= <tipoDeDado> <nomeVariavel> (<lacoDeAtribuicao>)? ("," <definicaoDeParametros>)?
 <meioDeFuncao> ::= "dai"<funcaoDeLinha> | "tche""\n"<blocoFuncao>
 <funcaoDeLinha> ::= <linha> | "devolta"<expressao>
 <blocoFuncao> ::= <linha><blocoFuncao> | <bloco><blocoFuncao> | <retornoDeFuncao> |  "bah""\n"

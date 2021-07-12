@@ -88,7 +88,7 @@ TOKEN: /* OPERADORES */
 | < IGUAL: "==" >
 | < DIFERENTE: "!=" >
 | < MAIOR: ">" >
-| < MENOR: "< " >
+| < MENOR: "<" >
 | < MAIOR_IGUAL: ">=" >
 | < MENOR_IGUAL: "<=" >
 | < OU: "ou" >
@@ -103,6 +103,7 @@ TOKEN: /* PALAVRAS RESERVADAS */
 | < BAH: "bah" > // FECHAMENTO DE BLOCO
 | < DAI: "dai" > // OPERACAO DE LINHA
 | < FUNCAO: "funcao" >
+| < DEVOLTA: "devolta" >
 | < LOQUEANDO: "loqueando" > // WHILE
 | < REPETECO: "repeteco" > // FOR
 | < DE: "de" >
@@ -111,7 +112,6 @@ TOKEN: /* PALAVRAS RESERVADAS */
 | < SENAO: "senao" >
 | < TROVAR: "Trovar"> // METODO DE ESCRITA
 | < ESCUITAR: "Escuitar" > // METODO DE LEITURA
-| < DEVOLTA: "devolta" >
 }
 
 TOKEN: /* SIMBOLOS */
@@ -345,7 +345,7 @@ void booleano():
 { < BOOLEANO > }
 
 
-/* REGRAS SINTATICA */
+/* REGRAS SINTATICAS */
 void linha():
 {}
 { (elementoDeLinha())? fimLinha() }
