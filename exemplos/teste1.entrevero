@@ -1,8 +1,8 @@
-// COMENTARIOS DE UMA LINHA
-/* COMENTARIO DE
-MULTIPLAS LINHAS */
+/* 
+    COMENTÁRIO DE MULTIPLAS LINHAS 
+*/
 
-////////////////////////////////////////////////////////////////////////////////////////////////
+/* ****************************************************************************************** */
 /* TESTES DE DECLARACAO DE VARIAVEIS */
 
 redondo teste
@@ -12,7 +12,7 @@ logico teste7 = (teste > 5) e ((teste2 < 10) ou (teste3 == 15))
 redondo teste8 = (3 * 4) + 7 ^ Teste() - (34 / 3 - (8 ^3))
 i /= (1 + 4) 
 
-////////////////////////////////////////////////////////////////////////////////////////////////
+/* ****************************************************************************************** */
 /* TESTES DE LACOS DE REPETICAO */
 
 loqueando i < 10 tche 
@@ -29,7 +29,7 @@ repeteco i de 0 ate 10 tche
     bah
 bah
 
-////////////////////////////////////////////////////////////////////////////////////////////////
+/* ****************************************************************************************** */
 /* TESTES DE CONDICIONAIS */
 
 se teste != "Olá" tche 
@@ -72,7 +72,7 @@ se teste != "Olá" dai teste = "Olá"
 se teste != "Olá" dai teste = "Olá" senao dai teste = "Tchau"
 se teste != "Olá" dai teste = "Olá" senao teste = "Tchau"
 
-////////////////////////////////////////////////////////////////////////////////////////////////
+/* ****************************************************************************************** */
 /* TESTES DE DEFINICAO DE FUNCAO */
 
 funcao vazio Teste() dai teste = teste + 1
@@ -93,7 +93,7 @@ funcao vazio Teste(redondo teste1, trova teste2) dai teste = teste + 1
 funcao vazio Teste(redondo teste1, trova teste2 = "Olá", logico seiLa = anedota) dai teste = teste + 1
 funcao redondo Elevado(redondo valor) dai devolta valor + 1
 
-////////////////////////////////////////////////////////////////////////////////////////////////
+/* ****************************************************************************************** */
 /* TESTES DE CHAMADA DE FUNCAO */
 Teste()
 Teste(12)
@@ -108,7 +108,7 @@ Escuitar()
 Escuitar("Bota qualquer coisa ai")
 teste = Escuitar('Quero um numero: ')
 
-////////////////////////////////////////////////////////////////////////////////////////////////
+/* ****************************************************************************************** */
 /* TESTES DAS EXPRESSOES (GERAL, LOGICA E MATEMATICA) */
 
 se teste dai teste = 4

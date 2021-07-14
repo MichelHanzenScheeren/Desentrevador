@@ -9,114 +9,110 @@ public interface LexerConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int SINGLE_LINE_COMMENT = 6;
+  int MULTI_LINE_COMMENT = 5;
   /** RegularExpression Id. */
-  int MULTI_LINE_COMMENT = 7;
+  int MAIS = 7;
   /** RegularExpression Id. */
-  int MAIS = 9;
+  int MENOS = 8;
   /** RegularExpression Id. */
-  int MENOS = 10;
+  int VEZES = 9;
   /** RegularExpression Id. */
-  int VEZES = 11;
+  int DIVIDIDO = 10;
   /** RegularExpression Id. */
-  int DIVIDIDO = 12;
+  int ELEVADO = 11;
   /** RegularExpression Id. */
-  int ELEVADO = 13;
+  int RESTO = 12;
   /** RegularExpression Id. */
-  int RESTO = 14;
+  int ATRIBUICAO = 13;
   /** RegularExpression Id. */
-  int ATRIBUICAO = 15;
+  int IGUAL = 14;
   /** RegularExpression Id. */
-  int IGUAL = 16;
+  int DIFERENTE = 15;
   /** RegularExpression Id. */
-  int DIFERENTE = 17;
+  int MAIOR = 16;
   /** RegularExpression Id. */
-  int MAIOR = 18;
+  int MENOR = 17;
   /** RegularExpression Id. */
-  int MENOR = 19;
+  int MAIOR_IGUAL = 18;
   /** RegularExpression Id. */
-  int MAIOR_IGUAL = 20;
+  int MENOR_IGUAL = 19;
   /** RegularExpression Id. */
-  int MENOR_IGUAL = 21;
+  int OU = 20;
   /** RegularExpression Id. */
-  int OU = 22;
+  int E = 21;
   /** RegularExpression Id. */
-  int E = 23;
+  int NEGACAO = 22;
   /** RegularExpression Id. */
-  int NEGACAO = 24;
+  int PARE_HOME = 23;
   /** RegularExpression Id. */
-  int PARE_HOME = 25;
+  int TCHE = 24;
   /** RegularExpression Id. */
-  int TCHE = 26;
+  int BAH = 25;
   /** RegularExpression Id. */
-  int BAH = 27;
+  int DAI = 26;
   /** RegularExpression Id. */
-  int DAI = 28;
+  int FUNCAO = 27;
   /** RegularExpression Id. */
-  int FUNCAO = 29;
+  int DEVOLTA = 28;
   /** RegularExpression Id. */
-  int DEVOLTA = 30;
+  int LOQUEANDO = 29;
   /** RegularExpression Id. */
-  int LOQUEANDO = 31;
+  int REPETECO = 30;
   /** RegularExpression Id. */
-  int REPETECO = 32;
+  int DE = 31;
   /** RegularExpression Id. */
-  int DE = 33;
+  int ATE = 32;
   /** RegularExpression Id. */
-  int ATE = 34;
+  int SE = 33;
   /** RegularExpression Id. */
-  int SE = 35;
+  int SENAO = 34;
   /** RegularExpression Id. */
-  int SENAO = 36;
+  int TROVAR = 35;
   /** RegularExpression Id. */
-  int TROVAR = 37;
+  int ESCUITAR = 36;
   /** RegularExpression Id. */
-  int ESCUITAR = 38;
+  int FIM_LINHA = 37;
   /** RegularExpression Id. */
-  int FIM_LINHA = 39;
+  int VIRGULA = 38;
   /** RegularExpression Id. */
-  int VIRGULA = 40;
+  int ABRE_PARENTESE = 39;
   /** RegularExpression Id. */
-  int ABRE_PARENTESE = 41;
+  int FECHA_PARENTESE = 40;
   /** RegularExpression Id. */
-  int FECHA_PARENTESE = 42;
+  int REDONDO = 41;
   /** RegularExpression Id. */
-  int REDONDO = 43;
+  int QUEBRADO = 42;
   /** RegularExpression Id. */
-  int QUEBRADO = 44;
+  int TROVA = 43;
   /** RegularExpression Id. */
-  int TROVA = 45;
+  int LOGICO = 44;
   /** RegularExpression Id. */
-  int LOGICO = 46;
+  int VAZIO = 45;
   /** RegularExpression Id. */
-  int VAZIO = 47;
+  int BOOLEANO = 46;
   /** RegularExpression Id. */
-  int BOOLEANO = 48;
+  int NOME_VARIAVEL = 47;
   /** RegularExpression Id. */
-  int NOME_VARIAVEL = 49;
+  int NOME_FUNCAO = 48;
   /** RegularExpression Id. */
-  int NOME_FUNCAO = 50;
+  int LETRA = 49;
   /** RegularExpression Id. */
-  int LETRA = 51;
+  int MINUSCULAS = 50;
   /** RegularExpression Id. */
-  int MINUSCULAS = 52;
+  int MAIUSCULAS = 51;
   /** RegularExpression Id. */
-  int MAIUSCULAS = 53;
+  int NUMERO = 52;
   /** RegularExpression Id. */
-  int NUMERO = 54;
+  int DIGITO = 53;
   /** RegularExpression Id. */
-  int DIGITO = 55;
+  int TEXTO = 54;
   /** RegularExpression Id. */
-  int TEXTO = 56;
-  /** RegularExpression Id. */
-  int ASCII = 57;
+  int ASCII = 55;
 
   /** Lexical state. */
   int DEFAULT = 0;
   /** Lexical state. */
-  int IN_SINGLE_LINE_COMMENT = 1;
-  /** Lexical state. */
-  int IN_MULTI_LINE_COMMENT = 2;
+  int IN_MULTI_LINE_COMMENT = 1;
 
   /** Literal token values. */
   String[] tokenImage = {
@@ -124,11 +120,9 @@ public interface LexerConstants {
     "\" \"",
     "\"\\r\"",
     "\"\\t\"",
-    "\"//\"",
     "\"/*\"",
-    "\"\\r\"",
     "\"*/\"",
-    "<token of kind 8>",
+    "<token of kind 6>",
     "\"+\"",
     "\"-\"",
     "\"*\"",
