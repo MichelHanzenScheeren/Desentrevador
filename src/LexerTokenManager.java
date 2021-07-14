@@ -2,6 +2,9 @@
 import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.Scanner;
 
 /** Token Manager. */

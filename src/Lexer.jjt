@@ -9,54 +9,73 @@ PARSER_BEGIN(Lexer)
 import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.Scanner;
 
 public class Lexer {
+  	public static boolean jumpLine = false;
+
+	public static void readFromTerminal() throws Throwable {
+	  	jumpLine = true;
+		String code = "", current = "";
+	  	Scanner reader = new Scanner(System.in);
+	  	Lexer lexer = new Lexer(new BufferedReader(new StringReader("")));
+	  	System.out.println("Bota teu codigo ai guri:");
+	  	do {
+	  	  	System.out.print(">> ");
+	  	  	current = reader.nextLine() + "\n";
+	  	  	lexer.ReInit(new BufferedReader(new StringReader(current)));
+	  	  	lexer.main();
+	  	  	code += current;
+	  	} while(!current.contains("pareHome"));
+	  	lexer.ReInit(new BufferedReader(new StringReader(code)));
+	  	execute(lexer);
+	}
+	
 	public static void execute(Lexer analisador) throws ParseException {
 		SimpleNode node = analisador.main();
 		// node.dump("->");
-		System.out.println("\n  ------------------------------------------");
-	    System.out.println("   Mas ah indio veio, que escrita bagual!");
-	    System.out.println("  ------------------------------------------\n");
+		if(jumpLine) System.out.println("");
+		System.out.println("--------------------------------------");
+	    System.out.println("Mas ah indio veio, que escrita bagual!");
+	    System.out.print("--------------------------------------");
+	}
+
+	public static String getPathFromSelectedFile() throws Throwable {
+		System.out.println("Tu trata de pega o arquivo ai entao:\n");
+	 	JFileChooser arquivo = new JFileChooser();
+      	arquivo.showOpenDialog(null);
+      	File selected = arquivo.getSelectedFile();
+      	if(selected == null) throw new Throwable("O tongo veio, cancelou o negocio!");
+      	return selected.getAbsolutePath();
 	}
 
 	public static void extensionCheck(String file) throws Throwable {
 	  	String extension = "";
 		int i = file.lastIndexOf('.');
 		if (i >= 0) { extension = file.substring(i+1); }
-
-		if(!extension.equals("entrevero")) {
-			throw new Throwable("Meu favor, nao sabe nem a extensao, bixo buro! Mah use um aquivo .entrevero.");
-		}
+		if(!extension.equals("entrevero"))
+			throw new Throwable("Meu favor, nao sabe nem a extensao, bixo buro! Mah use um aquivo \".entrevero\".");
 	}
   
 	public static void main(String[] args) {
         try {
             if(args.length == 0) {
-    		    System.out.println("\nBota teu codigo ai guri: ");
-    		    execute(new Lexer(System.in));
+    		    readFromTerminal();
     		} else if(args[0].contains("-f")) {
-    		    System.out.println("\nTu trata de pega o arquivo ai entao: ");
-    		 	JFileChooser arquivo = new JFileChooser();
-	          	arquivo.showOpenDialog(null);
-	          	File selected = arquivo.getSelectedFile();
-	          	if(selected != null) {
-	          	  	extensionCheck(selected.getAbsolutePath());
-	          	 	FileInputStream stream = new FileInputStream(selected.getAbsolutePath());
-	          	 	execute(new Lexer(stream));
-	         	} else {
-	         	  System.out.println("\n\n------------------------------------");
-	         	  System.out.println("O tongo veio, cancelou o negocio!");
-	         	  System.out.println("--------------------------------");
-	         	  return;
-	        	}
+    		  	String path = getPathFromSelectedFile();
+    		    extensionCheck(path);
+          	 	execute(new Lexer(new FileInputStream(path)));
     		} else {
     		  	extensionCheck(args[0]);
-    		  	FileInputStream stream = new FileInputStream(args[0]);
-	          	execute(new Lexer(stream));
+	          	execute(new Lexer(new FileInputStream(args[0])));
     		}
         } catch (Throwable e) {
-            System.out.println("  Deu ruim pia!\n    " + e.getMessage() + "\n");
+          	if(jumpLine) System.out.println("");
+            System.out.println("DEU RUIM PIA!");
+            System.out.print(e.getMessage());
         }
     }
 }
