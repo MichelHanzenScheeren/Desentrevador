@@ -140,8 +140,7 @@ TOKEN: /* IDENTIFICADORES */
 | < #MAIUSCULAS: [ "A" - "Z" ] >
 | < NUMERO: (< DIGITO >)+("."(< DIGITO >)+)? >
 | < #DIGITO: [ "0" - "9" ] >
-| < TEXTO: ("\"" ((~["\"","\\","\n","\r"]) | < ASCII >)* "\"") | ("'" ((~["'","\\","\n","\r"]) | < ASCII >)* "'") > 
-| < #ASCII: ("\\" ( ["n","t","b","r","f","\\","'","\""] | ["0"-"7"] ( ["0"-"7"] )? | ["0"-"3"] ["0"-"7"] ["0"-"7"])) > 
+| < TEXTO: ("\"" (~["\n", "\r", "\""])* "\"") | ("'" (~["\n", "\r", "'"])* "'") >
 }
 
 /* INICIO DO CODIGO RELACIONADO A ANALISE SINTATICA */

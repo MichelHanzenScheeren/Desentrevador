@@ -106,8 +106,6 @@ public interface LexerConstants {
   int DIGITO = 53;
   /** RegularExpression Id. */
   int TEXTO = 54;
-  /** RegularExpression Id. */
-  int ASCII = 55;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -171,7 +169,6 @@ public interface LexerConstants {
     "<NUMERO>",
     "<DIGITO>",
     "<TEXTO>",
-    "<ASCII>",
   };
 
 }
