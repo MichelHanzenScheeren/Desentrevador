@@ -88,10 +88,20 @@ funcao redondo Teste2(redondo teste) tche
     devolta teste
 bah
 
+funcao redondo Teste2(redondo teste) tche
+    teste += 1
+    se teste % 5 == 0 tche 
+        devolta causo 
+    senao tche 
+        devolta anedota
+    bah
+bah
+
 funcao vazio Teste(redondo teste1) dai teste = teste + 1
 funcao vazio Teste(redondo teste1, trova teste2) dai teste = teste + 1
 funcao vazio Teste(redondo teste1, trova teste2 = "Olá", logico seiLa = anedota) dai teste = teste + 1
 funcao redondo Elevado(redondo valor) dai devolta valor + 1
+devolta 4 * 9 / (7^2) + 5 /* É um efeito colateral de adicionar o retorno como uma "linha válida" */
 
 /* ****************************************************************************************** */
 /* TESTES DE CHAMADA DE FUNCAO */

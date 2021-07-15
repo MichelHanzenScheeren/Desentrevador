@@ -369,7 +369,7 @@ void linha():
 
 void elementoDeLinha():
 {}
-{ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas() }
+{ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas() | retornoDeFuncao() }
 
 void bloco():
 {}
@@ -480,6 +480,10 @@ void funcaoEscuitar():
 {}
 { escuitar() abreParentese() (texto())? fechaParentese()  }
 
+void retornoDeFuncao():
+{}
+{ devolta() expressao() }
+
 // BLOCO
 void inicioDoLoqueando():
 {}
@@ -531,16 +535,8 @@ void definicaoDeParametros():
 
 void meioDeFuncao():
 {}
-{ dai() funcaoDeLinha() | tche() fimLinha() blocoDeFuncao() }
-
-void funcaoDeLinha():
-{}
-{ linha() | devolta() expressao() fimLinha() }
+{ dai() linha() | tche() fimLinha() blocoDeFuncao() }
 
 void blocoDeFuncao():
 {}
-{ linha() blocoDeFuncao() | bloco() blocoDeFuncao() | retornoDeFuncao() | bah() }
-
-void retornoDeFuncao():
-{}
-{ devolta() expressao() fimLinha() bah() }
+{ linha() blocoDeFuncao() | bloco() blocoDeFuncao() | bah() }
