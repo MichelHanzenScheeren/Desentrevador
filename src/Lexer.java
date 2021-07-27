@@ -33,7 +33,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
                 if(jumpLine) System.out.println("");
                 System.out.println("--------------------------------------");
             System.out.println("Mas ah indio veio, que escrita bagual!");
-            System.out.print("--------------------------------------");
+            System.out.println("--------------------------------------");
         }
 
         public static String getPathFromSelectedFile() throws Throwable {
@@ -68,7 +68,7 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
         } catch (Throwable e) {
                 if(jumpLine) System.out.println("");
             System.out.println("DEU RUIM PIA!");
-            System.out.print(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
