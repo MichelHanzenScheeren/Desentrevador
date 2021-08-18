@@ -15,36 +15,18 @@ import java.io.StringReader;
 import java.util.Scanner;
 
 public class Lexer {
-  	public static boolean jumpLine = false;
+  	public static boolean errorJumpLine = true;
 
-	public static void readFromTerminal() throws Throwable {
-	  	jumpLine = true;
-		String code = "", current = "";
-	  	Scanner reader = new Scanner(System.in);
-	  	Lexer lexer = new Lexer(new BufferedReader(new StringReader("")));
-	  	System.out.println("Bota teu codigo ai guri:");
-	  	do {
-	  	  	System.out.print(">> ");
-	  	  	current = reader.nextLine() + "\n";
-	  	  	lexer.ReInit(new BufferedReader(new StringReader(current)));
-	  	  	lexer.main();
-	  	  	code += current;
-	  	} while(!current.contains("pareHome"));
-	  	lexer.ReInit(new BufferedReader(new StringReader(code)));
-	  	execute(lexer);
-	}
-	
 	public static void execute(Lexer analisador) throws ParseException {
 		SimpleNode node = analisador.main();
 		// node.dump("->");
-		if(jumpLine) System.out.println("");
 		System.out.println("--------------------------------------");
 	    System.out.println("Mas ah indio veio, que escrita bagual!");
 	    System.out.println("--------------------------------------");
 	}
 
 	public static String getPathFromSelectedFile() throws Throwable {
-		System.out.println("Tu trata de pega o arquivo ai entao:\n");
+		System.out.println(">> Tu trata de pega o arquivo ai entao:");
 	 	JFileChooser arquivo = new JFileChooser();
       	arquivo.showOpenDialog(null);
       	File selected = arquivo.getSelectedFile();
@@ -63,17 +45,19 @@ public class Lexer {
 	public static void main(String[] args) {
         try {
             if(args.length == 0) {
-    		    readFromTerminal();
+              	System.out.println(">> Bota teu codigo ai guri:");
+    		    execute(new Lexer(System.in));
     		} else if(args[0].contains("-f")) {
     		  	String path = getPathFromSelectedFile();
     		    extensionCheck(path);
           	 	execute(new Lexer(new FileInputStream(path)));
     		} else {
+    		  	errorJumpLine = false;
     		  	extensionCheck(args[0]);
 	          	execute(new Lexer(new FileInputStream(args[0])));
     		}
         } catch (Throwable e) {
-          	if(jumpLine) System.out.println("");
+          	if(errorJumpLine) System.out.println("");
             System.out.println("DEU RUIM PIA!");
             System.out.println(e.getMessage());
         }
