@@ -10,57 +10,60 @@ PARSER_BEGIN(Lexer)
 import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.Scanner;
 
 public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants/*@egen*/ {/*@bgen(jjtree)*/
   protected static JJTLexerState jjtree = new JJTLexerState();
 
 /*@egen*/
+  	public static boolean errorJumpLine = true;
+
 	public static void execute(Lexer analisador) throws ParseException {
 		SimpleNode node = analisador.main();
 		// node.dump("->");
-		System.out.println("\n  ------------------------------------------");
-	    System.out.println("   Mas ah indio veio, que escrita bagual!");
-	    System.out.println("  ------------------------------------------\n");
+		System.out.println("--------------------------------------");
+	    System.out.println("Mas ah indio veio, que escrita bagual!");
+	    System.out.println("--------------------------------------");
+	}
+
+	public static String getPathFromSelectedFile() throws Throwable {
+		System.out.println(">> Tu trata de pega o arquivo ai entao:");
+	 	JFileChooser arquivo = new JFileChooser();
+      	arquivo.showOpenDialog(null);
+      	File selected = arquivo.getSelectedFile();
+      	if(selected == null) throw new Throwable("O tongo veio, cancelou o negocio!");
+      	return selected.getAbsolutePath();
 	}
 
 	public static void extensionCheck(String file) throws Throwable {
 	  	String extension = "";
 		int i = file.lastIndexOf('.');
 		if (i >= 0) { extension = file.substring(i+1); }
-
-		if(!extension.equals("entrevero")) {
-			throw new Throwable("Meu favor, nao sabe nem a extensao, bixo buro! Mah use um aquivo .entrevero.");
-		}
+		if(!extension.equals("entrevero"))
+			throw new Throwable("Meu favor, nao sabe nem a extensao, bixo buro! Mah use um aquivo \".entrevero\".");
 	}
   
 	public static void main(String[] args) {
         try {
             if(args.length == 0) {
-    		    System.out.println("\nBota teu codigo ai guri: ");
+              	System.out.println(">> Bota teu codigo ai guri:");
     		    execute(new Lexer(System.in));
     		} else if(args[0].contains("-f")) {
-    		    System.out.println("\nTu trata de pega o arquivo ai entao: ");
-    		 	JFileChooser arquivo = new JFileChooser();
-	          	arquivo.showOpenDialog(null);
-	          	File selected = arquivo.getSelectedFile();
-	          	if(selected != null) {
-	          	  	extensionCheck(selected.getAbsolutePath());
-	          	 	FileInputStream stream = new FileInputStream(selected.getAbsolutePath());
-	          	 	execute(new Lexer(stream));
-	         	} else {
-	         	  System.out.println("\n\n------------------------------------");
-	         	  System.out.println("O tongo veio, cancelou o negocio!");
-	         	  System.out.println("--------------------------------");
-	         	  return;
-	        	}
+    		  	String path = getPathFromSelectedFile();
+    		    extensionCheck(path);
+          	 	execute(new Lexer(new FileInputStream(path)));
     		} else {
+    		  	errorJumpLine = false;
     		  	extensionCheck(args[0]);
-    		  	FileInputStream stream = new FileInputStream(args[0]);
-	          	execute(new Lexer(stream));
+	          	execute(new Lexer(new FileInputStream(args[0])));
     		}
         } catch (Throwable e) {
-            System.out.println("  Deu ruim pia!\n    " + e.getMessage() + "\n");
+          	if(errorJumpLine) System.out.println("");
+            System.out.println("DEU RUIM PIA!");
+            System.out.println(e.getMessage());
         }
     }
 }
@@ -75,10 +78,9 @@ SKIP :
 }
 
 /* PARA IGNORAR OS COMENTARIOS */
-MORE: { "//" : IN_SINGLE_LINE_COMMENT | "/*" : IN_MULTI_LINE_COMMENT }
-<IN_SINGLE_LINE_COMMENT> SPECIAL_TOKEN: { <SINGLE_LINE_COMMENT: "\r" > : DEFAULT }
+MORE: {"/*" : IN_MULTI_LINE_COMMENT }
 <IN_MULTI_LINE_COMMENT> SPECIAL_TOKEN: { <MULTI_LINE_COMMENT: "*/" >: DEFAULT }
-<IN_SINGLE_LINE_COMMENT,IN_MULTI_LINE_COMMENT> MORE : { < ~[] > }
+<IN_MULTI_LINE_COMMENT> MORE : { < ~[] > }
 
 TOKEN: /* OPERADORES */
 { 
@@ -145,8 +147,7 @@ TOKEN: /* IDENTIFICADORES */
 | < #MAIUSCULAS: [ "A" - "Z" ] >
 | < NUMERO: (< DIGITO >)+("."(< DIGITO >)+)? >
 | < #DIGITO: [ "0" - "9" ] >
-| < TEXTO: ("\"" ((~["\"","\\","\n","\r"]) | < ASCII >)* "\"") | ("'" ((~["'","\\","\n","\r"]) | < ASCII >)* "'") > 
-| < #ASCII: ("\\" ( ["n","t","b","r","f","\\","'","\""] | ["0"-"7"] ( ["0"-"7"] )? | ["0"-"3"] ["0"-"7"] ["0"-"7"])) > 
+| < TEXTO: ("\"" (~["\n", "\r", "\""])* "\"") | ("'" (~["\n", "\r", "'"])* "'") >
 }
 
 /* INICIO DO CODIGO RELACIONADO A ANALISE SINTATICA */
@@ -973,7 +974,7 @@ void elementoDeLinha():
 /*@egen*/}
 {/*@bgen(jjtree) elementoDeLinha */
   try {
-/*@egen*/ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas()/*@bgen(jjtree)*/
+/*@egen*/ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas() | retornoDeFuncao()/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1816,6 +1817,36 @@ void funcaoEscuitar():
   }
 /*@egen*/  }
 
+void retornoDeFuncao():
+{/*@bgen(jjtree) retornoDeFuncao */
+  SimpleNode jjtn000 = new SimpleNode(JJTRETORNODEFUNCAO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) retornoDeFuncao */
+  try {
+/*@egen*/ devolta() expressao()/*@bgen(jjtree)*/
+  } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      throw (RuntimeException)jjte000;
+    }
+    if (jjte000 instanceof ParseException) {
+      throw (ParseException)jjte000;
+    }
+    throw (Error)jjte000;
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/ }
+
 // BLOCO
 void inicioDoLoqueando():
 {/*@bgen(jjtree) inicioDoLoqueando */
@@ -2185,37 +2216,7 @@ void meioDeFuncao():
 /*@egen*/}
 {/*@bgen(jjtree) meioDeFuncao */
   try {
-/*@egen*/ dai() funcaoDeLinha() | tche() fimLinha() blocoDeFuncao()/*@bgen(jjtree)*/
-  } catch (Throwable jjte000) {
-    if (jjtc000) {
-      jjtree.clearNodeScope(jjtn000);
-      jjtc000 = false;
-    } else {
-      jjtree.popNode();
-    }
-    if (jjte000 instanceof RuntimeException) {
-      throw (RuntimeException)jjte000;
-    }
-    if (jjte000 instanceof ParseException) {
-      throw (ParseException)jjte000;
-    }
-    throw (Error)jjte000;
-  } finally {
-    if (jjtc000) {
-      jjtree.closeNodeScope(jjtn000, true);
-    }
-  }
-/*@egen*/ }
-
-void funcaoDeLinha():
-{/*@bgen(jjtree) funcaoDeLinha */
-  SimpleNode jjtn000 = new SimpleNode(JJTFUNCAODELINHA);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) funcaoDeLinha */
-  try {
-/*@egen*/ linha() | devolta() expressao() fimLinha()/*@bgen(jjtree)*/
+/*@egen*/ dai() linha() | tche() fimLinha() blocoDeFuncao()/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -2245,37 +2246,7 @@ void blocoDeFuncao():
 /*@egen*/}
 {/*@bgen(jjtree) blocoDeFuncao */
   try {
-/*@egen*/ linha() blocoDeFuncao() | bloco() blocoDeFuncao() | retornoDeFuncao() | bah()/*@bgen(jjtree)*/
-  } catch (Throwable jjte000) {
-    if (jjtc000) {
-      jjtree.clearNodeScope(jjtn000);
-      jjtc000 = false;
-    } else {
-      jjtree.popNode();
-    }
-    if (jjte000 instanceof RuntimeException) {
-      throw (RuntimeException)jjte000;
-    }
-    if (jjte000 instanceof ParseException) {
-      throw (ParseException)jjte000;
-    }
-    throw (Error)jjte000;
-  } finally {
-    if (jjtc000) {
-      jjtree.closeNodeScope(jjtn000, true);
-    }
-  }
-/*@egen*/ }
-
-void retornoDeFuncao():
-{/*@bgen(jjtree) retornoDeFuncao */
-  SimpleNode jjtn000 = new SimpleNode(JJTRETORNODEFUNCAO);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) retornoDeFuncao */
-  try {
-/*@egen*/ devolta() expressao() fimLinha() bah()/*@bgen(jjtree)*/
+/*@egen*/ linha() blocoDeFuncao() | bloco() blocoDeFuncao() | bah()/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);

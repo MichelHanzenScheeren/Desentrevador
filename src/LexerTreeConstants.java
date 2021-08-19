@@ -76,22 +76,21 @@ public interface LexerTreeConstants
   public int JJTFUNCOESNATIVAS = 72;
   public int JJTFUNCAOTROVAR = 73;
   public int JJTFUNCAOESCUITAR = 74;
-  public int JJTINICIODOLOQUEANDO = 75;
-  public int JJTINICIODOREPETECO = 76;
-  public int JJTMEIOBLOCOREPETICAO = 77;
-  public int JJTFIMBLOCOREPETICAO = 78;
-  public int JJTINICIOSE = 79;
-  public int JJTSEDEUMALINHA = 80;
-  public int JJTBLOCOSE = 81;
-  public int JJTINICIOSENAO = 82;
-  public int JJTFIMBLOCOSENAO = 83;
-  public int JJTDEFINICAODEFUNCAO = 84;
-  public int JJTTIPODERETORNO = 85;
-  public int JJTDEFINICAODEPARAMETROS = 86;
-  public int JJTMEIODEFUNCAO = 87;
-  public int JJTFUNCAODELINHA = 88;
+  public int JJTRETORNODEFUNCAO = 75;
+  public int JJTINICIODOLOQUEANDO = 76;
+  public int JJTINICIODOREPETECO = 77;
+  public int JJTMEIOBLOCOREPETICAO = 78;
+  public int JJTFIMBLOCOREPETICAO = 79;
+  public int JJTINICIOSE = 80;
+  public int JJTSEDEUMALINHA = 81;
+  public int JJTBLOCOSE = 82;
+  public int JJTINICIOSENAO = 83;
+  public int JJTFIMBLOCOSENAO = 84;
+  public int JJTDEFINICAODEFUNCAO = 85;
+  public int JJTTIPODERETORNO = 86;
+  public int JJTDEFINICAODEPARAMETROS = 87;
+  public int JJTMEIODEFUNCAO = 88;
   public int JJTBLOCODEFUNCAO = 89;
-  public int JJTRETORNODEFUNCAO = 90;
 
 
   public String[] jjtNodeName = {
@@ -170,6 +169,7 @@ public interface LexerTreeConstants
     "funcoesNativas",
     "funcaoTrovar",
     "funcaoEscuitar",
+    "retornoDeFuncao",
     "inicioDoLoqueando",
     "inicioDoRepeteco",
     "meioBlocoRepeticao",
@@ -183,9 +183,7 @@ public interface LexerTreeConstants
     "tipoDeRetorno",
     "definicaoDeParametros",
     "meioDeFuncao",
-    "funcaoDeLinha",
     "blocoDeFuncao",
-    "retornoDeFuncao",
   };
 }
-/* JavaCC - OriginalChecksum=1c5abe08f257ea5f20daadba87fbbcda (do not edit this line) */
+/* JavaCC - OriginalChecksum=cbe4ea4ed43d8010ac648280edd808ca (do not edit this line) */

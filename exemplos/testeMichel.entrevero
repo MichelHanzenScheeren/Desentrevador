@@ -3,7 +3,7 @@
     Programa para encontrar os 5 primeiros números perfeitos
 */
 
-// definião de função
+/* definião de função */
 funcao logico NumeroPerfeito(redondo numero = 2) tche
   redondo somatorioDivisores = 0
   repeteco i de 1 ate numero tche
@@ -12,10 +12,10 @@ funcao logico NumeroPerfeito(redondo numero = 2) tche
   devolta somatorioDivisores == numero
 bah
 
-// Definição das variáveis (globais)
+/* Definição das variáveis (globais) */
 redondo qtdNumerosPerfeitos = 0, numeroAtual = 2
 
-// Lógica geral
+/* Lógica geral */
 loqueando qtdNumerosPerfeitos != 5 tche
   se NumeroPerfeito(numeroAtual) tche
     Trovar("Novo número perfeito encontrado: " + numeroAtual + "\n")
