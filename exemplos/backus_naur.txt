@@ -1,6 +1,6 @@
 /* TOKENS */
 <booleano> ::= "causo" | "anedota"
-<nomeVariavel> > ::= (<minusculas> | "_") (<letra> | <digito> | "_")*
+<nomeVariavel> ::= (<minusculas> | "_") (<letra> | <digito> | "_")*
 <nomeFuncao> ::= <maiusculas> (<letra> | <digito> | "_")*
 <letra> ::= <minusculas> | <maiusculas>
 <minusculas> ::= ["a" - "z"]
@@ -8,14 +8,13 @@
 <numero> ::= (<digito>)+("."(<digito>)+)?
 <numeroComSinal> ::= ("+" | "-")? <numero>
 <digito> ::= ["0" - "9"]
-<texto> ::= ('"' ((~["\"","\\","\n","\r"]) | < ascii >)* '"') | ("'" ((~["'","\\","\n","\r"]) | < ascii >)* "'")
-<ascii> ::= ("\\" ( ["n","t","b","r","f","\\","'","\""] | ["0"-"7"] ( ["0"-"7"] )? | ["0"-"3"] ["0"-"7"] ["0"-"7"]))
+<texto> ::= ("\"" (~["\n", "\r", "\""])* "\"") | ("'" (~["\n", "\r", "'"])* "'")
 
 
 /* REGRAS SINTATICAS */
 <S> ::= (<linha> | <bloco>)* ("pareHome" | "EOF")
 <linha> ::= (<elementoDeLinha>)? "\n"  
-<elementoDeLinha> ::= <atribuicao> | <declaracaoDeVariavel> | <chamadaDeFuncao> | <funcoesNativas>
+<elementoDeLinha> ::= <atribuicao> | <declaracaoDeVariavel> | <chamadaDeFuncao> | <funcoesNativas> | <retornoDeFuncao>
 <bloco> ::= <inicioDoLoqueando> | <inicioDoRepeteco> | <inicioSe> | <definicaoDeFuncao>
 
 // LINHA
@@ -54,6 +53,8 @@
 <funcaoTrovar> ::= "Trovar" "(" <expressao> ")"
 <funcaoEscuitar> ::= "Escuitar" "(" (<texto>)? ")"
 
+<retornoDeFuncao> ::=  "devolta" <expressao>
+
 // BLOCO
 <inicioDoLoqueando> ::= "loqueando"<expressaoLogica><meioBlocoRepeticao>
 <inicioDoRepeteco> ::= "repeteco"<nomeVariavel>"de"<expressaoMatematica>"ate"<expressaoMatematica><meioBlocoRepeticao>
@@ -69,7 +70,5 @@
 <definicaoDeFuncao> ::= "funcao" <tipoDeRetorno> <nomeFuncao> "(" (<definicaoParametros>)? ")" <meioDeFuncao>
 <tipoDeRetorno> ::= "vazio" | <tipoDeDado>
 <definicaoParametros> ::= <tipoDeDado> <nomeVariavel> (<lacoDeAtribuicao>)? ("," <definicaoDeParametros>)?
-<meioDeFuncao> ::= "dai"<funcaoDeLinha> | "tche""\n"<blocoFuncao>
-<funcaoDeLinha> ::= <linha> | "devolta"<expressao>
-<blocoFuncao> ::= <linha><blocoFuncao> | <bloco><blocoFuncao> | <retornoDeFuncao> |  "bah""\n"
-<retornoDeFuncao> ::= "devolta" <expressao> "\n" "bah" "\n"
+<meioDeFuncao> ::= "dai"<linha> | "tche""\n"<blocoFuncao>
+<blocoFuncao> ::= <linha><blocoFuncao> | <bloco><blocoFuncao> | "bah""\n"
