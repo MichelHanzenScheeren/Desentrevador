@@ -392,46 +392,6 @@ void conectorLogico():
 {}
 { e() | ou() }
 
-void expressaoMatematica():
-{}
-{ atribuivelMatematico() lacoMatematico() }
-
-void lacoMatematico():
-{}
-{ (operadorMatematico() expressaoMatematica()) | {} }
-
-void atribuivelMatematico():
-{}
-{ (abreParentese() expressaoMatematica() fechaParentese()) | numeroComSinal() | texto() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar() }
-
-void expressaoLogica():
-{}
-{ (negacao())? (expressaoLogicaEntreParenteses() | (booleano() lacoLogico()) | verificacaoDeNome() | (primitivosLogicos() lacoMatematico() ligacaoLogica())) }
-
-void expressaoLogicaEntreParenteses():
-{}
-{ abreParentese() expressaoLogica() fechaParentese() lacoLogico() }
-
-void lacoLogico():
-{}
-{ conectorLogico() expressaoLogica() | {} }
-
-void verificacaoDeNome():
-{}
-{ (nomeVariavel() | chamadaDeFuncao()) opcoesDeNome() }
-
-void opcoesDeNome():
-{}
-{ (operadorMatematico() expressaoMatematica() ligacaoLogica()) | ligacaoLogica() | lacoLogico() }
-
-void ligacaoLogica():
-{}
-{ operadorLogico() expressaoMatematica() lacoLogico() }
-
-void primitivosLogicos():
-{}
-{ numeroComSinal() | texto() | funcaoEscuitar() }
-
 void declaracaoDeVariavel():
 {}
 { tipoDeDado() listaDeDeclaracao() }
@@ -471,11 +431,11 @@ void retornoDeFuncao():
 // BLOCO
 void inicioDoLoqueando():
 {}
-{ loqueando() expressaoLogica() meioBlocoRepeticao() }
+{ loqueando() expressao() meioBlocoRepeticao() }
 
 void inicioDoRepeteco():
 {}
-{ repeteco() nomeVariavel() de() expressaoMatematica() ate() expressaoMatematica() meioBlocoRepeticao() }
+{ repeteco() nomeVariavel() de() expressao() ate() expressao() meioBlocoRepeticao() }
 
 void meioBlocoRepeticao():
 {}
@@ -487,7 +447,7 @@ void fimBlocoRepeticao():
 
 void inicioSe():
 {}
-{ se() expressaoLogica() (seDeUmaLinha() | (tche() fimLinha() blocoSe())) }
+{ se() expressao() (seDeUmaLinha() | (tche() fimLinha() blocoSe())) }
 
 void seDeUmaLinha():
 {}

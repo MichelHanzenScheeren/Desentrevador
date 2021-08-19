@@ -58,39 +58,29 @@ public interface LexerTreeConstants
   public int JJTOPERADORMATEMATICO = 54;
   public int JJTOPERADORLOGICO = 55;
   public int JJTCONECTORLOGICO = 56;
-  public int JJTEXPRESSAOMATEMATICA = 57;
-  public int JJTLACOMATEMATICO = 58;
-  public int JJTATRIBUIVELMATEMATICO = 59;
-  public int JJTEXPRESSAOLOGICA = 60;
-  public int JJTEXPRESSAOLOGICAENTREPARENTESES = 61;
-  public int JJTLACOLOGICO = 62;
-  public int JJTVERIFICACAODENOME = 63;
-  public int JJTOPCOESDENOME = 64;
-  public int JJTLIGACAOLOGICA = 65;
-  public int JJTPRIMITIVOSLOGICOS = 66;
-  public int JJTDECLARACAODEVARIAVEL = 67;
-  public int JJTTIPODEDADO = 68;
-  public int JJTLISTADEDECLARACAO = 69;
-  public int JJTCHAMADADEFUNCAO = 70;
-  public int JJTPASSAGEMDEPARAMETROS = 71;
-  public int JJTFUNCOESNATIVAS = 72;
-  public int JJTFUNCAOTROVAR = 73;
-  public int JJTFUNCAOESCUITAR = 74;
-  public int JJTRETORNODEFUNCAO = 75;
-  public int JJTINICIODOLOQUEANDO = 76;
-  public int JJTINICIODOREPETECO = 77;
-  public int JJTMEIOBLOCOREPETICAO = 78;
-  public int JJTFIMBLOCOREPETICAO = 79;
-  public int JJTINICIOSE = 80;
-  public int JJTSEDEUMALINHA = 81;
-  public int JJTBLOCOSE = 82;
-  public int JJTINICIOSENAO = 83;
-  public int JJTFIMBLOCOSENAO = 84;
-  public int JJTDEFINICAODEFUNCAO = 85;
-  public int JJTTIPODERETORNO = 86;
-  public int JJTDEFINICAODEPARAMETROS = 87;
-  public int JJTMEIODEFUNCAO = 88;
-  public int JJTBLOCODEFUNCAO = 89;
+  public int JJTDECLARACAODEVARIAVEL = 57;
+  public int JJTTIPODEDADO = 58;
+  public int JJTLISTADEDECLARACAO = 59;
+  public int JJTCHAMADADEFUNCAO = 60;
+  public int JJTPASSAGEMDEPARAMETROS = 61;
+  public int JJTFUNCOESNATIVAS = 62;
+  public int JJTFUNCAOTROVAR = 63;
+  public int JJTFUNCAOESCUITAR = 64;
+  public int JJTRETORNODEFUNCAO = 65;
+  public int JJTINICIODOLOQUEANDO = 66;
+  public int JJTINICIODOREPETECO = 67;
+  public int JJTMEIOBLOCOREPETICAO = 68;
+  public int JJTFIMBLOCOREPETICAO = 69;
+  public int JJTINICIOSE = 70;
+  public int JJTSEDEUMALINHA = 71;
+  public int JJTBLOCOSE = 72;
+  public int JJTINICIOSENAO = 73;
+  public int JJTFIMBLOCOSENAO = 74;
+  public int JJTDEFINICAODEFUNCAO = 75;
+  public int JJTTIPODERETORNO = 76;
+  public int JJTDEFINICAODEPARAMETROS = 77;
+  public int JJTMEIODEFUNCAO = 78;
+  public int JJTBLOCODEFUNCAO = 79;
 
 
   public String[] jjtNodeName = {
@@ -151,16 +141,6 @@ public interface LexerTreeConstants
     "operadorMatematico",
     "operadorLogico",
     "conectorLogico",
-    "expressaoMatematica",
-    "lacoMatematico",
-    "atribuivelMatematico",
-    "expressaoLogica",
-    "expressaoLogicaEntreParenteses",
-    "lacoLogico",
-    "verificacaoDeNome",
-    "opcoesDeNome",
-    "ligacaoLogica",
-    "primitivosLogicos",
     "declaracaoDeVariavel",
     "tipoDeDado",
     "listaDeDeclaracao",
@@ -186,4 +166,4 @@ public interface LexerTreeConstants
     "blocoDeFuncao",
   };
 }
-/* JavaCC - OriginalChecksum=cbe4ea4ed43d8010ac648280edd808ca (do not edit this line) */
+/* JavaCC - OriginalChecksum=14d3c6825ea67033ea3a8a1fd32b18dd (do not edit this line) */
