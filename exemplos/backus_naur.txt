@@ -28,20 +28,6 @@
 <operadorLogico> ::= ">" | "<" | ">=" | "<=" | "==" | "!=" 
 <conectorLogico> ::= "e" | "ou"
 
-<expressaoMatematica> ::= <atribuivelMatematico><lacoMatematico>
-<lacoMatematico> ::= <operadorMatematico><expressaoMatematica> | &
-<atribuivelMatematico> ::= "("<expressaoMatematica>")" | <numeroComSinal> | <texto> | <nomeVariavel> 
-                        | <chamadaDeFuncao> | <funcaoEscuitar>
-
-<expressaoLogica> ::= ("!")? (<expressaoLogicaEntreParenteses> | <booleano><lacoLogico> | <verificacaoDeNome> 
-                    | <primitivosLogicos><lacoMatematico><ligacaoLogica>)
-<expressaoLogicaEntreParenteses> ::= "("<expressaoLogica>")"<lacoLogico>
-<lacoLogico> ::= <conectorLogico><expressaoLogica> | &
-<verificacaoDeNome> ::= (<nomeVariavel> | <chamadaDeFuncao>) <opcoesNome>
-<opcoesNome> ::= <operadorMatematico><expressaoMatematica><ligacaoLogica> | <ligacaoLogica> | <lacoLogico> 
-<ligacaoLogica> ::= <operadorLogico><expressaoMatematica><lacoLogico>
-<primitivosLogicos> ::= <numeroComSinal> | <texto> | <funcaoEscuitar>
-
 <declaracaoDeVariavel> ::=  <tipoDeDado><listaDeDeclaracao>
 <tipoDeDado> ::= "redondo" | "quebrado" | "trova" | "logico"
 <listaDeDeclaracao> ::= <nomeVariavel> (<lacoDeAtribuicao>)?  (","<listaDeDeclaracao>)?
@@ -53,18 +39,18 @@
 <funcaoTrovar> ::= "Trovar" "(" <expressao> ")"
 <funcaoEscuitar> ::= "Escuitar" "(" (<texto>)? ")"
 
-<retornoDeFuncao> ::=  "devolta" <expressao>
+<retornoDeFuncao> ::= "devolta" <expressao>
 
 // BLOCO
-<inicioDoLoqueando> ::= "loqueando"<expressaoLogica><meioBlocoRepeticao>
-<inicioDoRepeteco> ::= "repeteco"<nomeVariavel>"de"<expressaoMatematica>"ate"<expressaoMatematica><meioBlocoRepeticao>
+<inicioDoLoqueando> ::= "loqueando"<expressao><meioBlocoRepeticao>
+<inicioDoRepeteco> ::= "repeteco"<nomeVariavel>"de"<expressao>"ate"<expressao><meioBlocoRepeticao>
 <meioBlocoRepeticao> ::= "dai"<linha> | "tche""\n"<fimBlocoRepeticao>
 <fimBlocoRepeticao> ::= <linha><fimBlocoRepeticao> | <bloco><fimBlocoRepeticao> | "bah""\n"
 
-<inicioSe> ::= "se"<expressaoLogica> (<seDeUmaLinha> | "tche""\n"<blocoSe>)
+<inicioSe> ::= "se"<expressao> (<seDeUmaLinha> | "tche""\n"<blocoSe>)
 <seDeUmaLinha> ::= "dai"<elementoDeLinha> ("\n" | "senao" ("dai")? <linha>)
 <blocoSe> ::= <linha><blocoSe> | <bloco><blocoSe> | "bah""\n" | <inicioSenao>
-<inicioSenao> ::= "senao"<inicioSe> | "senao""tche""\n"<fimBlocoSenao>
+<inicioSenao> ::= "senao" (<inicioSe> | ("tche""\n"<fimBlocoSenao>))
 <fimBlocoSenao> ::= <linha><fimBlocoSenao> | <bloco><fimBlocoSenao> | "bah""\n"
 
 <definicaoDeFuncao> ::= "funcao" <tipoDeRetorno> <nomeFuncao> "(" (<definicaoParametros>)? ")" <meioDeFuncao>
