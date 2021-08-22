@@ -18,104 +18,101 @@ import java.util.Scanner;
 import recovery.*;
 
 public class Lexer {
-  	public static boolean errorJumpLine = true;
+  public static boolean errorJumpLine = true;
 
-	public static void execute(Lexer analisador) throws ParseException {
-		SimpleNode node = analisador.main();
-		// node.dump("->");
-		System.out.println("--------------------------------------");
-	    System.out.println("Mas ah indio veio, que escrita bagual!");
-	    System.out.println("--------------------------------------");
-	}
+  public static void execute(Lexer analisador) throws ParseException {
+    SimpleNode node = analisador.main();
+    // node.dump("->");
+    System.out.println("--------------------------------------");
+    System.out.println("Mas ah indio veio, que escrita bagual!");
+    System.out.println("--------------------------------------");
+  }
 
-	public static String getPathFromSelectedFile() throws Throwable {
-		System.out.println(">> Tu trata de pega o arquivo ai entao:");
-	 	JFileChooser arquivo = new JFileChooser();
-      	arquivo.showOpenDialog(null);
-      	File selected = arquivo.getSelectedFile();
-      	if(selected == null) throw new Throwable("O tongo veio, cancelou o negocio!");
-      	return selected.getAbsolutePath();
-	}
+  public static String getPathFromSelectedFile() throws Throwable {
+    System.out.println(">> Tu trata de pega o arquivo ai entao:");
+    JFileChooser arquivo = new JFileChooser();
+    arquivo.showOpenDialog(null);
+    File selected = arquivo.getSelectedFile();
+    if(selected == null) throw new Throwable("O tongo veio, cancelou o negocio!");
+    return selected.getAbsolutePath();
+  }
 
-	public static void extensionCheck(String file) throws Throwable {
-	  	String extension = "";
-		int i = file.lastIndexOf('.');
-		if (i >= 0) { extension = file.substring(i+1); }
-		if(!extension.equals("entrevero"))
-			throw new Throwable("Meu favor, nao sabe nem a extensao, bixo buro! Mah use um aquivo \".entrevero\".");
-	}
-  
-	public static void main(String[] args) {
-        try {
-            if(args.length == 0) {
-              	System.out.println(">> Bota teu codigo ai guri:");
-    		    execute(new Lexer(System.in));
-    		} else if(args[0].contains("-f")) {
-    		  	String path = getPathFromSelectedFile();
-    		    extensionCheck(path);
-          	 	execute(new Lexer(new FileInputStream(path)));
-    		} else {
-    		  	errorJumpLine = false;
-    		  	extensionCheck(args[0]);
-	          	execute(new Lexer(new FileInputStream(args[0])));
-    		}
-        } catch (Throwable e) {
-          	if(errorJumpLine) System.out.println("");
-            System.out.println("DEU RUIM PIA!");
-            System.out.println(e.getMessage());
-        }
+  public static void extensionCheck(String file) throws Throwable {
+    String extension = "";
+    int i = file.lastIndexOf('.');
+    if (i >= 0) { extension = file.substring(i+1); }
+    if(!extension.equals("entrevero"))
+    throw new Throwable("Meu favor, nao sabe nem a extensao, bixo buro! Mah use um aquivo \".entrevero\".");
+  }
+
+  public static void main(String[] args) {
+    try {
+      if(args.length == 0) {
+        System.out.println(">> Bota teu codigo ai guri:");
+        execute(new Lexer(System.in));
+      } else if(args[0].contains("-f")) {
+        String path = getPathFromSelectedFile();
+        extensionCheck(path);
+        execute(new Lexer(new FileInputStream(path)));
+      } else {
+        errorJumpLine = false;
+        extensionCheck(args[0]);
+        execute(new Lexer(new FileInputStream(args[0])));
+      }
+    } catch (Throwable e) {
+      if(errorJumpLine) System.out.println("");
+      System.out.println("DEU RUIM PIA!");
+      System.out.println(e.getMessage());
     }
+  }
 
   static public String im(int x) {
     int k;
-	String s;
+    String s;
     s = tokenImage[x];
     k = s.lastIndexOf("\"");
     try {
       s = s.substring(1,k);
-    }
-   catch (StringIndexOutOfBoundsException e)
-	   {}
-   return s;
+    } catch (StringIndexOutOfBoundsException e) {}
+    return s;
   }
-	
+
   static Token lastError = null;
   static boolean eof;    // variável que indica se EOF foi alcançado
-	
+
   // o método abaixo consome tokens até alcançar um que pertença ao conjunto
   // de sincronização
-  static void consumeUntil(RecoverySet g,
-	                 ParseException e,
-	                 String met) throws ParseEOFException,
-	                                    ParseException
-  {
-	Token tok;
-	System.out.println();
-	System.out.println("*** " + met + " ***");
-	System.out.println("     Conjunto de sincronização: " + g);
-		
-	if (g == null) throw e; // se o conjunto é null, propaga a exceção
-	
-	tok = getToken(1); // pega token corrente
-	while ( ! eof )	{ // se não chegou ao fim do arquivo
-	  if ( g.contains(tok.kind)) {//achou um token no conjunto
-	    System.out.println("     Encontrado token de sincronização: " + 
-	                       im(tok.kind));
-	    break;
-	  }
-	  System.out.println("     Ignorando o token: " + im(tok.kind));
-	  getNextToken();     // pega próximo token       
+  static void consumeUntil( RecoverySet g,
+                            ParseException e,
+                            String met) throws ParseEOFException, ParseException {
+    Token tok;
+    System.out.println();
+    System.out.println("*** " + met + " ***");
+    System.out.println("     Conjunto de sincronização: " + g);
+
+    if(g == null) throw e; // se o conjunto é null, propaga a exceção
+
+    tok = getToken(1);                  // pega token corrente
+    while(!eof) {                       // se não chegou ao fim do arquivo
+      if(g.contains(tok.kind)) {        // achou um token no conjunto
+        System.out.println("     Encontrado token de sincronização: " + im(tok.kind));
+        break;
+      }
+
+      System.out.println("     Ignorando o token: " + im(tok.kind));
+      getNextToken();                   // pega próximo token
       tok = getToken(1);
-	  if (tok.kind == EOF && ! g.contains(EOF) ) // fim da entrada?   
-	      eof = true;
-	}
-    if ( tok != lastError)  {
-	  System.out.println(e.getMessage());
-	  lastError = tok;
-	   
-	}
-	if ( eof )
-	  throw new ParseEOFException("Encontrei EOF onde não deveria.");
+      if(tok.kind == EOF && !g.contains(EOF)) // fim da entrada?
+          eof = true;
+    }
+
+    if(tok != lastError) {
+      System.out.println(e.getMessage());
+      lastError = tok;
+    }
+
+    if(eof)
+      throw new ParseEOFException("Encontrei EOF onde não deveria.");
   }
 }
 
@@ -134,7 +131,7 @@ MORE: {"/*" : IN_MULTI_LINE_COMMENT }
 <IN_MULTI_LINE_COMMENT> MORE : { < ~[] > }
 
 TOKEN: /* OPERADORES */
-{ 
+{
   < MAIS: "+" >
 | < MENOS: "-" >
 | < VEZES: "*" >
@@ -194,7 +191,7 @@ TOKEN: /* IDENTIFICADORES */
 | < NOME_VARIAVEL: (<MINUSCULAS> | "_") (<LETRA> | <DIGITO> | "_")* >
 | < NOME_FUNCAO: <MAIUSCULAS> (<LETRA> | <DIGITO> | "_")* >
 | < #LETRA: [ "A" - "Z", "a" - "z" ] >
-| < #MINUSCULAS: [ "a" - "z" ] > 
+| < #MINUSCULAS: [ "a" - "z" ] >
 | < #MAIUSCULAS: [ "A" - "Z" ] >
 | < NUMERO: (< DIGITO >)+("."(< DIGITO >)+)? >
 | < #DIGITO: [ "0" - "9" ] >
@@ -403,33 +400,75 @@ void booleano():
 
 /* REGRAS SINTATICAS */
 void linha():
-{}
-{ (elementoDeLinha())? fimLinha() }
+{ RecoverySet recovery = Follow.linha; }
+{
+  try {
+    (elementoDeLinha())? fimLinha()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "linha");
+  }
+}
 
 void elementoDeLinha():
-{}
-{ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas() | retornoDeFuncao() }
+{ RecoverySet recovery = Follow.elementoDeLinha; }
+{
+  try {
+    atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas() | retornoDeFuncao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "elementoDeLinha");
+  }
+}
 
 void bloco():
-{}
-{ inicioDoLoqueando() | inicioDoRepeteco() | inicioSe() | definicaoDeFuncao() }
+{ RecoverySet recovery = Follow.bloco; }
+{
+  try {
+    inicioDoLoqueando() | inicioDoRepeteco() | inicioSe() | definicaoDeFuncao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "bloco");
+  }
+}
 
 // LINHA
 void atribuicao():
-{}
-{ nomeVariavel() (operadorMatematico())? lacoDeAtribuicao() }
+{ RecoverySet recovery = Follow.atribuicao; }
+{
+  try {
+    nomeVariavel() (operadorMatematico())? lacoDeAtribuicao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "atribuicao");
+  }
+}
 
 void lacoDeAtribuicao():
-{}
-{ simboloAtribuicao() expressao()  }
+{ RecoverySet recovery = Follow.lacoDeAtribuicao; }
+{
+  try {
+    simboloAtribuicao() expressao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "lacoDeAtribuicao");
+  }
+}
 
 void expressao():
-{}
-{ (negacao())? atribuivel() (operador() expressao())? }
+{ RecoverySet recovery = Follow.expressao; }
+{
+  try {
+    (negacao())? atribuivel() (operador() expressao())?
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "expressao");
+  }
+}
 
 void atribuivel():
-{}
-{ abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar() }
+{ RecoverySet recovery = Follow.atribuivel; }
+{
+  try {
+    abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "atribuivel");
+  }
+}
 
 void operador():
 { RecoverySet recovery = Follow.operador; }
@@ -452,28 +491,64 @@ void operadorMatematico():
 }
 
 void operadorLogico():
-{}
-{ maior() | menor() | maiorIgual() | menorIgual() | igual() | diferente() }
+{ RecoverySet recovery = Follow.operadorLogico; }
+{
+  try {
+    maior() | menor() | maiorIgual() | menorIgual() | igual() | diferente()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "operadorLogico");
+  }
+}
 
 void conectorLogico():
-{}
-{ e() | ou() }
+{ RecoverySet recovery = Follow.conectorLogico; }
+{
+  try {
+    e() | ou()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "conectorLogico");
+  }
+}
 
 void declaracaoDeVariavel():
-{}
-{ tipoDeDado() listaDeDeclaracao() }
+{ RecoverySet recovery = Follow.declaracaoDeVariavel; }
+{
+  try {
+    tipoDeDado() listaDeDeclaracao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "declaracaoDeVariavel");
+  }
+}
 
 void tipoDeDado():
-{}
-{ redondo() | quebrado() | trova() | logico() }
+{ RecoverySet recovery = Follow.tipoDeDado; }
+{
+  try {
+    redondo() | quebrado() | trova() | logico()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "tipoDeDado");
+  }
+}
 
 void listaDeDeclaracao():
-{}
-{ nomeVariavel() (lacoDeAtribuicao())? (virgula() listaDeDeclaracao())? }
+{ RecoverySet recovery = Follow.listaDeDeclaracao; }
+{
+  try {
+    nomeVariavel() (lacoDeAtribuicao())? (virgula() listaDeDeclaracao())?
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "listaDeDeclaracao");
+  }
+}
 
 void chamadaDeFuncao():
-{}
-{ nomeFuncao() abreParentese() (passagemDeParametros())? fechaParentese()  }
+{ RecoverySet recovery = Follow.chamadaDeFuncao; }
+{
+  try {
+    nomeFuncao() abreParentese() (passagemDeParametros())? fechaParentese()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "chamadaDeFuncao");
+  }
+}
 
 void passagemDeParametros():
 { RecoverySet recovery = Follow.passagemDeParametros; }
@@ -481,79 +556,187 @@ void passagemDeParametros():
   try {
     expressao() (virgula() passagemDeParametros())?
   } catch (ParseException e) {
-    consumeUntil(recovery, e, "funcoesNativas");
+    consumeUntil(recovery, e, "passagemDeParametros");
   }
-} 
+}
 
 void funcoesNativas():
-{}
-{ funcaoTrovar() |  funcaoEscuitar() }
+{ RecoverySet recovery = Follow.funcoesNativas; }
+{
+  try {
+    funcaoTrovar() |  funcaoEscuitar()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "funcoesNativas");
+  }
+}
 
 void funcaoTrovar():
-{}
-{ trovar() abreParentese() expressao() fechaParentese() }
+{ RecoverySet recovery = Follow.funcaoTrovar; }
+{
+  try {
+    trovar() abreParentese() expressao() fechaParentese()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "funcaoTrovar");
+  }
+}
 
 void funcaoEscuitar():
-{}
-{ escuitar() abreParentese() (texto())? fechaParentese()  }
+{ RecoverySet recovery = Follow.funcaoEscuitar; }
+{
+  try {
+    escuitar() abreParentese() (texto())? fechaParentese()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "funcaoEscuitar");
+  }
+}
 
 void retornoDeFuncao():
-{}
-{ devolta() expressao() }
+{ RecoverySet recovery = Follow.retornoDeFuncao; }
+{
+  try {
+    devolta() expressao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "retornoDeFuncao");
+  }
+}
 
 // BLOCO
 void inicioDoLoqueando():
-{}
-{ loqueando() expressao() meioBlocoRepeticao() }
+{ RecoverySet recovery = Follow.inicioDoLoqueando; }
+{
+  try {
+    loqueando() expressao() meioBlocoRepeticao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "inicioDoLoqueando");
+  }
+}
 
 void inicioDoRepeteco():
-{}
-{ repeteco() nomeVariavel() de() expressao() ate() expressao() meioBlocoRepeticao() }
+{ RecoverySet recovery = Follow.inicioDoRepeteco; }
+{
+  try {
+    repeteco() nomeVariavel() de() expressao() ate() expressao() meioBlocoRepeticao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "inicioDoRepeteco");
+  }
+}
 
 void meioBlocoRepeticao():
-{}
-{ dai() linha() | tche() fimLinha() fimBlocoRepeticao() }
+{ RecoverySet recovery = Follow.meioBlocoRepeticao; }
+{
+  try {
+    dai() linha() | tche() fimLinha() fimBlocoRepeticao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "meioBlocoRepeticao");
+  }
+}
 
 void fimBlocoRepeticao():
-{}
-{ linha() fimBlocoRepeticao() | bloco() fimBlocoRepeticao() | bah() }
+{ RecoverySet recovery = Follow.fimBlocoRepeticao; }
+{
+  try {
+    linha() fimBlocoRepeticao() | bloco() fimBlocoRepeticao() | bah()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "fimBlocoRepeticao");
+  }
+}
 
 void inicioSe():
-{}
-{ se() expressao() (seDeUmaLinha() | (tche() fimLinha() blocoSe())) }
+{ RecoverySet recovery = Follow.inicioSe; }
+{
+  try {
+    se() expressao() (seDeUmaLinha() | (tche() fimLinha() blocoSe()))
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "inicioSe");
+  }
+}
 
 void seDeUmaLinha():
-{}
-{ dai() elementoDeLinha() (fimLinha() | senao() (dai())? linha()) }
+{ RecoverySet recovery = Follow.seDeUmaLinha; }
+{
+  try {
+    dai() elementoDeLinha() (fimLinha() | senao() (dai())? linha())
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "seDeUmaLinha");
+  }
+}
 
 void blocoSe():
-{}
-{ linha() blocoSe() | bloco() blocoSe() | bah() | inicioSenao() }
+{ RecoverySet recovery = Follow.blocoSe; }
+{
+  try {
+    linha() blocoSe() | bloco() blocoSe() | bah() | inicioSenao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "blocoSe");
+  }
+}
 
 void inicioSenao():
-{}
-{ senao() (inicioSe() | tche() fimLinha() fimBlocoSenao()) }
+{ RecoverySet recovery = Follow.inicioSenao; }
+{
+  try {
+    senao() (inicioSe() | tche() fimLinha() fimBlocoSenao())
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "inicioSenao");
+  }
+}
 
 void fimBlocoSenao():
-{}
-{ linha() fimBlocoSenao() | bloco() fimBlocoSenao() | bah()  }
+{ RecoverySet recovery = Follow.fimBlocoSenao; }
+{
+  try {
+    linha() fimBlocoSenao() | bloco() fimBlocoSenao() | bah()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "fimBlocoSenao");
+  }
+}
 
 void definicaoDeFuncao():
-{}
-{ funcao() tipoDeRetorno() nomeFuncao() abreParentese() (definicaoDeParametros())? fechaParentese() meioDeFuncao() }
+{ RecoverySet recovery = Follow.definicaoDeFuncao; }
+{
+  try {
+    funcao() tipoDeRetorno() nomeFuncao() abreParentese() (definicaoDeParametros())? fechaParentese() meioDeFuncao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "definicaoDeFuncao");
+  }
+}
 
 void tipoDeRetorno():
-{}
-{ vazio() | tipoDeDado() }
+{ RecoverySet recovery = Follow.tipoDeRetorno; }
+{
+  try {
+    vazio() | tipoDeDado()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "tipoDeRetorno");
+  }
+}
 
 void definicaoDeParametros():
-{}
-{ tipoDeDado() nomeVariavel() (lacoDeAtribuicao())? (virgula() definicaoDeParametros())? }
+{ RecoverySet recovery = Follow.definicaoDeParametros; }
+{
+  try {
+    tipoDeDado() nomeVariavel() (lacoDeAtribuicao())? (virgula() definicaoDeParametros())?
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "definicaoDeParametros");
+  }
+}
 
 void meioDeFuncao():
-{}
-{ dai() linha() | tche() fimLinha() blocoDeFuncao() }
+{ RecoverySet recovery = Follow.meioDeFuncao; }
+{
+  try {
+    dai() linha() | tche() fimLinha() blocoDeFuncao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "meioDeFuncao");
+  }
+}
 
 void blocoDeFuncao():
-{}
-{ linha() blocoDeFuncao() | bloco() blocoDeFuncao() | bah() }
+{ RecoverySet recovery = Follow.blocoDeFuncao; }
+{
+  try {
+    linha() blocoDeFuncao() | bloco() blocoDeFuncao() | bah()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "blocoDeFuncao");
+  }
+}
