@@ -75,37 +75,30 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
 
   // o método abaixo consome tokens até alcançar um que pertença ao conjunto
   // de sincronização
-  static void consumeUntil( RecoverySet g,
-                            ParseException e,
-                            String met) throws ParseEOFException, ParseException {
+  static void consumeUntil(RecoverySet g, ParseException e, String met) throws ParseException {
     Token tok;
     System.out.println();
     System.out.println("*** " + met + " ***");
     System.out.println("     Conjunto de sincroniza\u00e7\u00e3o: " + g);
-
     if(g == null) throw e; // se o conjunto é null, propaga a exceção
-
     tok = getToken(1);                  // pega token corrente
     while(!eof) {                       // se não chegou ao fim do arquivo
       if(g.contains(tok.kind)) {        // achou um token no conjunto
         System.out.println("     Encontrado token de sincroniza\u00e7\u00e3o: " + im(tok.kind));
         break;
       }
-
       System.out.println("     Ignorando o token: " + im(tok.kind));
       getNextToken();                   // pega próximo token
       tok = getToken(1);
       if(tok.kind == EOF && !g.contains(EOF)) // fim da entrada?
           eof = true;
     }
-
     if(tok != lastError) {
       System.out.println(e.getMessage());
       lastError = tok;
     }
-
     if(eof)
-      throw new ParseEOFException("Encontrei EOF onde n\u00e3o deveria.");
+      throw new RuntimeException("Encontrei EOF onde n\u00e3o deveria.");
   }
 
 /* INICIO DO CODIGO RELACIONADO A ANALISE SINTATICA */
