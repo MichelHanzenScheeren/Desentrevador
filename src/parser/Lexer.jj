@@ -22,104 +22,94 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants/*@egen*/ {/*@bg
   protected static JJTLexerState jjtree = new JJTLexerState();
 
 /*@egen*/
-  	public static boolean errorJumpLine = true;
+  public static boolean errorJumpLine = true;
 
-	public static void execute(Lexer analisador) throws ParseException {
-		SimpleNode node = analisador.main();
-		// node.dump("->");
-		System.out.println("--------------------------------------");
-	    System.out.println("Mas ah indio veio, que escrita bagual!");
-	    System.out.println("--------------------------------------");
-	}
+  public static void execute(Lexer analisador) throws ParseException {
+    SimpleNode node = analisador.main();
+    // node.dump("->");
+    System.out.println("--------------------------------------");
+    System.out.println("Mas ah indio veio, que escrita bagual!");
+    System.out.println("--------------------------------------");
+  }
 
-	public static String getPathFromSelectedFile() throws Throwable {
-		System.out.println(">> Tu trata de pega o arquivo ai entao:");
-	 	JFileChooser arquivo = new JFileChooser();
-      	arquivo.showOpenDialog(null);
-      	File selected = arquivo.getSelectedFile();
-      	if(selected == null) throw new Throwable("O tongo veio, cancelou o negocio!");
-      	return selected.getAbsolutePath();
-	}
+  public static String getPathFromSelectedFile() throws Throwable {
+    System.out.println(">> Tu trata de pega o arquivo ai entao:");
+    JFileChooser arquivo = new JFileChooser();
+    arquivo.showOpenDialog(null);
+    File selected = arquivo.getSelectedFile();
+    if(selected == null) throw new Throwable("O tongo veio, cancelou o negocio!");
+    return selected.getAbsolutePath();
+  }
 
-	public static void extensionCheck(String file) throws Throwable {
-	  	String extension = "";
-		int i = file.lastIndexOf('.');
-		if (i >= 0) { extension = file.substring(i+1); }
-		if(!extension.equals("entrevero"))
-			throw new Throwable("Meu favor, nao sabe nem a extensao, bixo buro! Mah use um aquivo \".entrevero\".");
-	}
-  
-	public static void main(String[] args) {
-        try {
-            if(args.length == 0) {
-              	System.out.println(">> Bota teu codigo ai guri:");
-    		    execute(new Lexer(System.in));
-    		} else if(args[0].contains("-f")) {
-    		  	String path = getPathFromSelectedFile();
-    		    extensionCheck(path);
-          	 	execute(new Lexer(new FileInputStream(path)));
-    		} else {
-    		  	errorJumpLine = false;
-    		  	extensionCheck(args[0]);
-	          	execute(new Lexer(new FileInputStream(args[0])));
-    		}
-        } catch (Throwable e) {
-          	if(errorJumpLine) System.out.println("");
-            System.out.println("DEU RUIM PIA!");
-            System.out.println(e.getMessage());
-        }
+  public static void extensionCheck(String file) throws Throwable {
+    String extension = "";
+    int i = file.lastIndexOf('.');
+    if (i >= 0) { extension = file.substring(i+1); }
+    if(!extension.equals("entrevero"))
+    throw new Throwable("Meu favor, nao sabe nem a extensao, bixo buro! Mah use um aquivo \".entrevero\".");
+  }
+
+  public static void main(String[] args) {
+    try {
+      if(args.length == 0) {
+        System.out.println(">> Bota teu codigo ai guri:");
+        execute(new Lexer(System.in));
+      } else if(args[0].contains("-f")) {
+        String path = getPathFromSelectedFile();
+        extensionCheck(path);
+        execute(new Lexer(new FileInputStream(path)));
+      } else {
+        errorJumpLine = false;
+        extensionCheck(args[0]);
+        execute(new Lexer(new FileInputStream(args[0])));
+      }
+    } catch (Throwable e) {
+      if(errorJumpLine) System.out.println("");
+      System.out.println("DEU RUIM PIA!");
+      System.out.println(e.getMessage());
     }
+  }
 
   static public String im(int x) {
     int k;
-	String s;
+    String s;
     s = tokenImage[x];
     k = s.lastIndexOf("\"");
     try {
       s = s.substring(1,k);
-    }
-   catch (StringIndexOutOfBoundsException e)
-	   {}
-   return s;
+    } catch (StringIndexOutOfBoundsException e) {}
+    return s;
   }
-	
+
   static Token lastError = null;
   static boolean eof;    // vari\u00e1vel que indica se EOF foi alcan\u00e7ado
-	
+
   // o m\u00e9todo abaixo consome tokens at\u00e9 alcan\u00e7ar um que perten\u00e7a ao conjunto
   // de sincroniza\u00e7\u00e3o
-  static void consumeUntil(RecoverySet g,
-	                 ParseException e,
-	                 String met) throws ParseEOFException,
-	                                    ParseException
-  {
-	Token tok;
-	System.out.println();
-	System.out.println("*** " + met + " ***");
-	System.out.println("     Conjunto de sincroniza\u00e7\u00e3o: " + g);
-		
-	if (g == null) throw e; // se o conjunto \u00e9 null, propaga a exce\u00e7\u00e3o
-	
-	tok = getToken(1); // pega token corrente
-	while ( ! eof )	{ // se n\u00e3o chegou ao fim do arquivo
-	  if ( g.contains(tok.kind)) {//achou um token no conjunto
-	    System.out.println("     Encontrado token de sincroniza\u00e7\u00e3o: " + 
-	                       im(tok.kind));
-	    break;
-	  }
-	  System.out.println("     Ignorando o token: " + im(tok.kind));
-	  getNextToken();     // pega pr\u00f3ximo token       
+  static void consumeUntil(RecoverySet g, ParseException e, String met) throws ParseException {
+    Token tok;
+    System.out.println();
+    System.out.println("*** " + met + " ***");
+    System.out.println("     Conjunto de sincroniza\u00e7\u00e3o: " + g);
+    if(g == null) throw e; // se o conjunto \u00e9 null, propaga a exce\u00e7\u00e3o
+    tok = getToken(1);                  // pega token corrente
+    while(!eof) {                       // se n\u00e3o chegou ao fim do arquivo
+      if(g.contains(tok.kind)) {        // achou um token no conjunto
+        System.out.println("     Encontrado token de sincroniza\u00e7\u00e3o: " + im(tok.kind));
+        break;
+      }
+      System.out.println("     Ignorando o token: " + im(tok.kind));
+      getNextToken();                   // pega pr\u00f3ximo token
       tok = getToken(1);
-	  if (tok.kind == EOF && ! g.contains(EOF) ) // fim da entrada?   
-	      eof = true;
-	}
-    if ( tok != lastError)  {
-	  System.out.println(e.getMessage());
-	  lastError = tok;
-	   
-	}
-	if ( eof )
-	  throw new ParseEOFException("Encontrei EOF onde n\u00e3o deveria.");
+      if(tok.kind == EOF && !g.contains(EOF)) // fim da entrada?
+          eof = true;
+    }
+    if(tok != lastError) {
+      System.out.println(e.getMessage());
+      lastError = tok;
+    }
+    if(eof)
+      throw new RuntimeException("Encontrei EOF onde n\u00e3o deveria.");
   }
 }
 
@@ -138,7 +128,7 @@ MORE: {"/*" : IN_MULTI_LINE_COMMENT }
 <IN_MULTI_LINE_COMMENT> MORE : { < ~[] > }
 
 TOKEN: /* OPERADORES */
-{ 
+{
   < MAIS: "+" >
 | < MENOS: "-" >
 | < VEZES: "*" >
@@ -198,7 +188,7 @@ TOKEN: /* IDENTIFICADORES */
 | < NOME_VARIAVEL: (<MINUSCULAS> | "_") (<LETRA> | <DIGITO> | "_")* >
 | < NOME_FUNCAO: <MAIUSCULAS> (<LETRA> | <DIGITO> | "_")* >
 | < #LETRA: [ "A" - "Z", "a" - "z" ] >
-| < #MINUSCULAS: [ "a" - "z" ] > 
+| < #MINUSCULAS: [ "a" - "z" ] >
 | < #MAIUSCULAS: [ "A" - "Z" ] >
 | < NUMERO: (< DIGITO >)+("."(< DIGITO >)+)? >
 | < #DIGITO: [ "0" - "9" ] >
@@ -211,18 +201,17 @@ SimpleNode main():
   SimpleNode jjtn000 = new SimpleNode(JJTMAIN);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.main; }
 {/*@bgen(jjtree) main */
   try {
 /*@egen*/
-  (linha() | bloco())*
-  (pareHome() | fimDeArquivo())/*@bgen(jjtree)*/
-  {
-    jjtree.closeNodeScope(jjtn000, true);
-    jjtc000 = false;
-  }
-/*@egen*/
-  { return jjtn000; }/*@bgen(jjtree)*/
+  try {
+    (linha() | bloco())*
+    (pareHome() | fimDeArquivo())
+    { return jjtn000; }
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "main");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -996,10 +985,15 @@ void linha():
   SimpleNode jjtn000 = new SimpleNode(JJTLINHA);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.linha; }
 {/*@bgen(jjtree) linha */
   try {
-/*@egen*/ (elementoDeLinha())? fimLinha()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    (elementoDeLinha())? fimLinha()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "linha");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1019,17 +1013,23 @@ void linha():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void elementoDeLinha():
 {/*@bgen(jjtree) elementoDeLinha */
   SimpleNode jjtn000 = new SimpleNode(JJTELEMENTODELINHA);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.elementoDeLinha; }
 {/*@bgen(jjtree) elementoDeLinha */
   try {
-/*@egen*/ atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas() | retornoDeFuncao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    atribuicao() | declaracaoDeVariavel() | chamadaDeFuncao() | funcoesNativas() | retornoDeFuncao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "elementoDeLinha");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1049,17 +1049,23 @@ void elementoDeLinha():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void bloco():
 {/*@bgen(jjtree) bloco */
   SimpleNode jjtn000 = new SimpleNode(JJTBLOCO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.bloco; }
 {/*@bgen(jjtree) bloco */
   try {
-/*@egen*/ inicioDoLoqueando() | inicioDoRepeteco() | inicioSe() | definicaoDeFuncao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    inicioDoLoqueando() | inicioDoRepeteco() | inicioSe() | definicaoDeFuncao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "bloco");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1079,7 +1085,8 @@ void bloco():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 // LINHA
 void atribuicao():
@@ -1087,10 +1094,15 @@ void atribuicao():
   SimpleNode jjtn000 = new SimpleNode(JJTATRIBUICAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.atribuicao; }
 {/*@bgen(jjtree) atribuicao */
   try {
-/*@egen*/ nomeVariavel() (operadorMatematico())? lacoDeAtribuicao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    nomeVariavel() (operadorMatematico())? lacoDeAtribuicao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "atribuicao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1110,17 +1122,23 @@ void atribuicao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void lacoDeAtribuicao():
 {/*@bgen(jjtree) lacoDeAtribuicao */
   SimpleNode jjtn000 = new SimpleNode(JJTLACODEATRIBUICAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.lacoDeAtribuicao; }
 {/*@bgen(jjtree) lacoDeAtribuicao */
   try {
-/*@egen*/ simboloAtribuicao() expressao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    simboloAtribuicao() expressao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "lacoDeAtribuicao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1140,17 +1158,23 @@ void lacoDeAtribuicao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/  }
+/*@egen*/
+}
 
 void expressao():
 {/*@bgen(jjtree) expressao */
   SimpleNode jjtn000 = new SimpleNode(JJTEXPRESSAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.expressao; }
 {/*@bgen(jjtree) expressao */
   try {
-/*@egen*/ (negacao())? atribuivel() (operador() expressao())?/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    (negacao())? atribuivel() (operador() expressao())?
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "expressao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1170,17 +1194,23 @@ void expressao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void atribuivel():
 {/*@bgen(jjtree) atribuivel */
   SimpleNode jjtn000 = new SimpleNode(JJTATRIBUIVEL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.atribuivel; }
 {/*@bgen(jjtree) atribuivel */
   try {
-/*@egen*/ abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    abreParentese() expressao() fechaParentese() | numeroComSinal() | texto() | booleano() | nomeVariavel() | chamadaDeFuncao() | funcaoEscuitar()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "atribuivel");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1200,7 +1230,8 @@ void atribuivel():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void operador():
 {/*@bgen(jjtree) operador */
@@ -1279,10 +1310,15 @@ void operadorLogico():
   SimpleNode jjtn000 = new SimpleNode(JJTOPERADORLOGICO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.operadorLogico; }
 {/*@bgen(jjtree) operadorLogico */
   try {
-/*@egen*/ maior() | menor() | maiorIgual() | menorIgual() | igual() | diferente()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    maior() | menor() | maiorIgual() | menorIgual() | igual() | diferente()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "operadorLogico");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1302,17 +1338,23 @@ void operadorLogico():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void conectorLogico():
 {/*@bgen(jjtree) conectorLogico */
   SimpleNode jjtn000 = new SimpleNode(JJTCONECTORLOGICO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.conectorLogico; }
 {/*@bgen(jjtree) conectorLogico */
   try {
-/*@egen*/ e() | ou()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    e() | ou()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "conectorLogico");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1332,17 +1374,23 @@ void conectorLogico():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void declaracaoDeVariavel():
 {/*@bgen(jjtree) declaracaoDeVariavel */
   SimpleNode jjtn000 = new SimpleNode(JJTDECLARACAODEVARIAVEL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.declaracaoDeVariavel; }
 {/*@bgen(jjtree) declaracaoDeVariavel */
   try {
-/*@egen*/ tipoDeDado() listaDeDeclaracao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    tipoDeDado() listaDeDeclaracao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "declaracaoDeVariavel");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1362,17 +1410,23 @@ void declaracaoDeVariavel():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void tipoDeDado():
 {/*@bgen(jjtree) tipoDeDado */
   SimpleNode jjtn000 = new SimpleNode(JJTTIPODEDADO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.tipoDeDado; }
 {/*@bgen(jjtree) tipoDeDado */
   try {
-/*@egen*/ redondo() | quebrado() | trova() | logico()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    redondo() | quebrado() | trova() | logico()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "tipoDeDado");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1392,17 +1446,23 @@ void tipoDeDado():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void listaDeDeclaracao():
 {/*@bgen(jjtree) listaDeDeclaracao */
   SimpleNode jjtn000 = new SimpleNode(JJTLISTADEDECLARACAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.listaDeDeclaracao; }
 {/*@bgen(jjtree) listaDeDeclaracao */
   try {
-/*@egen*/ nomeVariavel() (lacoDeAtribuicao())? (virgula() listaDeDeclaracao())?/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    nomeVariavel() (lacoDeAtribuicao())? (virgula() listaDeDeclaracao())?
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "listaDeDeclaracao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1422,17 +1482,23 @@ void listaDeDeclaracao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void chamadaDeFuncao():
 {/*@bgen(jjtree) chamadaDeFuncao */
   SimpleNode jjtn000 = new SimpleNode(JJTCHAMADADEFUNCAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.chamadaDeFuncao; }
 {/*@bgen(jjtree) chamadaDeFuncao */
   try {
-/*@egen*/ nomeFuncao() abreParentese() (passagemDeParametros())? fechaParentese()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    nomeFuncao() abreParentese() (passagemDeParametros())? fechaParentese()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "chamadaDeFuncao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1452,7 +1518,8 @@ void chamadaDeFuncao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/  }
+/*@egen*/
+}
 
 void passagemDeParametros():
 {/*@bgen(jjtree) passagemDeParametros */
@@ -1465,6 +1532,42 @@ void passagemDeParametros():
 /*@egen*/
   try {
     expressao() (virgula() passagemDeParametros())?
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "passagemDeParametros");
+  }/*@bgen(jjtree)*/
+  } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      throw (RuntimeException)jjte000;
+    }
+    if (jjte000 instanceof ParseException) {
+      throw (ParseException)jjte000;
+    }
+    throw (Error)jjte000;
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void funcoesNativas():
+{/*@bgen(jjtree) funcoesNativas */
+  SimpleNode jjtn000 = new SimpleNode(JJTFUNCOESNATIVAS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/ RecoverySet recovery = Follow.funcoesNativas; }
+{/*@bgen(jjtree) funcoesNativas */
+  try {
+/*@egen*/
+  try {
+    funcaoTrovar() |  funcaoEscuitar()
   } catch (ParseException e) {
     consumeUntil(recovery, e, "funcoesNativas");
   }/*@bgen(jjtree)*/
@@ -1488,47 +1591,22 @@ void passagemDeParametros():
     }
   }
 /*@egen*/
-} 
-
-void funcoesNativas():
-{/*@bgen(jjtree) funcoesNativas */
-  SimpleNode jjtn000 = new SimpleNode(JJTFUNCOESNATIVAS);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) funcoesNativas */
-  try {
-/*@egen*/ funcaoTrovar() |  funcaoEscuitar()/*@bgen(jjtree)*/
-  } catch (Throwable jjte000) {
-    if (jjtc000) {
-      jjtree.clearNodeScope(jjtn000);
-      jjtc000 = false;
-    } else {
-      jjtree.popNode();
-    }
-    if (jjte000 instanceof RuntimeException) {
-      throw (RuntimeException)jjte000;
-    }
-    if (jjte000 instanceof ParseException) {
-      throw (ParseException)jjte000;
-    }
-    throw (Error)jjte000;
-  } finally {
-    if (jjtc000) {
-      jjtree.closeNodeScope(jjtn000, true);
-    }
-  }
-/*@egen*/ }
+}
 
 void funcaoTrovar():
 {/*@bgen(jjtree) funcaoTrovar */
   SimpleNode jjtn000 = new SimpleNode(JJTFUNCAOTROVAR);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.funcaoTrovar; }
 {/*@bgen(jjtree) funcaoTrovar */
   try {
-/*@egen*/ trovar() abreParentese() expressao() fechaParentese()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    trovar() abreParentese() expressao() fechaParentese()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "funcaoTrovar");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1548,17 +1626,23 @@ void funcaoTrovar():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void funcaoEscuitar():
 {/*@bgen(jjtree) funcaoEscuitar */
   SimpleNode jjtn000 = new SimpleNode(JJTFUNCAOESCUITAR);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.funcaoEscuitar; }
 {/*@bgen(jjtree) funcaoEscuitar */
   try {
-/*@egen*/ escuitar() abreParentese() (texto())? fechaParentese()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    escuitar() abreParentese() (texto())? fechaParentese()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "funcaoEscuitar");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1578,17 +1662,23 @@ void funcaoEscuitar():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/  }
+/*@egen*/
+}
 
 void retornoDeFuncao():
 {/*@bgen(jjtree) retornoDeFuncao */
   SimpleNode jjtn000 = new SimpleNode(JJTRETORNODEFUNCAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.retornoDeFuncao; }
 {/*@bgen(jjtree) retornoDeFuncao */
   try {
-/*@egen*/ devolta() expressao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    devolta() expressao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "retornoDeFuncao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1608,7 +1698,8 @@ void retornoDeFuncao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 // BLOCO
 void inicioDoLoqueando():
@@ -1616,10 +1707,15 @@ void inicioDoLoqueando():
   SimpleNode jjtn000 = new SimpleNode(JJTINICIODOLOQUEANDO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.inicioDoLoqueando; }
 {/*@bgen(jjtree) inicioDoLoqueando */
   try {
-/*@egen*/ loqueando() expressao() meioBlocoRepeticao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    loqueando() expressao() meioBlocoRepeticao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "inicioDoLoqueando");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1639,17 +1735,23 @@ void inicioDoLoqueando():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void inicioDoRepeteco():
 {/*@bgen(jjtree) inicioDoRepeteco */
   SimpleNode jjtn000 = new SimpleNode(JJTINICIODOREPETECO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.inicioDoRepeteco; }
 {/*@bgen(jjtree) inicioDoRepeteco */
   try {
-/*@egen*/ repeteco() nomeVariavel() de() expressao() ate() expressao() meioBlocoRepeticao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    repeteco() nomeVariavel() de() expressao() ate() expressao() meioBlocoRepeticao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "inicioDoRepeteco");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1669,17 +1771,23 @@ void inicioDoRepeteco():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void meioBlocoRepeticao():
 {/*@bgen(jjtree) meioBlocoRepeticao */
   SimpleNode jjtn000 = new SimpleNode(JJTMEIOBLOCOREPETICAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.meioBlocoRepeticao; }
 {/*@bgen(jjtree) meioBlocoRepeticao */
   try {
-/*@egen*/ dai() linha() | tche() fimLinha() fimBlocoRepeticao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    dai() linha() | tche() fimLinha() fimBlocoRepeticao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "meioBlocoRepeticao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1699,17 +1807,23 @@ void meioBlocoRepeticao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void fimBlocoRepeticao():
 {/*@bgen(jjtree) fimBlocoRepeticao */
   SimpleNode jjtn000 = new SimpleNode(JJTFIMBLOCOREPETICAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.fimBlocoRepeticao; }
 {/*@bgen(jjtree) fimBlocoRepeticao */
   try {
-/*@egen*/ linha() fimBlocoRepeticao() | bloco() fimBlocoRepeticao() | bah()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    linha() fimBlocoRepeticao() | bloco() fimBlocoRepeticao() | bah()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "fimBlocoRepeticao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1729,17 +1843,23 @@ void fimBlocoRepeticao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void inicioSe():
 {/*@bgen(jjtree) inicioSe */
   SimpleNode jjtn000 = new SimpleNode(JJTINICIOSE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.inicioSe; }
 {/*@bgen(jjtree) inicioSe */
   try {
-/*@egen*/ se() expressao() (seDeUmaLinha() | (tche() fimLinha() blocoSe()))/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    se() expressao() (seDeUmaLinha() | (tche() fimLinha() blocoSe()))
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "inicioSe");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1759,17 +1879,23 @@ void inicioSe():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void seDeUmaLinha():
 {/*@bgen(jjtree) seDeUmaLinha */
   SimpleNode jjtn000 = new SimpleNode(JJTSEDEUMALINHA);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.seDeUmaLinha; }
 {/*@bgen(jjtree) seDeUmaLinha */
   try {
-/*@egen*/ dai() elementoDeLinha() (fimLinha() | senao() (dai())? linha())/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    dai() elementoDeLinha() (fimLinha() | senao() (dai())? linha())
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "seDeUmaLinha");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1789,17 +1915,23 @@ void seDeUmaLinha():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void blocoSe():
 {/*@bgen(jjtree) blocoSe */
   SimpleNode jjtn000 = new SimpleNode(JJTBLOCOSE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.blocoSe; }
 {/*@bgen(jjtree) blocoSe */
   try {
-/*@egen*/ linha() blocoSe() | bloco() blocoSe() | bah() | inicioSenao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    linha() blocoSe() | bloco() blocoSe() | bah() | inicioSenao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "blocoSe");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1819,17 +1951,23 @@ void blocoSe():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void inicioSenao():
 {/*@bgen(jjtree) inicioSenao */
   SimpleNode jjtn000 = new SimpleNode(JJTINICIOSENAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.inicioSenao; }
 {/*@bgen(jjtree) inicioSenao */
   try {
-/*@egen*/ senao() (inicioSe() | tche() fimLinha() fimBlocoSenao())/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    senao() (inicioSe() | tche() fimLinha() fimBlocoSenao())
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "inicioSenao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1849,17 +1987,23 @@ void inicioSenao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void fimBlocoSenao():
 {/*@bgen(jjtree) fimBlocoSenao */
   SimpleNode jjtn000 = new SimpleNode(JJTFIMBLOCOSENAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.fimBlocoSenao; }
 {/*@bgen(jjtree) fimBlocoSenao */
   try {
-/*@egen*/ linha() fimBlocoSenao() | bloco() fimBlocoSenao() | bah()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    linha() fimBlocoSenao() | bloco() fimBlocoSenao() | bah()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "fimBlocoSenao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1879,17 +2023,23 @@ void fimBlocoSenao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/  }
+/*@egen*/
+}
 
 void definicaoDeFuncao():
 {/*@bgen(jjtree) definicaoDeFuncao */
   SimpleNode jjtn000 = new SimpleNode(JJTDEFINICAODEFUNCAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.definicaoDeFuncao; }
 {/*@bgen(jjtree) definicaoDeFuncao */
   try {
-/*@egen*/ funcao() tipoDeRetorno() nomeFuncao() abreParentese() (definicaoDeParametros())? fechaParentese() meioDeFuncao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    funcao() tipoDeRetorno() nomeFuncao() abreParentese() (definicaoDeParametros())? fechaParentese() meioDeFuncao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "definicaoDeFuncao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1909,17 +2059,23 @@ void definicaoDeFuncao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void tipoDeRetorno():
 {/*@bgen(jjtree) tipoDeRetorno */
   SimpleNode jjtn000 = new SimpleNode(JJTTIPODERETORNO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.tipoDeRetorno; }
 {/*@bgen(jjtree) tipoDeRetorno */
   try {
-/*@egen*/ vazio() | tipoDeDado()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    vazio() | tipoDeDado()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "tipoDeRetorno");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1939,17 +2095,23 @@ void tipoDeRetorno():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void definicaoDeParametros():
 {/*@bgen(jjtree) definicaoDeParametros */
   SimpleNode jjtn000 = new SimpleNode(JJTDEFINICAODEPARAMETROS);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.definicaoDeParametros; }
 {/*@bgen(jjtree) definicaoDeParametros */
   try {
-/*@egen*/ tipoDeDado() nomeVariavel() (lacoDeAtribuicao())? (virgula() definicaoDeParametros())?/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    tipoDeDado() nomeVariavel() (lacoDeAtribuicao())? (virgula() definicaoDeParametros())?
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "definicaoDeParametros");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1969,17 +2131,23 @@ void definicaoDeParametros():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void meioDeFuncao():
 {/*@bgen(jjtree) meioDeFuncao */
   SimpleNode jjtn000 = new SimpleNode(JJTMEIODEFUNCAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.meioDeFuncao; }
 {/*@bgen(jjtree) meioDeFuncao */
   try {
-/*@egen*/ dai() linha() | tche() fimLinha() blocoDeFuncao()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    dai() linha() | tche() fimLinha() blocoDeFuncao()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "meioDeFuncao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -1999,17 +2167,23 @@ void meioDeFuncao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}
 
 void blocoDeFuncao():
 {/*@bgen(jjtree) blocoDeFuncao */
   SimpleNode jjtn000 = new SimpleNode(JJTBLOCODEFUNCAO);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.blocoDeFuncao; }
 {/*@bgen(jjtree) blocoDeFuncao */
   try {
-/*@egen*/ linha() blocoDeFuncao() | bloco() blocoDeFuncao() | bah()/*@bgen(jjtree)*/
+/*@egen*/
+  try {
+    linha() blocoDeFuncao() | bloco() blocoDeFuncao() | bah()
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "blocoDeFuncao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -2029,4 +2203,5 @@ void blocoDeFuncao():
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/ }
+/*@egen*/
+}

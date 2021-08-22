@@ -20,7 +20,7 @@ public class Follow {
 	static public final RecoverySet conectorLogico = operador;
 	static public final RecoverySet declaracaoDeVariavel = elementoDeLinha;
 	static public final RecoverySet tipoDeDado = new RecoverySet();
-	static public final RecoverySet listaDeDecaracao = declaracaoDeVariavel;
+	static public final RecoverySet listaDeDeclaracao = declaracaoDeVariavel;
 	static public final RecoverySet chamadaDeFuncao = new RecoverySet();
 	static public final RecoverySet passagemDeParametros = new RecoverySet();
 	static public final RecoverySet funcoesNativas = elementoDeLinha;
@@ -38,9 +38,9 @@ public class Follow {
 	static public final RecoverySet fimBlocoSenao = new RecoverySet();
 	static public final RecoverySet definicaoDeFuncao = new RecoverySet();
 	static public final RecoverySet tipoDeRetorno = new RecoverySet();
-	static public final RecoverySet definicaoParametros = passagemDeParametros;
+	static public final RecoverySet definicaoDeParametros = passagemDeParametros;
 	static public final RecoverySet meioDeFuncao = new RecoverySet();
-	static public final RecoverySet blocoFuncao = new RecoverySet();
+	static public final RecoverySet blocoDeFuncao = new RecoverySet();
 
     static {
 		firstLinha.add(LexerConstants.FIM_LINHA);
@@ -96,8 +96,8 @@ public class Follow {
 		elementoDeLinha.add(LexerConstants.SENAO);
 
 		lacoDeAtribuicao.union(atribuicao);
-		lacoDeAtribuicao.union(listaDeDecaracao);
-		lacoDeAtribuicao.union(definicaoParametros);
+		lacoDeAtribuicao.union(listaDeDeclaracao);
+		lacoDeAtribuicao.union(definicaoDeParametros);
 		lacoDeAtribuicao.add(LexerConstants.VIRGULA);
 
 
@@ -132,7 +132,7 @@ public class Follow {
 		meioBlocoRepeticao.union(bloco);
 		definicaoDeFuncao.union(bloco);
 		meioDeFuncao.union(definicaoDeFuncao);
-		blocoFuncao.union(meioDeFuncao);
+		blocoDeFuncao.union(meioDeFuncao);
 		tipoDeRetorno.add(LexerConstants.NOME_FUNCAO);
 		fimBlocoSenao.union(bloco);
 		inicioSenao.union(bloco);
