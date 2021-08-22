@@ -208,18 +208,17 @@ SimpleNode main():
   SimpleNode jjtn000 = new SimpleNode(JJTMAIN);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}
+/*@egen*/ RecoverySet recovery = Follow.main; }
 {/*@bgen(jjtree) main */
   try {
 /*@egen*/
-  (linha() | bloco())*
-  (pareHome() | fimDeArquivo())/*@bgen(jjtree)*/
-  {
-    jjtree.closeNodeScope(jjtn000, true);
-    jjtc000 = false;
-  }
-/*@egen*/
-  { return jjtn000; }/*@bgen(jjtree)*/
+  try {
+    (linha() | bloco())*
+    (pareHome() | fimDeArquivo())
+    { return jjtn000; }
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "main");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);

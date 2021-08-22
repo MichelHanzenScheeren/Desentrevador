@@ -200,11 +200,15 @@ TOKEN: /* IDENTIFICADORES */
 
 /* INICIO DO CODIGO RELACIONADO A ANALISE SINTATICA */
 SimpleNode main():
-{}
+{ RecoverySet recovery = Follow.main; }
 {
-  (linha() | bloco())*
-  (pareHome() | fimDeArquivo())
-  { return jjtThis; }
+  try {
+    (linha() | bloco())*
+    (pareHome() | fimDeArquivo())
+    { return jjtThis; }
+  } catch (ParseException e) {
+    consumeUntil(recovery, e, "main");
+  }
 }
 
 

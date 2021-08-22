@@ -113,71 +113,73 @@ public class Lexer/*@bgen(jjtree)*/implements LexerTreeConstants, LexerConstants
  /*@bgen(jjtree) main */
   SimpleNode jjtn000 = new SimpleNode(JJTMAIN);
   boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
+  jjtree.openNodeScope(jjtn000);RecoverySet recovery = Follow.main;
     try {
-      label_1:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case FUNCAO:
-        case DEVOLTA:
-        case LOQUEANDO:
-        case REPETECO:
-        case SE:
-        case TROVAR:
-        case ESCUITAR:
-        case FIM_LINHA:
-        case REDONDO:
-        case QUEBRADO:
-        case TROVA:
-        case LOGICO:
-        case NOME_VARIAVEL:
-        case NOME_FUNCAO:
-          ;
-          break;
-        default:
-          jj_la1[0] = jj_gen;
-          break label_1;
+      try {
+        label_1:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case FUNCAO:
+          case DEVOLTA:
+          case LOQUEANDO:
+          case REPETECO:
+          case SE:
+          case TROVAR:
+          case ESCUITAR:
+          case FIM_LINHA:
+          case REDONDO:
+          case QUEBRADO:
+          case TROVA:
+          case LOGICO:
+          case NOME_VARIAVEL:
+          case NOME_FUNCAO:
+            ;
+            break;
+          default:
+            jj_la1[0] = jj_gen;
+            break label_1;
+          }
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case DEVOLTA:
+          case TROVAR:
+          case ESCUITAR:
+          case FIM_LINHA:
+          case REDONDO:
+          case QUEBRADO:
+          case TROVA:
+          case LOGICO:
+          case NOME_VARIAVEL:
+          case NOME_FUNCAO:
+            linha();
+            break;
+          case FUNCAO:
+          case LOQUEANDO:
+          case REPETECO:
+          case SE:
+            bloco();
+            break;
+          default:
+            jj_la1[1] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case DEVOLTA:
-        case TROVAR:
-        case ESCUITAR:
-        case FIM_LINHA:
-        case REDONDO:
-        case QUEBRADO:
-        case TROVA:
-        case LOGICO:
-        case NOME_VARIAVEL:
-        case NOME_FUNCAO:
-          linha();
+        case PARE_HOME:
+          pareHome();
           break;
-        case FUNCAO:
-        case LOQUEANDO:
-        case REPETECO:
-        case SE:
-          bloco();
+        case 0:
+          fimDeArquivo();
           break;
         default:
-          jj_la1[1] = jj_gen;
+          jj_la1[2] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
+      {if (true) return jjtn000;}
+      } catch (ParseException e) {
+    consumeUntil(recovery, e, "main");
       }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case PARE_HOME:
-        pareHome();
-        break;
-      case 0:
-        fimDeArquivo();
-        break;
-      default:
-        jj_la1[2] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    jjtree.closeNodeScope(jjtn000, true);
-    jjtc000 = false;
-    {if (true) return jjtn000;}
     } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
