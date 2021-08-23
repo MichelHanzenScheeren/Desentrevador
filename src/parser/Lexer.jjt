@@ -19,13 +19,25 @@ import recovery.*;
 
 public class Lexer {
   public static boolean errorJumpLine = true;
+  public static boolean panicMessages = false;
+  public static boolean tree = false;
+  public static int errorsCount = 0;
 
   public static void execute(Lexer analisador) throws ParseException {
     SimpleNode node = analisador.main();
-    // node.dump("->");
-    System.out.println("--------------------------------------");
-    System.out.println("Mas ah indio veio, que escrita bagual!");
-    System.out.println("--------------------------------------");
+    if(tree) {
+      node.dump(" ");
+    } else {
+      if(errorsCount == 0) {
+        System.out.println("--------------------------------------");
+        System.out.println("Mas ah indio veio, que escrita bagual!");
+        System.out.println("--------------------------------------");
+      } else {
+        System.out.println("---------------------------------------");
+        System.out.println("Corrige essa porqueira ai piazao burro!");
+        System.out.println("---------------------------------------");
+      }
+    }
   }
 
   public static String getPathFromSelectedFile() throws Throwable {
@@ -48,16 +60,31 @@ public class Lexer {
   public static void main(String[] args) {
     try {
       if(args.length == 0) {
+        panicMessages = true;
         System.out.println(">> Bota teu codigo ai guri:");
         execute(new Lexer(System.in));
-      } else if(args[0].contains("-f")) {
-        String path = getPathFromSelectedFile();
+      } else {
+		String path = new String();
+
+        if(args[0].contains("t")) {
+          tree = true;
+        }
+
+        if(args[0].contains("v")) {
+          panicMessages = true;
+        }
+
+        if(args[0].contains("f")) {
+
+          path = getPathFromSelectedFile();
+
+        } else if(args[0].contains("p")) {
+          errorJumpLine = false;
+          path = args[1];
+        }
+
         extensionCheck(path);
         execute(new Lexer(new FileInputStream(path)));
-      } else {
-        errorJumpLine = false;
-        extensionCheck(args[0]);
-        execute(new Lexer(new FileInputStream(args[0])));
       }
     } catch (Throwable e) {
       if(errorJumpLine) System.out.println("");
@@ -84,25 +111,35 @@ public class Lexer {
   // de sincronização
   static void consumeUntil(RecoverySet g, ParseException e, String met) throws ParseException {
     Token tok;
-    System.out.println();
-    System.out.println("*** " + met + " ***");
-    System.out.println("     Conjunto de sincronização: " + g);
+    if(panicMessages) {
+      System.out.println();
+      System.out.println("*** " + met + " ***");
+      System.out.println("     Conjunto de sincronização: " + g);
+    }
     if(g == null) throw e; // se o conjunto é null, propaga a exceção
-    tok = getToken(1);                  // pega token corrente
+      tok = getToken(1);                  // pega token corrente
     while(!eof) {                       // se não chegou ao fim do arquivo
       if(g.contains(tok.kind)) {        // achou um token no conjunto
-        System.out.println("     Encontrado token de sincronização: " + im(tok.kind));
+        if(panicMessages) {
+          System.out.println("     Encontrado token de sincronização: " + im(tok.kind));
+        }
         break;
       }
-      System.out.println("     Ignorando o token: " + im(tok.kind));
+      if(panicMessages) {
+        System.out.println("     Ignorando o token: " + im(tok.kind));
+      }
       getNextToken();                   // pega próximo token
       tok = getToken(1);
       if(tok.kind == EOF && !g.contains(EOF)) // fim da entrada?
           eof = true;
     }
     if(tok != lastError) {
-      System.out.println(e.getMessage());
+      if(panicMessages) {
+        System.out.println(e.getMessage());
+      }
+      
       lastError = tok;
+      errorsCount += 1;
     }
     if(eof)
       throw new RuntimeException("Encontrei EOF onde não deveria.");
