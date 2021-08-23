@@ -83,6 +83,7 @@ def highlight_pattern(pattern, tag, code_text, start="1.0", end="end", regexp=Fa
             index = code_text.search(pattern, "matchEnd","searchLimit", count=count, regexp=regexp)
             if index == "": break
             code_text.mark_set("matchStart", index)
+            code_text.mark_set("matchEnd", "%s+%sc" % (index, count.get()))
             code_text.tag_add(tag, "matchStart", "matchEnd")
 
 
