@@ -68,10 +68,6 @@ public class Follow {
 		bloco.add(LexerConstants.BAH);
 		bloco.add(LexerConstants.SENAO);
 
-		linha.union(firstMain);
-		linha.union(meioBlocoRepeticao);
-		linha.add(LexerConstants.BAH);
-		linha.add(LexerConstants.SENAO);
 		linha.union(bloco);
 
 		main.add(LexerConstants.EOF);
