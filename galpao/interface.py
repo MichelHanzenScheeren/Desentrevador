@@ -20,7 +20,7 @@ main_frame = tk.Frame(window, background=BAR_BACKGROUND).grid(sticky='nsew')
 left_frame = tk.Frame(main_frame, background=BAR_BACKGROUND)
 rigth_frame = tk.Frame(main_frame, background=BAR_BACKGROUND)
 bottom_frame = tk.Frame(main_frame, background=BAR_BACKGROUND)
-linenumber_text = tk.Text(left_frame, bg='#191a21', foreground='grey', width=5, highlightthickness=0, borderwidth=0, pady=INTERNAL_PADDING)
+linenumber_text = tk.Text(left_frame, bg='#191a21', foreground='grey', width=5, highlightthickness=0, borderwidth=0, pady=INTERNAL_PADDING, font='18')
 scrollbar = tk.Scrollbar(
         left_frame, bg='#505050', troughcolor=BACKGROUND, highlightcolor="gray",
         activebackground="gray", highlightbackground=BAR_BACKGROUND,
@@ -28,7 +28,7 @@ scrollbar = tk.Scrollbar(
 code_text = tk.Text(
         left_frame, background=BACKGROUND, foreground=FOREGROUND, selectbackground=ACTIVE_BACKGROUND,
         selectforeground=FOREGROUND, tabs=16,  highlightthickness=0, borderwidth=0, pady=INTERNAL_PADDING, padx=INTERNAL_PADDING,
-        insertbackground=FOREGROUND)
+        insertbackground=FOREGROUND, font='18')
 console_text = tk.Text(bottom_frame, background=BACKGROUND, foreground=FOREGROUND,  pady=INTERNAL_PADDING, padx=INTERNAL_PADDING, height=5, highlightthickness=0, borderwidth=0)
 tree_label = tk.Text(rigth_frame, background=BACKGROUND, foreground=FOREGROUND,  pady=INTERNAL_PADDING, padx=INTERNAL_PADDING, width=6, highlightthickness=0, borderwidth=0)
 
@@ -68,7 +68,7 @@ linenumber_text.pack(side="left", fill="y")
 scrollbar.config(command=lambda x, y: utils.scroll_control(x, y, code_text, linenumber_text))
 scrollbar.pack(side='right', fill='y')
 code_text.configure(yscrollcommand=lambda x, y: utils.text_scroll_control(x, y, scrollbar, linenumber_text))
-code_text.tag_configure("types", foreground="#bf00ff")
+code_text.tag_configure("types", foreground="#bf91ff")
 code_text.tag_configure("reserved", foreground="#ffa500")
 code_text.bind('<BackSpace>', lambda key: utils.linenumber_control(key, code_text, linenumber_text))
 code_text.bind('<Return>', lambda key: utils.linenumber_control(key, code_text, linenumber_text))
