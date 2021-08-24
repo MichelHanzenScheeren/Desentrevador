@@ -86,5 +86,12 @@ tree_text.insert(1.0, 'Agurdando árvore sintática...')
 tree_text.configure(state='disabled')
 tree_text.pack(fill='both', expand=True)
 
+# ********** IMAGE AREA CONFIGURATION ********** #
+image_frame = tk.Frame(main_frame, background=BACKGROUND)
+image_frame.grid(row=1, column=1, sticky='nsew', padx=INTERNAL_PADDING, pady=INTERNAL_PADDING)
+img = tk.PhotoImage(file='galpao/cuia.png')
+label = tk.Label(image_frame, background=BACKGROUND, image=img)#, width=150, height=150
+label.pack(expand=True, fill='both')
+
 # RUN FIXED WINDOW
 window.mainloop()
