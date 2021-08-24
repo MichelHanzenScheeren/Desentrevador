@@ -52,7 +52,9 @@ def open_file(code_text, linenumber_text):
 
 
 def save_as(code_editor):
-    path = Path(asksaveasfilename(filetypes=[('Gauchol files', '.entrevero')]))
+    open_result = asksaveasfilename(filetypes=[('Gauchol files', '.entrevero')])
+    if isinstance(open_result, tuple): return
+    path = Path(open_result)
     with open(path, 'w') as file:
         code = code_editor.get(1.0, tk.END)
         file.write(code)
