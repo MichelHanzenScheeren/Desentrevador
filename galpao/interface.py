@@ -30,7 +30,7 @@ code_text = tk.Text(
         selectforeground=FOREGROUND, tabs=16,  highlightthickness=0, borderwidth=0, pady=INTERNAL_PADDING, padx=INTERNAL_PADDING,
         insertbackground=FOREGROUND, font='18')
 console_text = tk.Text(bottom_frame, background=BACKGROUND, foreground=FOREGROUND,  pady=INTERNAL_PADDING, padx=INTERNAL_PADDING, height=5, highlightthickness=0, borderwidth=0)
-tree_label = tk.Text(rigth_frame, background=BACKGROUND, foreground=FOREGROUND,  pady=INTERNAL_PADDING, padx=INTERNAL_PADDING, width=6, highlightthickness=0, borderwidth=0)
+tree_text = tk.Text(rigth_frame, background=BACKGROUND, foreground=FOREGROUND,  pady=INTERNAL_PADDING, padx=INTERNAL_PADDING, width=6, highlightthickness=0, borderwidth=0)
 
 # ********** WINDOW CONFIGURATION ********** #
 window.geometry(f'{window.winfo_screenwidth()}x{window.winfo_screenheight()}')
@@ -50,7 +50,7 @@ file_menu.add_command(label='Exit', command=exit)
 menu_bar.add_cascade(label='File', menu=file_menu)
 
 # ********** RUN_CODE MENU CONFIGURATION ********** #
-run_menu.add_command(label='Run', command=lambda:utils.run(console_text))
+run_menu.add_command(label='Run', command=lambda:utils.run(console_text, tree_text))
 menu_bar.add_cascade(label='Run', menu=run_menu)
 
 # ********** TOP MENU REGISTER ********** #
@@ -88,9 +88,9 @@ console_text.pack(fill='both', expand=True)
 bottom_frame.grid(row=1, column=0, sticky='nsew', padx=(EXTERNAL_PADDING, EXTERNAL_PADDING), pady=(EXTERNAL_PADDING // 2, EXTERNAL_PADDING), columnspan=2)
 bottom_frame.grid_columnconfigure(0, weight=1)
 bottom_frame.grid_rowconfigure(1, weight=1)
-tree_label.insert(1.0, 'Agurdando árvore sintática...')
-tree_label.configure(state='disabled')
-tree_label.pack(fill='both', expand=True)
+tree_text.insert(1.0, 'Agurdando árvore sintática...')
+tree_text.configure(state='disabled')
+tree_text.pack(fill='both', expand=True)
 
 # RUN FIXED WINDOW
 window.mainloop()

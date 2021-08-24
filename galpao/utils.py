@@ -14,23 +14,28 @@ def set_file_path(path):
     file_path = Path(path)
 
 
-def run(console_text):
+def run(console_text, tree_text):
     if file_path == '':
         open_result = askopenfilename(filetypes=[('Gauchol files', '.entrevero')])
         if isinstance(open_result, tuple): return
         set_file_path(Path(open_result))
     lexer_path = os.path.dirname(os.path.abspath(__file__))
-    command = f'java -cp {lexer_path}/../bin parser/Lexer {file_path}'
+    run_desentrevador(console_text, f'java -cp {lexer_path}/../bin parser/Lexer pv {file_path}', True)
+    run_desentrevador(tree_text, f'java -cp {lexer_path}/../bin parser/Lexer pt {file_path}', True)
+
+
+def run_desentrevador(text, command, showrror):
     process = subprocess.Popen(
         command, stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         shell=True)
     output, error = process.communicate()
-    console_text.configure(state='normal')
-    console_text.delete(1.0, tk.END)
-    console_text.insert(1.0, output)
-    console_text.insert(1.0, error)
-    console_text.configure(state='disabled')
+    text.configure(state='normal')
+    text.delete(1.0, tk.END)
+    text.insert(1.0, output.decode("utf-8"))
+    if showrror:
+        text.insert(1.0, error.decode("utf-8"))
+    text.configure(state='disabled')
 
 
 def open_file(code_text, linenumber_text):
