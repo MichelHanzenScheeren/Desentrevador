@@ -12,7 +12,7 @@ EXTERNAL_PADDING = 10
 INTERNAL_PADDING = 15
 
 
-# ********** GERAL WINDOW CONFIGURATION ********** #
+# ********** WINDOW CONFIGURATION ********** #
 window = tk.Tk()
 window.geometry(f'{window.winfo_screenwidth()}x{window.winfo_screenheight()}')
 window.title('Galpão dos código')
