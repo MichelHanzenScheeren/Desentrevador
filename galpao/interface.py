@@ -1,5 +1,6 @@
 import tkinter as tk
 import utils
+import os
 
 
 # ********** STYLE ********** #
@@ -89,8 +90,8 @@ tree_text.pack(fill='both', expand=True)
 # ********** IMAGE AREA CONFIGURATION ********** #
 image_frame = tk.Frame(main_frame, background=BACKGROUND)
 image_frame.grid(row=1, column=1, sticky='nsew', padx=INTERNAL_PADDING, pady=INTERNAL_PADDING)
-img = tk.PhotoImage(file='galpao/cuia.png')
-label = tk.Label(image_frame, background=BACKGROUND, image=img)#, width=150, height=150
+img = tk.PhotoImage(file=f'{os.path.dirname(os.path.abspath(__file__))}/cuia.png')
+label = tk.Label(image_frame, background=BACKGROUND, image=img)
 label.pack(expand=True, fill='both')
 
 # RUN FIXED WINDOW
